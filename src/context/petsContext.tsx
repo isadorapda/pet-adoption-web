@@ -9,7 +9,7 @@ interface PetsDataContext {
   pets: Pet[]
   setPets: (pets: Pet[]) => void
   organisations: Organisation[]
-  setOrganisations: (pets: Organisation[]) => void
+  setOrganisations: (organisation: Organisation[]) => void
   setOrgToken: (token: string) => void
   orgToken: string
 }
