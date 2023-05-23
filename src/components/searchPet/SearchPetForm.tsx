@@ -133,10 +133,7 @@ export function SearchPetForm() {
             />
           </div>
         </div>
-        <button
-          type="submit"
-          className="bg-yellow rounded-xl w-[90%] px-4 py-3 mx-auto mt-3"
-        >
+        <button type="submit" className="button-primary">
           Show pets
         </button>
         <button type="button" onClick={() => setIsMenuOpen(true)} className="">

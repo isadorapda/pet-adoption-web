@@ -109,10 +109,7 @@ export function Filters({
               <button className="button-filter ">Children</button>
             </div>
           </div>
-          <button
-            type="submit"
-            className="bg-yellow rounded-xl w-full px-4 py-3 mx-auto mt-3"
-          >
+          <button type="submit" className="button-primary">
             Show pets
           </button>
         </form>

@@ -124,10 +124,7 @@ export function RegisterOrganisation() {
         <h4>
           <span className="text-main-red">*</span> Required
         </h4>
-        <button
-          type="submit"
-          className="bg-yellow rounded-xl w-full px-4 py-3 mx-auto mt-3 shadow-buttonsShadow"
-        >
+        <button type="submit" className="button-primary">
           Sing in
         </button>
       </form>
