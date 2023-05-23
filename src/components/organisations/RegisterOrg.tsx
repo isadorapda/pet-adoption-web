@@ -2,13 +2,34 @@ import { useForm } from 'react-hook-form'
 import { api } from '../../lib/axios'
 import { z } from 'zod'
 import usePetsContext from '../../hooks/usePetsContext'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Organisation } from '../../@types/models'
+
+interface Response {
+  data:  Organisation 
+}
 
 const registerOrgBodySchema = z.object({
-  name: z.string(),
-  email: z.string().email(),
-  password: z.string().min(6),
+  name: z.string({
+    required_error: "Please, inform your organisation's name.",
+  }),
+  email: z.string().email({
+    message: 'Email is required.',
+  }),
+  password: z
+    .string({
+      required_error: 'Password is required.',
+    })
+    .min(6, {
+      message: 'Your password should contain at least 6 characters.',
+    })
+    .max(12, {
+      message: 'Your password should contain between 6 - 12 characters',
+    }),
   address: z.string(),
-  city: z.string(),
+  city: z.string({
+    required_error: 'Please, inform city.',
+  }),
   postcode: z.string(),
   mobile: z.string().min(9),
 })
@@ -16,22 +37,31 @@ const registerOrgBodySchema = z.object({
 type RegisterOrgData = z.infer<typeof registerOrgBodySchema>
 
 export function RegisterOrganisation() {
-  const { handleSubmit, register } = useForm<RegisterOrgData>()
-  const { setOrganisations } = usePetsContext()
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { errors },
+  } = useForm<RegisterOrgData>({ resolver: zodResolver(registerOrgBodySchema) })
+  const { setOrganisations, organisations } = usePetsContext()
 
   async function handleRegisterOrg(data: RegisterOrgData) {
-    const resp = await api.post('/organisations', {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      address: data.address,
-      city: data.city,
-      postcode: data.postcode,
-      mobile: data.mobile,
-    })
-    setOrganisations(resp.data)
-    console.log(resp.data)
+    
+      const resp:Response = await api.post('/organisations', {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        address: data.address,
+        city: data.city,
+        postcode: data.postcode,
+        mobile: data.mobile,
+      })
+      setOrganisations([...organisations, resp.data])
+      // TODO: show error messages
+ 
+    reset()
   }
+
   return (
     <div className=" bg-light-bg rounded-lg p-10 w-[90%]">
       <h1 className="text-2xl font-bold mb-6">Register your organisation</h1>
@@ -51,6 +81,7 @@ export function RegisterOrganisation() {
             placeholder="e.g. Rehoming"
             {...register('name')}
           />
+          <p>{errors.name?.message}</p>
         </div>
         <div className="flex flex-col ">
           <label htmlFor="" className="header-3">
@@ -62,6 +93,7 @@ export function RegisterOrganisation() {
             className="rounded-md p-2"
             {...register('email')}
           />
+          <p>{errors.email?.message}</p>
         </div>
         <div className="flex flex-col ">
           <label htmlFor="" className="header-3">
@@ -84,6 +116,7 @@ export function RegisterOrganisation() {
             className="rounded-md p-2"
             {...register('city')}
           />
+          <p>{errors.city?.message}</p>
         </div>
         <div className="flex flex-col ">
           <label htmlFor="" className="header-3">
@@ -116,11 +149,14 @@ export function RegisterOrganisation() {
             className="rounded-md p-2"
             {...register('password')}
           />
+          <p>{errors.password?.message}</p>
         </div>
-        {/* <div>
-            <label htmlFor="" className="header-3">Confirm Password</label>
-            <input type="password" />
-          </div> */}
+        <div>
+          <label htmlFor="" className="header-3">
+            Confirm Password
+          </label>
+          <input type="password" />
+        </div>
         <h4>
           <span className="text-main-red">*</span> Required
         </h4>
