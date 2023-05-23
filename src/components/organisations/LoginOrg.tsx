@@ -61,10 +61,7 @@ export function LoginOrganisation() {
             {...register('password')}
           />
         </div>
-        <button
-          type="submit"
-          className="bg-yellow rounded-xl w-full px-4 py-3 mx-auto mt-3 shadow-buttonsShadow"
-        >
+        <button type="submit" className="button-primary">
           Log in
         </button>
       </form>
