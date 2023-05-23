@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .header-3 {
+    @apply font-semibold mb-2;
+  }
+  .button-filter {
+    @apply rounded-md p-3 bg-light-gray flex items-center justify-center;
+  }
+}
