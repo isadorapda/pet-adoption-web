@@ -7,11 +7,14 @@ import { Filters } from './Filters'
 import usePetsContext from '../../hooks/usePetsContext'
 import { useState } from 'react'
 import {
+  MayLiveWith,
   PetGender,
+  PetSize,
   PetType,
   getPetGenderLabel,
   getPetTypeLabel,
 } from '../../utils/petFilters'
+import { customStyles } from '../../styles/selectStyles'
 
 const searchPetSchema = z.object({
   location: z.string().min(3, { message: 'Please, inform a city.' }),
@@ -20,17 +23,16 @@ const searchPetSchema = z.object({
     .optional(),
   sex: z
     .object({ value: z.nativeEnum(PetGender).optional(), label: z.string() })
-    .nullable()
     .optional(),
-  age: z.array(z.string()).optional(),
-  size: z
-    .union([
-      z.array(z.enum(['TINY', 'SMALL', 'MEDIUM', 'LARGE', 'GIANT'])),
-      z.enum(['TINY', 'SMALL', 'MEDIUM', 'LARGE', 'GIANT']),
-    ])
+  age: z
+    .object({
+      min: z.coerce.number().optional(),
+      max: z.coerce.number().optional(),
+    })
     .optional(),
-  breed: z.string().nullable().optional(),
-  may_live_with: z.array(z.string()).optional(),
+  size: z.array(z.nativeEnum(PetSize)).optional(),
+  breed: z.array(z.string()).optional(),
+  may_live_with: z.array(z.nativeEnum(MayLiveWith)).optional(),
 })
 
 export type SearchPetFormData = z.infer<typeof searchPetSchema>
@@ -42,11 +44,13 @@ export function SearchPetForm() {
     control,
     formState: { errors },
   } = useForm<SearchPetFormData>({ resolver: zodResolver(searchPetSchema) })
-  const { pets, setPets } = usePetsContext()
+  const { setPets } = usePetsContext()
   const [isLoading, setLoading] = useState(false)
   const [petSizes, setPetSizes] = useState<Array<string>>([])
+  const [petAgeRange, setPetAgeRange] = useState<{ min: number; max: number }>()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
+  console.log('AGE', petAgeRange)
   async function handleSearchPet(data: SearchPetFormData) {
     setLoading(true)
     try {
@@ -56,7 +60,9 @@ export function SearchPetForm() {
           pet_type: data.pet_type?.value,
           sex: data.sex?.value,
           size: petSizes,
+          age: petAgeRange,
         },
+
         paramsSerializer: {
           indexes: null,
         },
@@ -68,7 +74,7 @@ export function SearchPetForm() {
     setLoading(false)
     setIsMenuOpen(false)
   }
-  console.log('DATA', pets)
+
   return (
     <div className="flex flex-col bg-light-bg rounded-md p-6 lg:w-[25vw] mx-auto h-max">
       <h3 className="text-black text-xl font-bold pb-5">Find a Pet</h3>
@@ -77,19 +83,21 @@ export function SearchPetForm() {
         className="flex flex-col gap-5"
         onSubmit={handleSubmit(handleSearchPet)}
       >
-        <label htmlFor="city" className="header-3">
-          City <span className="text-main-red">*</span>
-        </label>
-        <input
-          id="city"
-          type="text"
-          placeholder="e.g. London"
-          className="rounded-lg p-3"
-          {...register('location')}
-        />
+        <div className="flex flex-col w-full">
+          <label htmlFor="city" className="header-3">
+            City <span className="text-main-red">*</span>
+          </label>
+          <input
+            id="city"
+            type="text"
+            placeholder="e.g. London"
+            className="rounded-lg p-3"
+            {...register('location')}
+          />
+        </div>
         {errors.location?.message}
-        <div className="flex gap-2 w-full justify-center">
-          <div className="flex flex-col gap-3">
+        <div className="flex gap-5 w-full">
+          <div className="flex flex-col w-1/2">
             <label className="header-3">Pet</label>
             <Controller
               name="pet_type"
@@ -98,6 +106,7 @@ export function SearchPetForm() {
                 <Select
                   isClearable
                   isMulti={false}
+                  styles={customStyles}
                   {...field}
                   options={Object.keys(PetType).map((enumKey) => {
                     const parsedEnumKey = enumKey as PetType
@@ -111,7 +120,7 @@ export function SearchPetForm() {
             />
           </div>
 
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col w-1/2">
             <label className="header-3">Gender</label>
             <Controller
               name="sex"
@@ -120,6 +129,7 @@ export function SearchPetForm() {
                 <Select
                   isClearable
                   isMulti={false}
+                  styles={customStyles}
                   {...field}
                   options={Object.keys(PetGender).map((enumKey) => {
                     const parsedEnumKey = enumKey as PetGender
@@ -147,6 +157,7 @@ export function SearchPetForm() {
           setIsMenuOpen={setIsMenuOpen}
           petSizes={petSizes}
           setPetSizes={setPetSizes}
+          setPetAgeRange={setPetAgeRange}
         />
       )}
     </div>

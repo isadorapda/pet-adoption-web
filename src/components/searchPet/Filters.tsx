@@ -1,6 +1,8 @@
 import { UseFormHandleSubmit } from 'react-hook-form'
 import { GrClose as IconClose } from 'react-icons/gr'
 import { SearchPetFormData } from './SearchPetForm'
+import { AGE_RANGES } from '../../constants/filters'
+import { useEffect, useState } from 'react'
 
 interface Props {
   setIsMenuOpen: (isOpen: boolean) => void
@@ -8,6 +10,7 @@ interface Props {
   handleSubmit: UseFormHandleSubmit<SearchPetFormData>
   handleSearchForm: (data: SearchPetFormData) => Promise<void>
   petSizes: Array<string>
+  setPetAgeRange: (ageRange: { min: number; max: number }) => void
 }
 
 export function Filters({
@@ -16,7 +19,12 @@ export function Filters({
   petSizes,
   handleSearchForm,
   handleSubmit,
+  setPetAgeRange,
 }: Props) {
+  const [ageRanges, setAgeRanges] = useState<
+    Array<{ min: number; max: number }>
+  >([])
+
   function setPetSizeFilters(value: string) {
     if (petSizes.includes(value)) {
       setPetSizes(petSizes.filter((size) => size !== value))
@@ -24,7 +32,27 @@ export function Filters({
       setPetSizes([...petSizes, value])
     }
   }
-  console.log('size', petSizes)
+
+  function setAgeRangeFilters(value: { min: number; max: number }) {
+    if (ageRanges.includes(value)) {
+      setAgeRanges(ageRanges.filter((val) => val !== value))
+    } else {
+      setAgeRanges([...ageRanges, value])
+    }
+  }
+
+  useEffect(() => {
+    if (ageRanges.length > 1) {
+      const range = ageRanges.reduce((curr, acc) => {
+        const minValue = Math.min(curr.min, acc.min)
+        const maxValue = Math.max(curr.max, acc.max)
+        return { min: minValue, max: maxValue }
+      })
+      setPetAgeRange(range)
+    } else {
+      setPetAgeRange(ageRanges[0])
+    }
+  }, [ageRanges, setPetAgeRange])
 
   return (
     <div className="bg-[rgba(0,_0,_0,_0.3)] fixed z-10 h-full w-screen top-0 left-0">
@@ -91,12 +119,16 @@ export function Filters({
               Age
             </label>
             <div className="grid grid-cols-3 grid-flow-row gap-3">
-              <button className="button-filter ">Under 6 months</button>
-              <button className="button-filter ">6 - 12 months</button>
-              <button className="button-filter ">1 - 2 years</button>
-              <button className="button-filter ">2 - 5 years</button>
-              <button className="button-filter ">5 - 7 years</button>
-              <button className="button-filter ">8+ years</button>
+              {AGE_RANGES.map((ageRange) => (
+                <button
+                  key={ageRange.label}
+                  type="button"
+                  onClick={() => setAgeRangeFilters(ageRange.values)}
+                  className="button-filter"
+                >
+                  {ageRange.label}
+                </button>
+              ))}
             </div>
           </div>
           <div className="flex flex-col ">

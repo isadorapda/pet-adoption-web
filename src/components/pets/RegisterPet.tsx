@@ -3,9 +3,11 @@ import { api } from '../../lib/axios'
 import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
 import {
+  MayLiveWith,
   PetGender,
   PetSize,
   PetType,
+  getMayLiveWithLabel,
   getPetGenderLabel,
   getPetSizeLabel,
   getPetTypeLabel,
@@ -21,19 +23,18 @@ const registerPet = z.object({
   name: z.string(),
   description: z.string().optional(),
   pet_type: z.object({
-    value: z.nativeEnum(PetType).optional(),
+    value: z.nativeEnum(PetType),
     label: z.string(),
   }),
   sex: z
-    .object({ value: z.nativeEnum(PetGender).optional(), label: z.string() })
-    .optional(),
-  age: z.number().optional(),
+    .object({ value: z.nativeEnum(PetGender), label: z.string()}),
+  age: z.coerce.number(),
   size: z
-    .object({ value: z.nativeEnum(PetSize), label: z.string() })
-    .optional(),
+    .object({ value: z.nativeEnum(PetSize), label: z.string()}),
   breed: z.string().optional(),
-  may_live_with: z.array(z.string()).optional(),
+  may_live_with:z.object({value:z.nativeEnum(MayLiveWith),label: z.string()}) ,
   ideal_home: z.string().optional(),
+  pet_photos: z.instanceof(FileList).optional(),
 })
 export type RegisterPetFormData = z.infer<typeof registerPet>
 
@@ -50,11 +51,11 @@ export function RegisterPet({ orgId }: Props) {
         name: data.name,
         pet_type: data.pet_type.value,
         age: data.age,
-        sex: data.sex?.value,
-        size: data.size?.value,
+        sex: data.sex.value,
+        size: data.size.value,
         description: data.description,
         breed: data.breed,
-        may_live_with: data.may_live_with,
+        may_live_with: data.may_live_with.value,
         ideal_home: data.ideal_home,
       },
       {
@@ -65,6 +66,7 @@ export function RegisterPet({ orgId }: Props) {
     )
     setPets([...pets, resp.data.pet])
   }
+
   return (
     <div className=" bg-light-bg rounded-lg p-10 h-max">
       <h1 className="text-2xl font-bold mb-6">Register a new pet</h1>
@@ -141,17 +143,18 @@ export function RegisterPet({ orgId }: Props) {
             {...register('description')}
           />
         </div>
-        {/* <div className="flex flex-col">
+        <div className="flex flex-col">
           <label htmlFor="" className="header-3">
-            Age
+            Age in years
           </label>
           <input
-            type="text"
-            placeholder="e.g. "
+            type="number"
+            step="0.01"
+            placeholder="e.g. 0.7"
             className="rounded-md p-2"
             {...register('age')}
           />
-        </div> */}
+        </div>
         <div className="flex flex-col">
           <label htmlFor="" className="header-3">
             Size
@@ -177,8 +180,32 @@ export function RegisterPet({ orgId }: Props) {
         </div>
         <div className="flex flex-col">
           <label htmlFor="" className="header-3">
+            May Live With
+          </label>
+          <Controller
+            name="may_live_with"
+            control={control}
+            render={({ field }) => (
+              <Select
+                {...field}
+                isClearable
+                isMulti={false}
+                options={Object.keys(MayLiveWith).map((enumKey) => {
+                  const parsedEnumKey = enumKey as MayLiveWith
+                  return {
+                    label: getMayLiveWithLabel(parsedEnumKey),
+                    value: parsedEnumKey,
+                  }
+                })}
+              />
+            )}
+          />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="" className="header-3">
             Photo
           </label>
+          <input type="file" accept='image/*' multiple {...register('pet_photos')}/>
         </div>
         <button type="submit" className="button-primary">
           Register
