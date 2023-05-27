@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        primary: 'Roboto Flex, sans-serif',
+        primary: 'Titillium Web, sans-serif',
       },
       boxShadow: {
         buttonsShadow: ' 2px 3px 6px 1px rgba(0, 0, 0, 0.05)',
@@ -16,6 +16,7 @@ export default {
       colors: {
         purple: '#633BBC',
         'main-red': '#F15156',
+        'lighter-red': 'rgba(246, 128, 132, 0.2)',
         yellow: '#F4D35E',
         'light-bg': '#FDECED',
         'dark-blue': '#0D3B66',

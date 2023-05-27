@@ -14,6 +14,13 @@ export enum PetSize {
   LARGE = 'LARGE',
   GIANT = 'GIANT',
 }
+export enum MayLiveWith {
+  CATS = 'CATS',
+  DOGS = 'DOGS',
+  CHILDREN = 'CHILDREN',
+  ELDER = 'ELDER',
+  ANY = 'ANY',
+}
 
 export const getPetTypeLabel = (petType: PetType) => {
   switch (petType) {
@@ -29,6 +36,20 @@ export const getPetGenderLabel = (petGender: PetGender) => {
       return 'Female'
     case PetGender.MALE:
       return 'Male'
+  }
+}
+export const getMayLiveWithLabel = (mayLive: MayLiveWith) => {
+  switch (mayLive) {
+    case MayLiveWith.CATS:
+      return 'Cats'
+    case MayLiveWith.CHILDREN:
+      return 'Children'
+    case MayLiveWith.DOGS:
+      return 'Dogs'
+    case MayLiveWith.ELDER:
+      return 'Elder'
+    case MayLiveWith.ANY:
+      return 'Any'
   }
 }
 export const getPetSizeLabel = (petSize: PetSize) => {

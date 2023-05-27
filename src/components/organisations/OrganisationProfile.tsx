@@ -24,24 +24,37 @@ export function OrganisationProfile() {
     fetchProfile()
   }, [orgToken])
 
+  const petsToAdopt = currentOrg?.pets.filter(
+    (pet) => typeof pet.adopted_at !== 'string'
+  )
+  const adoptedPets = currentOrg?.pets.filter(
+    (pet) => typeof pet.adopted_at === 'string'
+  )
   if (!currentOrg) {
     return null
   }
   return (
-    <div className="h-full w-screen mt-40">
+    <div className="h-full w-screen mt-20">
       <div className="flex flex-col p-16">
         <div>
           <h1 className="text-5xl font-bold">{currentOrg?.name}</h1>
         </div>
         <div className="grid grid-cols-[70%,30%] w-full">
           <div>
-            <h2>Your pets for donation</h2>
-            <div className="grid grid-cols-auto gap-8 w-full">
-              {currentOrg.pets.map((pet) => (
-                <PetCard key={pet.id} pet={pet} />
+            <h2 className="text-lg pt-20 pb-10">Your pets for donation</h2>
+            <div className="grid grid-cols-2 gap-8 w-full">
+              {petsToAdopt?.map((pet) => (
+                <PetCard key={pet.id} pet={pet} isOrg={true} />
+              ))}
+            </div>
+            <h2 className="text-lg pt-20 pb-10">Your adopted pets</h2>
+            <div className="grid grid-cols-2 gap-8 w-full">
+              {adoptedPets?.map((pet) => (
+                <PetCard key={pet.id} pet={pet} isOrg={true} />
               ))}
             </div>
           </div>
+
           <div className="">
             <RegisterPet orgId={currentOrg.id} />
           </div>

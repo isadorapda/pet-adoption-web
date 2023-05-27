@@ -13,3 +13,8 @@
     @apply bg-yellow rounded-xl w-full px-4 py-3 mx-auto mt-3 shadow-buttonsShadow;
   }
 }
+
+body {
+  font-family: 'Titillium Web', sans-serif;
+  --webkit-font-smoothing: antialiased;
+}
