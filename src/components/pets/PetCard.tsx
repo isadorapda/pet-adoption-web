@@ -1,20 +1,29 @@
 import { useNavigate } from 'react-router-dom'
 import { Pet } from '../../@types/models'
 import DogExample from '../../assets/Dog.png'
+import { api } from '../../lib/axios'
+import dayjs from 'dayjs'
 
 interface Props {
   pet: Pet
+  isOrg?: boolean
 }
 
-export function PetCard({ pet }: Props) {
+export function PetCard({ pet, isOrg }: Props) {
   const navigate = useNavigate()
 
+  async function tagPetAsAdopted() {
+    await api.patch(`/me/pets/${pet.id}`)
+  }
+
   return (
-    <div
-      onClick={() => navigate(`/pet-details/${pet.id}`)}
-      className="bg-light-bg rounded-xl p-1 w-[300px] shadow-card flex flex-col gap-5"
-    >
-      <img src={DogExample} alt="" />
+    <div className="bg-light-bg rounded-xl p-1 w-[300px] shadow-card flex flex-col gap-5">
+      <img
+        src={DogExample}
+        alt=""
+        onClick={() => navigate(`/pet-details/${pet.id}`)}
+        className="cursor-pointer"
+      />
       <h1 className="text-dark-blue text-lg font-bold text-center">
         {pet.name}
       </h1>
@@ -24,6 +33,18 @@ export function PetCard({ pet }: Props) {
           {pet.sex}, {pet.age} years, Size: {pet.size}
         </p>
       </div>
+      {isOrg && (
+        <div className="w-full flex items-center">
+          <button
+            onClick={tagPetAsAdopted}
+            className="w-full flex justify-center cursor-pointer "
+          >
+            {pet.adopted_at
+              ? `Adopted ${dayjs(pet.adopted_at).format('DD/MM/YY')}`
+              : 'Mark as adopted'}
+          </button>
+        </div>
+      )}
     </div>
   )
 }

@@ -10,6 +10,7 @@ export interface Pet {
   may_live_with: string | null
   ideal_home: string | null
   organisation_id: string
+  adopted_at?: Date | null
 }
 
 export interface Organisation {
