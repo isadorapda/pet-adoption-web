@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { api } from '../../lib/axios'
+import { api } from '@/lib/axios'
 import { useParams } from 'react-router-dom'
 import { MdWhatsapp as IconWhatsApp } from 'react-icons/md'
 import { GrLocation as IconLocation } from 'react-icons/gr'
-import { Organisation, Pet } from '../../@types/models'
-import usePetsContext from '../../hooks/usePetsContext'
+import { Organisation, Pet } from '@/@types/models'
+import usePetsContext from '@/hooks/usePetsContext'
 
 interface PetResponse {
   pet: Pet

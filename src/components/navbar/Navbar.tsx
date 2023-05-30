@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import Logo from '../../assets/paw.webp'
+import Logo from '@/assets/paw.webp'
 
 export function Navbar() {
   const location = useLocation()

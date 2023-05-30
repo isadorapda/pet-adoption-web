@@ -1,6 +1,6 @@
 import { StylesConfig } from 'react-select'
 
-type Option = {
+export type Option = {
   value?: string
   label?: string
 }

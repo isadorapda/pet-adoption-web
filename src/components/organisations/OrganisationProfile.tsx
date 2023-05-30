@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import { api } from '../../lib/axios'
-import usePetsContext from '../../hooks/usePetsContext'
-import { Organisation } from '../../@types/models'
+import { api } from '@/lib/axios'
+import usePetsContext from '@/hooks/usePetsContext'
+import { Organisation } from '@/@types/models'
 import { PetCard } from '../pets/PetCard'
 import { RegisterPet } from '../pets/RegisterPet'
 
@@ -25,10 +25,10 @@ export function OrganisationProfile() {
   }, [orgToken])
 
   const petsToAdopt = currentOrg?.pets.filter(
-    (pet) => typeof pet.adopted_at !== 'string'
+    (pet) => typeof pet.adopted_at !== 'string',
   )
   const adoptedPets = currentOrg?.pets.filter(
-    (pet) => typeof pet.adopted_at === 'string'
+    (pet) => typeof pet.adopted_at === 'string',
   )
   if (!currentOrg) {
     return null

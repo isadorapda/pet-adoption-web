@@ -2,10 +2,10 @@ import { useForm, Controller } from 'react-hook-form'
 import Select from 'react-select'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { api } from '../../lib/axios'
+import { api } from '@/lib/axios'
 import { Filters } from './Filters'
-import usePetsContext from '../../hooks/usePetsContext'
-import { useState } from 'react'
+import usePetsContext from '@/hooks/usePetsContext'
+import { useEffect, useState } from 'react'
 import {
   MayLiveWith,
   PetGender,
@@ -13,8 +13,9 @@ import {
   PetType,
   getPetGenderLabel,
   getPetTypeLabel,
-} from '../../utils/petFilters'
-import { customStyles } from '../../styles/selectStyles'
+} from '@/utils/petFilters'
+import { customStyles } from '@/styles/selectStyles'
+import { Response } from '@/context/petsContext'
 
 const searchPetSchema = z.object({
   location: z.string().min(3, { message: 'Please, inform a city.' }),
@@ -24,15 +25,15 @@ const searchPetSchema = z.object({
   sex: z
     .object({ value: z.nativeEnum(PetGender).optional(), label: z.string() })
     .optional(),
-  age: z
-    .object({
-      min: z.coerce.number().optional(),
-      max: z.coerce.number().optional(),
-    })
-    .optional(),
+  age_min: z.coerce.number().optional(),
+  age_max: z.coerce.number().optional(),
   size: z.array(z.nativeEnum(PetSize)).optional(),
   breed: z.array(z.string()).optional(),
-  may_live_with: z.array(z.nativeEnum(MayLiveWith)).optional(),
+  may_live_with: z
+    .union([z.array(z.nativeEnum(MayLiveWith)), z.nativeEnum(MayLiveWith)])
+    .optional(),
+  page: z.coerce.number().default(1),
+  limit: z.coerce.number().default(20),
 })
 
 export type SearchPetFormData = z.infer<typeof searchPetSchema>
@@ -44,23 +45,37 @@ export function SearchPetForm() {
     control,
     formState: { errors },
   } = useForm<SearchPetFormData>({ resolver: zodResolver(searchPetSchema) })
-  const { setPets } = usePetsContext()
+  const { setPets, limit, setPageData, page } = usePetsContext()
   const [isLoading, setLoading] = useState(false)
   const [petSizes, setPetSizes] = useState<Array<string>>([])
   const [petAgeRange, setPetAgeRange] = useState<{ min: number; max: number }>()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const [data, setData] = useState<SearchPetFormData>()
 
-  console.log('AGE', petAgeRange)
+  useEffect(() => {
+    ;(async () => {
+      if (data) {
+        await handleSearchPet(data)
+      }
+    })()
+    console.log('lim', limit)
+  }, [page, limit])
+
   async function handleSearchPet(data: SearchPetFormData) {
     setLoading(true)
+    setData(data)
+    console.log('AAAAAA', data)
     try {
-      const response = await api.get('/pets/search', {
+      const response: Response = await api.get('/pets/search', {
         params: {
           location: data.location,
           pet_type: data.pet_type?.value,
           sex: data.sex?.value,
           size: petSizes,
-          age: petAgeRange,
+          age_min: petAgeRange?.min,
+          age_max: petAgeRange?.max,
+          page,
+          limit,
         },
 
         paramsSerializer: {
@@ -68,6 +83,8 @@ export function SearchPetForm() {
         },
       })
       setPets(response.data.pets)
+      setPageData(response.data)
+      console.log('BBBBBB', response.data)
     } catch (error) {
       console.error('error', error)
     }
