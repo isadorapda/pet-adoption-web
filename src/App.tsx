@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
 import { Home } from './pages/Home'
-import { Organisation } from './components/organisations/Organisation'
+import { Organisation } from './pages/Organisation'
 import { OrganisationProfile } from './components/organisations/OrganisationProfile'
 import { PetDetails } from './components/pets/PetDetails'
 function App() {

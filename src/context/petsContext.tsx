@@ -40,49 +40,48 @@ interface PetsDataContext {
 export const PetsContext = createContext<PetsDataContext>({} as PetsDataContext)
 
 function getLimit(internalLimit: Limit, count: number): number {
-	if (internalLimit === Limit.ALL) {
-		return count
-	}
-	return internalLimit
+  if (internalLimit === Limit.ALL) {
+    return count
+  }
+  return internalLimit
 }
 
 export function PetsContextProvider({ children }: ContextProps) {
-	const [pets, setPets] = useState<Pet[]>([])
-	const [organisations, setOrganisations] = useState<Organisation[]>([])
-	const [orgToken, setOrgToken] = useState<string>('')
-	const [pageData, setPageData] = useState<Page>({
-		count: 0,
-		page: 1,
-		pets: [],
-	})
-	const [page, setPage] = useState<number>(1)
-	const [internalLimit, setInternalLimit] = useState<Limit>(Limit.TEN)
+  const [pets, setPets] = useState<Pet[]>([])
+  const [organisations, setOrganisations] = useState<Organisation[]>([])
+  const [orgToken, setOrgToken] = useState<string>('')
+  const [pageData, setPageData] = useState<Page>({
+    count: 0,
+    page: 1,
+    pets: [],
+  })
+  const [page, setPage] = useState<number>(1)
+  const [internalLimit, setInternalLimit] = useState<Limit>(Limit.TEN)
 
-	const limit = getLimit(internalLimit, pageData.count)
+  const limit = getLimit(internalLimit, pageData.count)
 
-	const totalPages =
+  const totalPages =
     internalLimit === Limit.ALL ? 1 : Math.ceil(pageData.count / limit)
 
-
-	return (
-		<PetsContext.Provider
-			value={{
-				pets,
-				setPets,
-				orgToken,
-				setOrgToken,
-				organisations,
-				setOrganisations,
-				setInternalLimit,
-				pageData,
-				totalPages,
-				limit,
-				setPageData,
-				page,
-				setPage,
-			}}
-		>
-			{children}
-		</PetsContext.Provider>
-	)
+  return (
+    <PetsContext.Provider
+      value={{
+        pets,
+        setPets,
+        orgToken,
+        setOrgToken,
+        organisations,
+        setOrganisations,
+        setInternalLimit,
+        pageData,
+        totalPages,
+        limit,
+        setPageData,
+        page,
+        setPage,
+      }}
+    >
+      {children}
+    </PetsContext.Provider>
+  )
 }

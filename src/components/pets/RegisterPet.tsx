@@ -1,5 +1,5 @@
 import Select from 'react-select'
-import { api } from '../../lib/axios'
+import { api } from '@/lib/axios'
 import { useForm, Controller } from 'react-hook-form'
 import { z } from 'zod'
 import {
@@ -11,9 +11,9 @@ import {
   getPetGenderLabel,
   getPetSizeLabel,
   getPetTypeLabel,
-} from '../../utils/petFilters'
+} from '@/utils/petFilters'
 import { zodResolver } from '@hookform/resolvers/zod'
-import usePetsContext from '../../hooks/usePetsContext'
+import usePetsContext from '@/hooks/usePetsContext'
 
 interface Props {
   orgId: string
@@ -26,13 +26,14 @@ const registerPet = z.object({
     value: z.nativeEnum(PetType),
     label: z.string(),
   }),
-  sex: z
-    .object({ value: z.nativeEnum(PetGender), label: z.string()}),
+  sex: z.object({ value: z.nativeEnum(PetGender), label: z.string() }),
   age: z.coerce.number(),
-  size: z
-    .object({ value: z.nativeEnum(PetSize), label: z.string()}),
+  size: z.object({ value: z.nativeEnum(PetSize), label: z.string() }),
   breed: z.string().optional(),
-  may_live_with:z.object({value:z.nativeEnum(MayLiveWith),label: z.string()}) ,
+  may_live_with: z.object({
+    value: z.nativeEnum(MayLiveWith),
+    label: z.string(),
+  }),
   ideal_home: z.string().optional(),
   pet_photos: z.instanceof(FileList).optional(),
 })
@@ -62,7 +63,7 @@ export function RegisterPet({ orgId }: Props) {
         headers: {
           Authorization: `Bearer ${orgToken}`,
         },
-      }
+      },
     )
     setPets([...pets, resp.data.pet])
   }
@@ -205,7 +206,12 @@ export function RegisterPet({ orgId }: Props) {
           <label htmlFor="" className="header-3">
             Photo
           </label>
-          <input type="file" accept='image/*' multiple {...register('pet_photos')}/>
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            {...register('pet_photos')}
+          />
         </div>
         <button type="submit" className="button-primary">
           Register
