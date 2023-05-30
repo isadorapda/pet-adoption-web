@@ -1,12 +1,12 @@
 import { useForm } from 'react-hook-form'
-import { api } from '../../lib/axios'
+import { api } from '@/lib/axios'
 import { z } from 'zod'
-import usePetsContext from '../../hooks/usePetsContext'
+import usePetsContext from '@/hooks/usePetsContext'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Organisation } from '../../@types/models'
+import { Organisation } from '@/@types/models'
 
 interface Response {
-  data:  Organisation 
+  data: Organisation
 }
 
 const registerOrgBodySchema = z.object({
@@ -46,19 +46,18 @@ export function RegisterOrganisation() {
   const { setOrganisations, organisations } = usePetsContext()
 
   async function handleRegisterOrg(data: RegisterOrgData) {
-    
-      const resp:Response = await api.post('/organisations', {
-        name: data.name,
-        email: data.email,
-        password: data.password,
-        address: data.address,
-        city: data.city,
-        postcode: data.postcode,
-        mobile: data.mobile,
-      })
-      setOrganisations([...organisations, resp.data])
-      // TODO: show error messages
- 
+    const resp: Response = await api.post('/organisations', {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      address: data.address,
+      city: data.city,
+      postcode: data.postcode,
+      mobile: data.mobile,
+    })
+    setOrganisations([...organisations, resp.data])
+    // TODO: show error messages
+
     reset()
   }
 

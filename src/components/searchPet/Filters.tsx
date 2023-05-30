@@ -1,7 +1,7 @@
 import { UseFormHandleSubmit } from 'react-hook-form'
 import { GrClose as IconClose } from 'react-icons/gr'
 import { SearchPetFormData } from './SearchPetForm'
-import { AGE_RANGES } from '../../constants/filters'
+import { AGE_RANGES } from '@/constants/filters'
 import { useEffect, useState } from 'react'
 
 interface Props {

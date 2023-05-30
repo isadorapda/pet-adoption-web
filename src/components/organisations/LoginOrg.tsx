@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
-import { api } from '../../lib/axios'
-import usePetsContext from '../../hooks/usePetsContext'
+import { api } from '@/lib/axios'
+import usePetsContext from '@/hooks/usePetsContext'
 import { useNavigate } from 'react-router-dom'
 
 const authOrgBodySchema = z.object({
