@@ -31,7 +31,14 @@ const registerOrgBodySchema = z.object({
     required_error: 'Please, inform city.',
   }),
   postcode: z.string(),
-  mobile: z.string().min(9),
+  mobile: z
+    .string()
+    .min(9)
+    .trim()
+    .regex(/^[1-9]\d*$/g, {
+      message:
+        'Right format: 447123456789. Wrong formats: +44 7123456789 or 07123456789',
+    }),
 })
 
 type RegisterOrgData = z.infer<typeof registerOrgBodySchema>
@@ -130,14 +137,15 @@ export function RegisterOrganisation() {
         </div>
         <div className="flex flex-col ">
           <label htmlFor="" className="header-3">
-            Mobile <span className="text-main-red">*</span>
+            WhatsApp number <span className="text-main-red">*</span>
           </label>
           <input
             type="tel"
-            placeholder="e.g. 07301234567"
+            placeholder="e.g. 447301234567"
             className="rounded-md p-2"
             {...register('mobile')}
           />
+          <p>{errors.mobile?.message}</p>
         </div>
         <div className="flex flex-col ">
           <label htmlFor="" className="header-3">

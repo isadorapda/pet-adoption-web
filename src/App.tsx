@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router-dom'
 import { Home } from './pages/Home'
 import { Organisation } from './pages/Organisation'
 import { OrganisationProfile } from './components/organisations/OrganisationProfile'
-import { PetDetails } from './components/pets/PetDetails'
+import { PetDetails } from './pages/PetDetails'
 function App() {
   return (
     <Routes>
