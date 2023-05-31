@@ -5,6 +5,10 @@ import { MdWhatsapp as IconWhatsApp } from 'react-icons/md'
 import { GrLocation as IconLocation } from 'react-icons/gr'
 import { Organisation, Pet } from '@/@types/models'
 import usePetsContext from '@/hooks/usePetsContext'
+import {
+  WHATSAPP_BASE_URL,
+  getPreFilledMessage,
+} from '@/constants/contactWhatsApp'
 
 interface PetResponse {
   pet: Pet
@@ -93,8 +97,17 @@ export function PetDetails() {
             <p>
               {pet.name} is registered at {org.name}
             </p>
-            <button className="button-primary bg-green flex items-center justify-center gap-5">
-              <IconWhatsApp /> Enquire about {pet.name}
+            <button className="button-primary bg-green">
+              <a
+                href={`${WHATSAPP_BASE_URL}${org.mobile}${getPreFilledMessage(
+                  pet.name,
+                )}`}
+                target="_blank"
+                rel="noreferrer"
+                className="flex items-center justify-center gap-5"
+              >
+                <IconWhatsApp /> Enquire about {pet.name}
+              </a>
             </button>
           </div>
         </div>
