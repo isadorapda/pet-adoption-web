@@ -17,6 +17,11 @@ import {
 import { customStyles } from '@/styles/selectStyles'
 import { Response } from '@/context/petsContext'
 
+interface Props {
+  setLoading: (value: boolean) => void
+  setIsModalOpen: (value: boolean) => void
+}
+
 const searchPetSchema = z.object({
   location: z.string().min(3, { message: 'Please, inform a city.' }),
   pet_type: z
@@ -38,7 +43,7 @@ const searchPetSchema = z.object({
 
 export type SearchPetFormData = z.infer<typeof searchPetSchema>
 
-export function SearchPetForm() {
+export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
   const {
     handleSubmit,
     register,
@@ -46,25 +51,20 @@ export function SearchPetForm() {
     formState: { errors },
   } = useForm<SearchPetFormData>({ resolver: zodResolver(searchPetSchema) })
   const { setPets, limit, setPageData, page } = usePetsContext()
-  const [isLoading, setLoading] = useState(false)
   const [petSizes, setPetSizes] = useState<Array<string>>([])
   const [petAgeRange, setPetAgeRange] = useState<{ min: number; max: number }>()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [data, setData] = useState<SearchPetFormData>()
 
   useEffect(() => {
-    ;(async () => {
-      if (data) {
-        await handleSearchPet(data)
-      }
-    })()
-    console.log('lim', limit)
+    if (data) {
+      handleSearchPet(data)
+    }
   }, [page, limit])
 
   async function handleSearchPet(data: SearchPetFormData) {
-    setLoading(true)
     setData(data)
-    console.log('AAAAAA', data)
+    console.log('data', data)
     try {
       const response: Response = await api.get('/pets/search', {
         params: {
@@ -82,9 +82,13 @@ export function SearchPetForm() {
           indexes: null,
         },
       })
+      setLoading(true)
+      console.log('res', response.data)
       setPets(response.data.pets)
       setPageData(response.data)
-      console.log('BBBBBB', response.data)
+      if (response.data.pets.length === 0) {
+        setIsModalOpen(true)
+      }
     } catch (error) {
       console.error('error', error)
     }

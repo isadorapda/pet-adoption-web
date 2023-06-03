@@ -4,9 +4,17 @@ import { z } from 'zod'
 import usePetsContext from '@/hooks/usePetsContext'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Organisation } from '@/@types/models'
+import axios from 'axios'
+import { useState } from 'react'
+import { AlertModal } from '../alertMessage/AlertModal'
 
 interface Response {
   data: Organisation
+}
+
+const SUCCESS_MESSAGE = {
+  title: 'Success!',
+  content: `Organisation has been registered. Please, login into your account to start advertising your pets for adoption.`,
 }
 
 const registerOrgBodySchema = z.object({
@@ -48,24 +56,35 @@ export function RegisterOrganisation() {
     handleSubmit,
     register,
     reset,
+    setError,
     formState: { errors },
   } = useForm<RegisterOrgData>({ resolver: zodResolver(registerOrgBodySchema) })
   const { setOrganisations, organisations } = usePetsContext()
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   async function handleRegisterOrg(data: RegisterOrgData) {
-    const resp: Response = await api.post('/organisations', {
-      name: data.name,
-      email: data.email,
-      password: data.password,
-      address: data.address,
-      city: data.city,
-      postcode: data.postcode,
-      mobile: data.mobile,
-    })
-    setOrganisations([...organisations, resp.data])
-    // TODO: show error messages
-
-    reset()
+    try {
+      const resp: Response = await api.post('/organisations', {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        address: data.address,
+        city: data.city,
+        postcode: data.postcode,
+        mobile: data.mobile,
+      })
+      setOrganisations([...organisations, resp.data])
+      setIsModalOpen(true)
+      reset()
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        setError(
+          'email',
+          { type: 'focus', message: 'Email already registered' },
+          { shouldFocus: true },
+        )
+      }
+    }
   }
 
   return (
@@ -171,6 +190,9 @@ export function RegisterOrganisation() {
           Sing in
         </button>
       </form>
+      {isModalOpen && (
+        <AlertModal setIsModalOpen={setIsModalOpen} message={SUCCESS_MESSAGE} />
+      )}
     </div>
   )
 }
