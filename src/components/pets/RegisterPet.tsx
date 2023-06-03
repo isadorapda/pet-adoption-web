@@ -14,58 +14,82 @@ import {
 } from '@/utils/petFilters'
 import { zodResolver } from '@hookform/resolvers/zod'
 import usePetsContext from '@/hooks/usePetsContext'
+import { customStyles } from '@/styles/selectStyles'
+import { useState } from 'react'
+import { AlertModal } from '../alertMessage/alertModal'
 
 interface Props {
   orgId: string
 }
 
+const SUCCESS_MESAGE = 'Your pet has been registered.'
+
 const registerPet = z.object({
-  name: z.string(),
-  description: z.string().optional(),
+  name: z
+    .string({
+      required_error: 'Please, inform name.',
+    })
+    .min(2, {
+      message: 'Please, inform name.',
+    }),
+  description: z.string().max(1000).optional(),
   pet_type: z.object({
     value: z.nativeEnum(PetType),
     label: z.string(),
   }),
   sex: z.object({ value: z.nativeEnum(PetGender), label: z.string() }),
-  age: z.coerce.number(),
+  age: z.coerce.number().gt(0, {
+    message: 'Please, informe age.',
+  }),
   size: z.object({ value: z.nativeEnum(PetSize), label: z.string() }),
   breed: z.string().optional(),
   may_live_with: z.object({
     value: z.nativeEnum(MayLiveWith),
     label: z.string(),
   }),
-  ideal_home: z.string().optional(),
+  ideal_home: z.string().max(500).optional(),
   pet_photos: z.instanceof(FileList).optional(),
 })
 export type RegisterPetFormData = z.infer<typeof registerPet>
 
 export function RegisterPet({ orgId }: Props) {
   const { orgToken, setPets, pets } = usePetsContext()
-
-  const { handleSubmit, register, control } = useForm<RegisterPetFormData>({
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const {
+    handleSubmit,
+    register,
+    control,
+    reset,
+    formState: { errors },
+  } = useForm<RegisterPetFormData>({
     resolver: zodResolver(registerPet),
   })
+
   async function handleRegisterPet(data: RegisterPetFormData) {
-    const resp = await api.post(
-      `/organisations/${orgId}/pets`,
-      {
-        name: data.name,
-        pet_type: data.pet_type.value,
-        age: data.age,
-        sex: data.sex.value,
-        size: data.size.value,
-        description: data.description,
-        breed: data.breed,
-        may_live_with: data.may_live_with.value,
-        ideal_home: data.ideal_home,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${orgToken}`,
+    try {
+      const resp = await api.post(
+        `/organisations/${orgId}/pets`,
+        {
+          name: data.name,
+          pet_type: data.pet_type.value,
+          age: data.age,
+          sex: data.sex.value,
+          size: data.size.value,
+          description: data.description,
+          breed: data.breed,
+          may_live_with: data.may_live_with.value,
+          ideal_home: data.ideal_home,
         },
-      },
-    )
-    setPets([...pets, resp.data.pet])
+        {
+          headers: {
+            Authorization: `Bearer ${orgToken}`,
+          },
+        },
+      )
+      setPets([...pets, resp.data.pet])
+      reset()
+      setIsModalOpen(true)
+    } catch (error) {}
   }
 
   return (
@@ -87,6 +111,7 @@ export function RegisterPet({ orgId }: Props) {
             className="rounded-md p-2"
             {...register('name')}
           />
+          <p>{errors.name?.message}</p>
         </div>
         <div>
           <label className="header-3">
@@ -100,6 +125,7 @@ export function RegisterPet({ orgId }: Props) {
               <Select
                 isClearable
                 isMulti={false}
+                styles={customStyles}
                 {...field}
                 options={Object.keys(PetType).map((enumKey) => {
                   const parsedEnumKey = enumKey as PetType
@@ -113,7 +139,9 @@ export function RegisterPet({ orgId }: Props) {
           />
         </div>
         <div className="flex flex-col gap-3">
-          <label className="header-3">Gender</label>
+          <label className="header-3">
+            Gender <span className="text-main-red">*</span>
+          </label>
           <Controller
             name="sex"
             control={control}
@@ -121,6 +149,7 @@ export function RegisterPet({ orgId }: Props) {
               <Select
                 isClearable
                 isMulti={false}
+                styles={customStyles}
                 {...field}
                 options={Object.keys(PetGender).map((enumKey) => {
                   const parsedEnumKey = enumKey as PetGender
@@ -138,27 +167,27 @@ export function RegisterPet({ orgId }: Props) {
           <label htmlFor="" className="header-3">
             Description
           </label>
-          <input
-            type="text"
-            className="rounded-md p-2"
+          <textarea
+            maxLength={1000}
+            className="rounded-md p-2 whitespace-pre-wrap "
             {...register('description')}
-          />
+          ></textarea>
         </div>
         <div className="flex flex-col">
           <label htmlFor="" className="header-3">
-            Age in years
+            Age in years <span className="text-main-red">*</span>
           </label>
           <input
             type="number"
-            step="0.01"
             placeholder="e.g. 0.7"
             className="rounded-md p-2"
             {...register('age')}
           />
+          <p>{errors.age?.message}</p>
         </div>
         <div className="flex flex-col">
           <label htmlFor="" className="header-3">
-            Size
+            Size <span className="text-main-red">*</span>
           </label>
           <Controller
             name="size"
@@ -168,6 +197,7 @@ export function RegisterPet({ orgId }: Props) {
                 {...field}
                 isClearable
                 isMulti={false}
+                styles={customStyles}
                 options={Object.keys(PetSize).map((enumKey) => {
                   const parsedEnumKey = enumKey as PetSize
                   return {
@@ -181,7 +211,7 @@ export function RegisterPet({ orgId }: Props) {
         </div>
         <div className="flex flex-col">
           <label htmlFor="" className="header-3">
-            May Live With
+            May Live With <span className="text-main-red">*</span>
           </label>
           <Controller
             name="may_live_with"
@@ -191,6 +221,7 @@ export function RegisterPet({ orgId }: Props) {
                 {...field}
                 isClearable
                 isMulti={false}
+                styles={customStyles}
                 options={Object.keys(MayLiveWith).map((enumKey) => {
                   const parsedEnumKey = enumKey as MayLiveWith
                   return {
@@ -201,6 +232,16 @@ export function RegisterPet({ orgId }: Props) {
               />
             )}
           />
+        </div>
+        <div className="flex flex-col">
+          <label htmlFor="" className="header-3">
+            Ideal Home
+          </label>
+          <textarea
+            className="rounded-md p-2 whitespace-pre-wrap"
+            maxLength={500}
+            {...register('ideal_home')}
+          ></textarea>
         </div>
         <div className="flex flex-col">
           <label htmlFor="" className="header-3">
@@ -217,6 +258,9 @@ export function RegisterPet({ orgId }: Props) {
           Register
         </button>
       </form>
+      {isModalOpen && (
+        <AlertModal setIsModalOpen={setIsModalOpen} message={SUCCESS_MESAGE} />
+      )}
     </div>
   )
 }

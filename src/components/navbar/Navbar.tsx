@@ -1,5 +1,5 @@
 import { Link, NavLink, useLocation } from 'react-router-dom'
-import Logo from '@/assets/paw.webp'
+import Logo from '@/assets/rehome.png'
 
 export function Navbar() {
   const location = useLocation()
@@ -7,7 +7,7 @@ export function Navbar() {
     <div className="w-screen absolute top-0 bg-light-bg py-4 px-14 flex justify-end items-center">
       <div className=" absolute left-14 top-0 h-full flex items-center">
         <Link to="/">
-          <img src={Logo} alt="Logo" className="w-[5vw]" />
+          <img src={Logo} alt="Logo" className="w-[9vw] lg:w-[4vw]" />
         </Link>
       </div>
       <NavLink

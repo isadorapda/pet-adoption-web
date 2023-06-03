@@ -24,6 +24,15 @@ export default {
         green: '#3CDC8C',
         'light-gray': '#D3E2E5',
       },
+      keyframes: {
+        loader: {
+          '0%,100%': { transform: 'translateY(50%)' },
+          '50%': { transform: 'translateY(-50%)' },
+        },
+      },
+      animation: {
+        loader: 'loader 1s easy-in-out infinite',
+      },
     },
   },
   plugins: [],

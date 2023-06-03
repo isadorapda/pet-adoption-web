@@ -3,9 +3,19 @@ import Pets from '../assets/pets.png'
 import { PetCard } from '../components/pets/PetCard'
 import usePetsContext from '../hooks/usePetsContext'
 import { Pagination } from '../components/pagination/Pagination'
+import { useState } from 'react'
+import { Loader } from '@/components/loader/Loader'
+import { AlertModal } from '@/components/alertMessage/AlertModal'
+
+const EMPTY_RESULTS_MESSAGE = {
+  title: 'Sorry',
+  content: 'we culd not find any furry friend matching your search.',
+}
 
 export function Home() {
   const { pets, pageData } = usePetsContext()
+  const [isLoading, setLoading] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   return (
     <div className="flex min-h-screen flex-col items-center py-10 px-1 lg:p-24 bg-main-red mt-10">
@@ -22,10 +32,14 @@ export function Home() {
             <img src={Pets} alt="" />
           </div>
         </div>
-        <SearchPetForm />
+        <SearchPetForm
+          setLoading={setLoading}
+          setIsModalOpen={setIsModalOpen}
+        />
       </div>
-
-      {pets.length ? (
+      {isLoading ? (
+        <Loader />
+      ) : pets.length ? (
         <div className="w-screen h-full px-28 py-10 bg-white flex flex-col items-center">
           <div className="py-10 flex flex-col w-full px-20 items-center gap-5">
             <div>
@@ -42,6 +56,12 @@ export function Home() {
           </div>
         </div>
       ) : null}
+      {isModalOpen && (
+        <AlertModal
+          setIsModalOpen={setIsModalOpen}
+          message={EMPTY_RESULTS_MESSAGE}
+        />
+      )}
     </div>
   )
 }
