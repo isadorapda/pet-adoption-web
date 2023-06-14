@@ -23,6 +23,8 @@ export default {
         organge: '#F27006',
         green: '#3CDC8C',
         'light-gray': '#D3E2E5',
+        'opaque-black': 'rgba(0, 0, 0, 0.5)',
+        'opaque-white': 'rgba(255, 255, 255, 0.7)',
       },
       keyframes: {
         loader: {
