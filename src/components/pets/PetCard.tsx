@@ -7,9 +7,10 @@ import dayjs from 'dayjs'
 interface Props {
   pet: Pet
   isOrg?: boolean
+  orgId?: string
 }
 
-export function PetCard({ pet, isOrg }: Props) {
+export function PetCard({ pet, isOrg, orgId }: Props) {
   const navigate = useNavigate()
 
   async function tagPetAsAdopted() {
@@ -17,24 +18,28 @@ export function PetCard({ pet, isOrg }: Props) {
   }
 
   return (
-    <div className="bg-light-bg rounded-xl p-1 w-[300px] shadow-card flex flex-col gap-5">
+    <div className="bg-light-bg rounded-xl p-1 w-[300px] shadow-card flex flex-col gap-2 relative pb-8">
       <img
         src={DogExample}
         alt=""
-        onClick={() => navigate(`/pet-details/${pet.id}`)}
+        onClick={() =>
+          isOrg
+            ? navigate(`/organisation/${orgId}/pet-details/${pet.id}`)
+            : navigate(`/pet-details/${pet.id}`)
+        }
         className="cursor-pointer"
       />
       <h1 className="text-dark-blue text-lg font-bold text-center">
         {pet.name}
       </h1>
-      <div className="pb-4 flex flex-col  items-center">
+      <div className=" flex flex-col  items-center">
         <p className="text-dark-blue">{pet.breed}</p>
         <p className="text-dark-blue lowercase first-letter:uppercase font-semibold p-4">
           {pet.sex}, {pet.age} years, Size: {pet.size}
         </p>
       </div>
       {isOrg && (
-        <div className="w-full flex items-center">
+        <div className="w-full flex items-center py-4 absolute bottom-0">
           <button
             onClick={tagPetAsAdopted}
             className="w-full flex justify-center cursor-pointer "

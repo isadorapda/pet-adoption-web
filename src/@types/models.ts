@@ -23,3 +23,8 @@ export interface Organisation {
   address?: string
   pets: Pet[]
 }
+
+export interface AlertMessage {
+  title: string
+  content: string
+}

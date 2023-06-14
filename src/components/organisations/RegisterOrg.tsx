@@ -1,55 +1,15 @@
 import { useForm } from 'react-hook-form'
 import { api } from '@/lib/axios'
-import { z } from 'zod'
-import usePetsContext from '@/hooks/usePetsContext'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Organisation } from '@/@types/models'
 import axios from 'axios'
 import { useState } from 'react'
 import { AlertModal } from '../alertMessage/AlertModal'
-
-interface Response {
-  data: Organisation
-}
+import { RegisterOrgData, registerOrgBodySchema } from './zodTypes'
 
 const SUCCESS_MESSAGE = {
   title: 'Success!',
   content: `Organisation has been registered. Please, login into your account to start advertising your pets for adoption.`,
 }
-
-const registerOrgBodySchema = z.object({
-  name: z.string({
-    required_error: "Please, inform your organisation's name.",
-  }),
-  email: z.string().email({
-    message: 'Email is required.',
-  }),
-  password: z
-    .string({
-      required_error: 'Password is required.',
-    })
-    .min(6, {
-      message: 'Your password should contain at least 6 characters.',
-    })
-    .max(12, {
-      message: 'Your password should contain between 6 - 12 characters',
-    }),
-  address: z.string(),
-  city: z.string({
-    required_error: 'Please, inform city.',
-  }),
-  postcode: z.string(),
-  mobile: z
-    .string()
-    .min(9)
-    .trim()
-    .regex(/^[1-9]\d*$/g, {
-      message:
-        'Right format: 447123456789. Wrong formats: +44 7123456789 or 07123456789',
-    }),
-})
-
-type RegisterOrgData = z.infer<typeof registerOrgBodySchema>
 
 export function RegisterOrganisation() {
   const {
@@ -59,12 +19,11 @@ export function RegisterOrganisation() {
     setError,
     formState: { errors },
   } = useForm<RegisterOrgData>({ resolver: zodResolver(registerOrgBodySchema) })
-  const { setOrganisations, organisations } = usePetsContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
   async function handleRegisterOrg(data: RegisterOrgData) {
     try {
-      const resp: Response = await api.post('/organisations', {
+      await api.post('/organisations', {
         name: data.name,
         email: data.email,
         password: data.password,
@@ -73,7 +32,6 @@ export function RegisterOrganisation() {
         postcode: data.postcode,
         mobile: data.mobile,
       })
-      setOrganisations([...organisations, resp.data])
       setIsModalOpen(true)
       reset()
     } catch (error) {

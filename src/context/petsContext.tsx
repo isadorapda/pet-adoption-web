@@ -24,8 +24,8 @@ export interface Response {
 interface PetsDataContext {
   pets: Pet[]
   setPets: (pets: Pet[]) => void
-  organisations: Organisation[]
-  setOrganisations: (organisation: Organisation[]) => void
+  currentOrganisation: Organisation
+  setCurrentOrganisation: (organisation: Organisation) => void
   setOrgToken: (token: string) => void
   orgToken: string
   pageData: Page
@@ -48,7 +48,15 @@ function getLimit(internalLimit: Limit, count: number): number {
 
 export function PetsContextProvider({ children }: ContextProps) {
   const [pets, setPets] = useState<Pet[]>([])
-  const [organisations, setOrganisations] = useState<Organisation[]>([])
+  const [currentOrganisation, setCurrentOrganisation] = useState<Organisation>({
+    city: '',
+    email: '',
+    id: '',
+    mobile: '',
+    name: '',
+    pets: [],
+    postcode: '',
+  })
   const [orgToken, setOrgToken] = useState<string>('')
   const [pageData, setPageData] = useState<Page>({
     count: 0,
@@ -70,8 +78,8 @@ export function PetsContextProvider({ children }: ContextProps) {
         setPets,
         orgToken,
         setOrgToken,
-        organisations,
-        setOrganisations,
+        currentOrganisation,
+        setCurrentOrganisation,
         setInternalLimit,
         pageData,
         totalPages,
