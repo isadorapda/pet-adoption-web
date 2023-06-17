@@ -13,7 +13,6 @@ export function AlertModal({
   isDelete,
   handleDelete,
 }: ModalProps) {
-  console.log('OI', isDelete)
   return (
     <div className="w-screen h-full p-10 fixed top-0 left-0 bg-[rgba(0,_0,_0,_0.5)] flex flex-col items-center justify-center">
       {isDelete ? (

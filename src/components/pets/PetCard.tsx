@@ -8,14 +8,11 @@ interface Props {
   pet: Pet
   isOrg?: boolean
   orgId?: string
+  tagPetAsAdopted: (id: string) => Promise<void>
 }
 
-export function PetCard({ pet, isOrg, orgId }: Props) {
+export function PetCard({ pet, isOrg, orgId, tagPetAsAdopted }: Props) {
   const navigate = useNavigate()
-
-  async function tagPetAsAdopted() {
-    await api.patch(`/me/pets/${pet.id}`)
-  }
 
   return (
     <div className="bg-light-bg rounded-xl p-1 w-[300px] shadow-card flex flex-col gap-2 relative pb-8">
@@ -41,11 +38,11 @@ export function PetCard({ pet, isOrg, orgId }: Props) {
       {isOrg && (
         <div className="w-full flex items-center py-4 absolute bottom-0">
           <button
-            onClick={tagPetAsAdopted}
+            onClick={() => tagPetAsAdopted(pet.id)}
             className="w-full flex justify-center cursor-pointer "
           >
             {pet.adopted_at
-              ? `Adopted ${dayjs(pet.adopted_at).format('DD/MM/YY')}`
+              ? `Adopted at ${dayjs(pet.adopted_at).format('DD/MM/YY')}`
               : 'Mark as adopted'}
           </button>
         </div>

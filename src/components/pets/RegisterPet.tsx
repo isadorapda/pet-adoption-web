@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Select from 'react-select'
 import { api } from '@/lib/axios'
 import { useForm, Controller } from 'react-hook-form'
@@ -19,6 +19,7 @@ import usePetsContext from '@/hooks/usePetsContext'
 import { customStyles } from '@/styles/selectStyles'
 import { AlertModal } from '../alertMessage/AlertModal'
 import { RegisterPetFormData, registerPet } from './zodTypes'
+import { RegisteredAlertModal } from '../alertMessage/RegisteredAlert'
 
 interface Props {
   orgId: string
@@ -33,6 +34,7 @@ const SUCCESS_MESAGE = {
 export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
   const { orgToken, setPets, pets } = usePetsContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
+
   const {
     handleSubmit,
     register,
@@ -71,7 +73,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
   }
 
   return (
-    <div className="bg-main-red px-12 py-16 lg:p-20 h-screen w-screen lg:w-[40vw] absolute overflow-auto right-0 top-0 shadow-card">
+    <div className="bg-main-red px-12 py-16 lg:p-20 h-screen w-screen lg:w-[40vw] absolute overflow-auto right-0 top-0 shadow-card animate-fadeInRight">
       <button
         className="absolute cursor-pointer left-6 lg:left-10 top-6 lg:top-10"
         onClick={() => setIsSideMenuOpen(false)}
@@ -258,7 +260,11 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
         </button>
       </form>
       {isModalOpen && (
-        <AlertModal setIsModalOpen={setIsModalOpen} message={SUCCESS_MESAGE} />
+        <RegisteredAlertModal
+          setIsSideMenuOpen={setIsSideMenuOpen}
+          setIsModalOpen={setIsModalOpen}
+          message={SUCCESS_MESAGE}
+        />
       )}
     </div>
   )

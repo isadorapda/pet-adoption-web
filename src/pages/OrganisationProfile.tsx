@@ -3,41 +3,66 @@ import { api } from '@/lib/axios'
 import usePetsContext from '@/hooks/usePetsContext'
 import { PetCard } from '../components/pets/PetCard'
 import { RegisterPet } from '../components/pets/RegisterPet'
+import { Organisation, Pet } from '@/@types/models'
+
+interface AdoptionPets {
+  toDonate: Array<Pet>
+  donated: Array<Pet>
+}
+interface Response {
+  data: { user: Organisation }
+}
 
 export function OrganisationProfile() {
-  const { orgToken, currentOrganisation, setCurrentOrganisation } =
+  const { orgToken, currentOrganisation, setCurrentOrganisation, pets } =
     usePetsContext()
-
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false)
-  const [showPets, setShowPets] = useState<'to-donate' | 'donated'>('to-donate')
+  const [isAdopted, setIsAdopted] = useState<AdoptionPets>({
+    donated: [],
+    toDonate: [],
+  })
+  const [showPets, setShowPets] = useState<'donated' | 'to-donate'>('to-donate')
 
   useEffect(() => {
     async function fetchProfile() {
       try {
-        const req = await api.get('/me', {
+        console.log('COCO')
+        const req: Response = await api.get('/me', {
           headers: { Authorization: `Bearer ${orgToken}` },
         })
         setCurrentOrganisation(req.data.user)
+        setIsAdopted({
+          donated: req.data.user.pets.filter((pet) => pet.adopted_at),
+          toDonate: req.data.user.pets.filter((pet) => !pet.adopted_at),
+        })
       } catch (error) {
         console.log(error)
       }
     }
 
     fetchProfile()
-  }, [orgToken])
+  }, [orgToken, pets])
 
-  const petsToAdopt = currentOrganisation?.pets.filter(
-    (pet) => typeof pet.adopted_at !== 'string',
-  )
-  const adoptedPets = currentOrganisation?.pets.filter(
-    (pet) => typeof pet.adopted_at === 'string',
-  )
+  async function tagPetAsAdopted(petId: string) {
+    try {
+      const adoptionResponse: { data: Pet } = await api.patch(
+        `/me/pets/${petId}`,
+      )
+
+      setIsAdopted({
+        donated: [...isAdopted.donated, adoptionResponse.data],
+        toDonate: [...isAdopted.toDonate],
+      })
+    } catch (error) {}
+  }
+
   if (!currentOrganisation) {
     return null
   }
+  // TODO: Re-render page on setIsAdopted
 
   const donationPets =
-    (showPets === 'to-donate' ? petsToAdopt : adoptedPets) || []
+    (showPets === 'to-donate' ? isAdopted.toDonate : isAdopted.donated) || []
 
   return (
     <div className="h-full w-screen mt-20">
@@ -80,6 +105,7 @@ export function OrganisationProfile() {
                 key={pet.id}
                 pet={pet}
                 isOrg={true}
+                tagPetAsAdopted={tagPetAsAdopted}
                 orgId={currentOrganisation.id}
               />
             ))}
@@ -87,12 +113,16 @@ export function OrganisationProfile() {
         </div>
 
         {isSideMenuOpen && (
-          <div className="fixed top-0 left-0 bg-opaque-white w-screen h-full">
+          <>
+            <div
+              className="fixed top-0 left-0 bg-opaque-white w-screen h-full"
+              onClick={() => setIsSideMenuOpen(false)}
+            ></div>
             <RegisterPet
               orgId={currentOrganisation.id}
               setIsSideMenuOpen={setIsSideMenuOpen}
             />
-          </div>
+          </>
         )}
       </div>
     </div>

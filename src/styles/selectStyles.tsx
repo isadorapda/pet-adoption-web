@@ -22,7 +22,7 @@ export const customStyles: StylesConfig<Option> = {
     background: state.isFocused
       ? '#d1d5db'
       : state.isSelected
-      ? '#B0C3B5'
+      ? 'rgba(246, 128, 132, 0.2)'
       : 'white',
     color: state.isFocused ? 'white' : '',
     borderRadius: '2px',

@@ -31,9 +31,20 @@ export default {
           '0%,100%': { transform: 'translateY(50%)' },
           '50%': { transform: 'translateY(-50%)' },
         },
+        fadeInRight: {
+          from: {
+            marginRight: '-100%',
+            opacity: 0,
+          },
+          to: {
+            marginRight: '0%',
+            opacity: 1,
+          },
+        },
       },
       animation: {
         loader: 'loader 1s easy-in-out infinite',
+        fadeInRight: '600ms ease 0s 1 normal none running fadeInRight',
       },
     },
   },

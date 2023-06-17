@@ -83,7 +83,6 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
         },
       })
       setLoading(true)
-      console.log('res', response.data)
       setPets(response.data.pets)
       setPageData(response.data)
       if (response.data.pets.length === 0) {
