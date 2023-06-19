@@ -4,8 +4,8 @@ import { useParams } from 'react-router-dom'
 import { GrLocation as IconLocation } from 'react-icons/gr'
 import { Organisation, Pet } from '@/@types/models'
 import usePetsContext from '@/hooks/usePetsContext'
-
 import { EnquireAboutPet } from '@/components/petDetails/EnquireAboutPet'
+import { NavigateBack } from '@/components/NavigateBack'
 
 interface PetResponse {
   pet: Pet
@@ -51,6 +51,7 @@ export function ViewPetDetails() {
 
   return (
     <div className="h-full w-screen flex flex-col">
+      <NavigateBack path="search" />
       <section className="h-screen bg-yellow w-full">
         <div className="">{}</div>
       </section>

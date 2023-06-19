@@ -1,3 +1,9 @@
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { useNavigate } from 'react-router-dom'
+import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
+import { api } from '@/lib/axios'
 import { AlertMessage } from '@/@types/models'
 import { AlertModal } from '@/components/alertMessage/AlertModal'
 import {
@@ -5,12 +11,7 @@ import {
   registerOrgBodySchema,
 } from '@/components/organisations/zodTypes'
 import usePetsContext from '@/hooks/usePetsContext'
-import { api } from '@/lib/axios'
-import { zodResolver } from '@hookform/resolvers/zod'
-import axios from 'axios'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import { useNavigate } from 'react-router-dom'
+import { NavigateBack } from '@/components/NavigateBack'
 
 const SUCCESS_MESSAGE: AlertMessage = {
   title: '',
@@ -62,12 +63,12 @@ export function EditOrganisationProfile() {
       SUCCESS_MESSAGE.content = 'Account Deleted'
       setIsDelete(false)
       setIsModalOpen(true)
-      //   navigate(`/`)
     } catch (error) {}
   }
 
   return (
-    <div className="w-screen mt-20">
+    <div className="w-screen mt-32">
+      <NavigateBack path="profile" />
       <div className="flex flex-col md:grid md:grid-cols-[30%,70%] p-10 gap-10 md:gap-3">
         <div className="flex md:flex-col gap-10">
           <div>

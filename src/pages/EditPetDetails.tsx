@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import { api } from '@/lib/axios'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Controller, useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import Select from 'react-select'
 import { MdOutlineModeEdit as IconEdit } from 'react-icons/md'
 import { AiFillDelete as IconDelete } from 'react-icons/ai'
 import { GrLocation as IconLocation } from 'react-icons/gr'
 import { AlertMessage, Organisation, Pet } from '@/@types/models'
 import usePetsContext from '@/hooks/usePetsContext'
-import Select from 'react-select'
 import { customStyles } from '@/styles/selectStyles'
 import {
   MayLiveWith,
@@ -16,11 +18,9 @@ import {
   getPetGenderLabel,
   getPetSizeLabel,
 } from '@/utils/petFilters'
-
-import { zodResolver } from '@hookform/resolvers/zod'
-import { Controller, useForm } from 'react-hook-form'
 import { registerPet, UpdatePetFormData } from '@/components/pets/zodTypes'
 import { AlertModal } from '@/components/alertMessage/AlertModal'
+import { NavigateBack } from '@/components/NavigateBack'
 
 interface PetResponse {
   pet: Pet
@@ -44,7 +44,7 @@ export function EditPetDetails() {
   const [edit, setEdit] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
-
+  const navigate = useNavigate()
   const params = useParams()
   const {
     handleSubmit,
@@ -125,6 +125,7 @@ export function EditPetDetails() {
 
   return (
     <div className="h-full w-screen flex flex-col">
+      <NavigateBack path={'profile'} />
       <section className="h-screen bg-yellow w-full">
         <div className="">{}</div>
       </section>
