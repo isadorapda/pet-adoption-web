@@ -26,7 +26,6 @@ export function OrganisationProfile() {
   useEffect(() => {
     async function fetchProfile() {
       try {
-        console.log('COCO')
         const req: Response = await api.get('/me', {
           headers: { Authorization: `Bearer ${orgToken}` },
         })
