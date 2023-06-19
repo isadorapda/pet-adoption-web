@@ -18,7 +18,7 @@ export function EnquireAboutPet({ pet, org }: Props) {
       <p>
         {pet.name} is registered at {org.name}
       </p>
-      <button className="button-primary bg-green">
+      <button className="button-primary bg-green transition-all duration-200 hover:brightness-90">
         <a
           href={`${WHATSAPP_BASE_URL}${org.mobile}${getPreFilledMessage(
             pet.name,

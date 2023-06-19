@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { api } from '@/lib/axios'
 import { useParams } from 'react-router-dom'
 import { GrLocation as IconLocation } from 'react-icons/gr'
+import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
 import { Organisation, Pet } from '@/@types/models'
 import usePetsContext from '@/hooks/usePetsContext'
 import { EnquireAboutPet } from '@/components/petDetails/EnquireAboutPet'
@@ -58,9 +59,15 @@ export function ViewPetDetails() {
       <section className="min-h-screen bg-light-bg w-full px-28 py-14">
         <div className="flex flex-col gap-5">
           <h1 className="text-5xl font-bold capitalize">{pet.name}</h1>
-          <div className="flex gap-3 items-center">
-            <IconLocation />
-            <h4> {org.city}</h4>
+          <div className="flex gap-5 items-center">
+            <div className="flex gap-3 items-center">
+              <IconLocation />
+              <h4> {org.city}</h4>
+            </div>
+            <div className="flex gap-3 items-center">
+              {pet.pet_type === 'CAT' ? <IconCat /> : <IconDog />}
+              <h4>{pet.pet_type}</h4>
+            </div>
           </div>
         </div>
         <div className="grid grid-cols-[2fr,1fr] gap-20 py-16">
@@ -92,10 +99,10 @@ export function ViewPetDetails() {
               <p>{pet.ideal_home}</p>
             </div>
           </div>
+          <EnquireAboutPet pet={pet} org={org} />
         </div>
-        <EnquireAboutPet pet={pet} org={org} />
         <div>
-          <h2>About {pet.name}</h2>
+          <h2 className="capitalize header-3 ">About {pet.name}</h2>
           <p>{pet.description}</p>
         </div>
       </section>

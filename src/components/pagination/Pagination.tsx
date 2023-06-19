@@ -71,6 +71,7 @@ export function Pagination() {
           disabled={pageData.page === 1}
           title="Previous Page"
           onClick={() => setPage(pageData.page - 1)}
+          className={`${pageData.page === 1 ? 'invisible' : 'visible'}`}
         >
           <IconPrevious size="20px" />
         </button>
@@ -81,18 +82,21 @@ export function Pagination() {
             onClick={() => setPage(pg)}
             className={`${
               pg === pageData.page
-                ? 'flex items-center justify-center rounded-full shadow-buttonsShadow w-7 h-7'
+                ? 'bg-yellow shadow-buttonsShadow rounded-full '
                 : ''
-            } `}
+            }flex items-center justify-center w-7 h-7 `}
           >
             {pg}
           </button>
         ))}
 
         <button
-          disabled={pageData.page !== totalPages}
+          disabled={pageData.page === totalPages}
           title="Next Page"
           onClick={() => setPage(pageData.page + 1)}
+          className={`${
+            pageData.page === totalPages ? 'invisible' : 'visible'
+          }`}
         >
           <IconNext size="20px" />
         </button>
