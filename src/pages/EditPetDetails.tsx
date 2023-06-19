@@ -142,7 +142,9 @@ export function EditPetDetails() {
           <button
             type="button"
             title="Remove Pet"
-            className=" button-primary bg-main-red w-max"
+            className={`${
+              edit ? 'hidden' : ''
+            } button-primary bg-main-red w-max`}
             onClick={() => {
               setIsDelete(true)
               setIsModalOpen(true)
@@ -157,14 +159,24 @@ export function EditPetDetails() {
           onSubmit={handleSubmit(handleEditPet)}
           className="w-full "
         >
-          <button
-            type="submit"
-            className={`${
-              edit ? '' : 'hidden'
-            } absolute bottom-10 right-1/2 translate-x-1/2 md:right-36 md:top-14 button-primary w-max h-max`}
-          >
-            Save Changes
-          </button>
+          <div className=" flex gap-5 absolute bottom-10 right-1/2 translate-x-1/2 md:right-28 md:translate-x-0 md:top-14">
+            <button
+              type="submit"
+              className={`${edit ? '' : 'hidden'}  button-primary w-max h-max`}
+            >
+              Save Changes
+            </button>
+            <button
+              type="button"
+              onClick={() => setEdit(false)}
+              className={`${
+                edit ? '' : 'hidden'
+              } button-primary bg-main-red w-max h-max text-white`}
+            >
+              Cancel
+            </button>
+          </div>
+
           <div>
             <div className="flex flex-col gap-5">
               {edit ? (
