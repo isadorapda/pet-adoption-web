@@ -1,47 +1,24 @@
 import { useForm, Controller } from 'react-hook-form'
 import Select from 'react-select'
-import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { api } from '@/lib/axios'
 import { Filters } from './Filters'
 import usePetsContext from '@/hooks/usePetsContext'
 import { useEffect, useState } from 'react'
 import {
-  MayLiveWith,
   PetGender,
-  PetSize,
   PetType,
   getPetGenderLabel,
   getPetTypeLabel,
 } from '@/utils/petFilters'
 import { customStyles } from '@/styles/selectStyles'
 import { Response } from '@/context/petsContext'
+import { SearchPetFormData, searchPetSchema } from './zodTypesSearchPet'
 
 interface Props {
   setLoading: (value: boolean) => void
   setIsModalOpen: (value: boolean) => void
 }
-
-const searchPetSchema = z.object({
-  location: z.string().min(3, { message: 'Please, inform a city.' }),
-  pet_type: z
-    .object({ value: z.nativeEnum(PetType).optional(), label: z.string() })
-    .optional(),
-  sex: z
-    .object({ value: z.nativeEnum(PetGender).optional(), label: z.string() })
-    .optional(),
-  age_min: z.coerce.number().optional(),
-  age_max: z.coerce.number().optional(),
-  size: z.array(z.nativeEnum(PetSize)).optional(),
-  breed: z.array(z.string()).optional(),
-  may_live_with: z
-    .union([z.array(z.nativeEnum(MayLiveWith)), z.nativeEnum(MayLiveWith)])
-    .optional(),
-  page: z.coerce.number().default(1),
-  limit: z.coerce.number().default(20),
-})
-
-export type SearchPetFormData = z.infer<typeof searchPetSchema>
 
 export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
   const {
@@ -52,7 +29,9 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
   } = useForm<SearchPetFormData>({ resolver: zodResolver(searchPetSchema) })
   const { setPets, limit, setPageData, page } = usePetsContext()
   const [petSizes, setPetSizes] = useState<Array<string>>([])
+  const [mayLiveWith, setMayLiveWith] = useState<Array<string>>([])
   const [petAgeRange, setPetAgeRange] = useState<{ min: number; max: number }>()
+  const [breeds, setBreeds] = useState<Array<string>>([])
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [data, setData] = useState<SearchPetFormData>()
 
@@ -64,7 +43,6 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
 
   async function handleSearchPet(data: SearchPetFormData) {
     setData(data)
-    console.log('data', data)
     try {
       const response: Response = await api.get('/pets/search', {
         params: {
@@ -74,6 +52,8 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
           size: petSizes,
           age_min: petAgeRange?.min,
           age_max: petAgeRange?.max,
+          may_live_with: mayLiveWith,
+          breed: breeds,
           page,
           limit,
         },
@@ -166,7 +146,7 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
         <button type="submit" className="button-primary">
           Show pets
         </button>
-        <button type="button" onClick={() => setIsMenuOpen(true)} className="">
+        <button type="button" onClick={() => setIsMenuOpen(true)}>
           View more filters
         </button>
       </form>
@@ -178,6 +158,10 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
           petSizes={petSizes}
           setPetSizes={setPetSizes}
           setPetAgeRange={setPetAgeRange}
+          setMayLiveWith={setMayLiveWith}
+          mayLiveWith={mayLiveWith}
+          breeds={breeds}
+          setBreeds={setBreeds}
         />
       )}
     </div>

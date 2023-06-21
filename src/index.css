@@ -7,10 +7,13 @@
     @apply font-semibold mb-2;
   }
   .button-filter {
-    @apply rounded-md p-3 bg-light-gray flex items-center justify-center;
+    @apply rounded-md p-3 bg-light-gray flex items-center justify-center transition-[filter] duration-150 hover:brightness-90;
   }
   .button-primary {
     @apply bg-yellow rounded-xl w-full px-4 py-3 mx-auto mt-3 shadow-buttonsShadow;
+  }
+  .grid-filters-search {
+    @apply grid grid-cols-3 grid-flow-row gap-3;
   }
 }
 
