@@ -1,16 +1,27 @@
+import { useEffect, useState } from 'react'
 import { UseFormHandleSubmit } from 'react-hook-form'
 import { GrClose as IconClose } from 'react-icons/gr'
-import { SearchPetFormData } from './SearchPetForm'
 import { AGE_RANGES } from '@/constants/filters'
-import { useEffect, useState } from 'react'
+import { SearchPetFormData } from './zodTypesSearchPet'
+import {
+  MayLiveWith,
+  PetSize,
+  getMayLiveWithLabel,
+  getPetSizeLabel,
+} from '@/utils/petFilters'
+import { SelectBreed } from './SelectBreed'
 
 interface Props {
   setIsMenuOpen: (isOpen: boolean) => void
-  setPetSizes: (sizes: string[]) => void
+  setPetSizes: (sizes: Array<string>) => void
+  setMayLiveWith: (options: Array<string>) => void
+  mayLiveWith: Array<string>
   handleSubmit: UseFormHandleSubmit<SearchPetFormData>
   handleSearchForm: (data: SearchPetFormData) => Promise<void>
   petSizes: Array<string>
   setPetAgeRange: (ageRange: { min: number; max: number }) => void
+  breeds: Array<string>
+  setBreeds: (breeds: Array<string>) => void
 }
 
 export function Filters({
@@ -20,6 +31,10 @@ export function Filters({
   handleSearchForm,
   handleSubmit,
   setPetAgeRange,
+  setMayLiveWith,
+  mayLiveWith,
+  breeds,
+  setBreeds,
 }: Props) {
   const [ageRanges, setAgeRanges] = useState<
     Array<{ min: number; max: number }>
@@ -41,6 +56,14 @@ export function Filters({
     }
   }
 
+  function setMayLiveWithFilters(value: string) {
+    if (mayLiveWith.includes(value)) {
+      setMayLiveWith(mayLiveWith.filter((val) => val !== value))
+    } else {
+      setMayLiveWith([...mayLiveWith, value])
+    }
+  }
+
   useEffect(() => {
     if (ageRanges.length > 1) {
       const range = ageRanges.reduce((curr, acc) => {
@@ -56,7 +79,7 @@ export function Filters({
 
   return (
     <div className="bg-[rgba(0,_0,_0,_0.3)] fixed z-10 h-full w-screen top-0 left-0">
-      <div className="w-1/2 bg-white flex flex-col  absolute top-0 right-0 z-50 h-screen">
+      <div className="w-1/2 bg-white flex flex-col absolute top-0 right-0 z-50 h-full overflow-auto ">
         <div className="w-full p-8 flex items-center">
           <button onClick={() => setIsMenuOpen(false)}>
             <IconClose />
@@ -64,67 +87,49 @@ export function Filters({
         </div>
         <form
           action=""
-          className="flex flex-col gap-10 px-24"
+          className="flex flex-col gap-10 px-24 pb-10"
           onSubmit={handleSubmit(handleSearchForm)}
         >
           <div className="flex flex-col ">
-            <label htmlFor="" className="header-3">
+            <label htmlFor="pet-size-filter" className="header-3">
               Size
             </label>
-            <div className="grid grid-cols-3 grid-flow-row gap-3">
-              <button
-                type="button"
-                value="TINY"
-                className="button-filter "
-                onClick={(e) => setPetSizeFilters(e.currentTarget.value)}
-              >
-                Tiny
-              </button>
-              <button
-                type="button"
-                value="SMALL"
-                className="button-filter "
-                onClick={(e) => setPetSizeFilters(e.currentTarget.value)}
-              >
-                Small
-              </button>
-              <button
-                type="button"
-                value="MEDIUM"
-                className="button-filter "
-                onClick={(e) => setPetSizeFilters(e.currentTarget.value)}
-              >
-                Medium
-              </button>
-              <button
-                type="button"
-                value="LARGE"
-                className="button-filter "
-                onClick={(e) => setPetSizeFilters(e.currentTarget.value)}
-              >
-                Large
-              </button>
-              <button
-                type="button"
-                value="GIANT"
-                className="button-filter "
-                onClick={(e) => setPetSizeFilters(e.currentTarget.value)}
-              >
-                Giant
-              </button>
+            <div id="pet-size-filter" className="grid-filters-search">
+              {Object.keys(PetSize).map((enumKey) => {
+                const parsedEnumKey = enumKey as PetSize
+                return (
+                  <button
+                    key={enumKey}
+                    type="button"
+                    value={parsedEnumKey}
+                    className={`${
+                      petSizes.includes(parsedEnumKey)
+                        ? 'button-filter bg-lighter-red font-semibold'
+                        : 'button-filter '
+                    } `}
+                    onClick={(e) => setPetSizeFilters(e.currentTarget.value)}
+                  >
+                    {getPetSizeLabel(parsedEnumKey)}
+                  </button>
+                )
+              })}
             </div>
           </div>
           <div className="flex flex-col ">
-            <label htmlFor="" className="header-3">
+            <label htmlFor="pet-age-filter" className="header-3">
               Age
             </label>
-            <div className="grid grid-cols-3 grid-flow-row gap-3">
+            <div id="pet-age-filter" className="grid-filters-search">
               {AGE_RANGES.map((ageRange) => (
                 <button
                   key={ageRange.label}
                   type="button"
                   onClick={() => setAgeRangeFilters(ageRange.values)}
-                  className="button-filter"
+                  className={`${
+                    ageRanges.includes(ageRange.values)
+                      ? 'button-filter bg-lighter-red font-semibold'
+                      : 'button-filter'
+                  }`}
                 >
                   {ageRange.label}
                 </button>
@@ -132,13 +137,34 @@ export function Filters({
             </div>
           </div>
           <div className="flex flex-col ">
-            <label htmlFor="" className="header-3">
+            <label className="header-3">Breed</label>
+            <SelectBreed setBreeds={setBreeds} breeds={breeds} />
+          </div>
+          <div className="flex flex-col ">
+            <label htmlFor="live-with-filter" className="header-3">
               May live with
             </label>
-            <div className="grid grid-cols-3 grid-flow-row gap-3">
-              <button className="button-filter ">Cats</button>
-              <button className="button-filter ">Dogs</button>
-              <button className="button-filter ">Children</button>
+            <div id="live-with-filter" className="grid-filters-search">
+              {Object.keys(MayLiveWith).map((enumKey) => {
+                const parsedEnumKey = enumKey as MayLiveWith
+                return (
+                  <button
+                    key={enumKey}
+                    value={parsedEnumKey}
+                    type="button"
+                    onClick={(e) =>
+                      setMayLiveWithFilters(e.currentTarget.value)
+                    }
+                    className={`${
+                      mayLiveWith.includes(parsedEnumKey)
+                        ? 'button-filter bg-lighter-red font-semibold'
+                        : 'button-filter'
+                    }  `}
+                  >
+                    {getMayLiveWithLabel(parsedEnumKey)}
+                  </button>
+                )
+              })}
             </div>
           </div>
           <button type="submit" className="button-primary">

@@ -1,0 +1,23 @@
+import { PetType, PetGender, PetSize, MayLiveWith } from '@/utils/petFilters'
+import { z } from 'zod'
+
+export const searchPetSchema = z.object({
+  location: z.string().min(3, { message: 'Please, inform a city.' }),
+  pet_type: z
+    .object({ value: z.nativeEnum(PetType).optional(), label: z.string() })
+    .optional(),
+  sex: z
+    .object({ value: z.nativeEnum(PetGender).optional(), label: z.string() })
+    .optional(),
+  age_min: z.coerce.number().optional(),
+  age_max: z.coerce.number().optional(),
+  size: z.array(z.nativeEnum(PetSize)).optional(),
+  breed: z.array(z.string()).optional(),
+  may_live_with: z
+    .union([z.array(z.nativeEnum(MayLiveWith)), z.nativeEnum(MayLiveWith)])
+    .optional(),
+  page: z.coerce.number().default(1),
+  limit: z.coerce.number().default(20),
+})
+
+export type SearchPetFormData = z.infer<typeof searchPetSchema>

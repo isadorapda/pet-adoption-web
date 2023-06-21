@@ -1,8 +1,7 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import Select from 'react-select'
 import { api } from '@/lib/axios'
 import { useForm, Controller } from 'react-hook-form'
-import { z } from 'zod'
 import { GrClose as IconClose } from 'react-icons/gr'
 import {
   MayLiveWith,

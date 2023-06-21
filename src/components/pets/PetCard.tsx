@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import { Pet } from '@/@types/models'
 import DogExample from '@/assets/Dog.png'
-import { api } from '@/lib/axios'
 import dayjs from 'dayjs'
 
 interface Props {
@@ -30,7 +29,9 @@ export function PetCard({ pet, isOrg, orgId, tagPetAsAdopted }: Props) {
         {pet.name}
       </h1>
       <div className=" flex flex-col  items-center">
-        <p className="text-dark-blue">{pet.breed}</p>
+        <p className="text-dark-blue capitalize">
+          {pet.breed?.replace('_', ' ')}
+        </p>
         <p className="text-dark-blue lowercase first-letter:uppercase font-semibold p-4">
           {pet.sex}, {pet.age} years, Size: {pet.size}
         </p>
