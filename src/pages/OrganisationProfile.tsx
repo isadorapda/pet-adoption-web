@@ -1,15 +1,20 @@
 import { useEffect, useState } from 'react'
+import { BiSortAlt2 as IconSort } from 'react-icons/bi'
+import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
 import { api } from '@/lib/axios'
 import usePetsContext from '@/hooks/usePetsContext'
-import { PetCard } from '../components/pets/PetCard'
-import { RegisterPet } from '../components/pets/RegisterPet'
+import { PetCard } from '../components/Pets/PetCard'
+import { RegisterPet } from '../components/Pets/RegisterPet'
 import { Organisation, Pet } from '@/@types/models'
+import { SortPetsSelect } from '@/components/SortPets/SortPets'
+import { PetType } from '@/utils/petFilters'
 
-interface AdoptionPets {
+export interface AdoptionPets {
   toDonate: Array<Pet>
   donated: Array<Pet>
 }
-interface Response {
+
+export interface Response {
   data: { user: Organisation }
 }
 
@@ -22,6 +27,9 @@ export function OrganisationProfile() {
     toDonate: [],
   })
   const [showPets, setShowPets] = useState<'donated' | 'to-donate'>('to-donate')
+  const [filterPetType, setFilterPetType] = useState<PetType | undefined>(
+    undefined,
+  )
 
   useEffect(() => {
     async function fetchProfile() {
@@ -79,7 +87,7 @@ export function OrganisationProfile() {
         </div>
 
         <div>
-          <div className="flex items-center  gap-10 pt-10 lg:pt-20 pb-10">
+          <div className="flex items-center  gap-10 pt-10 lg:pt-20 pb-10 relative">
             <button
               className={`${
                 showPets === 'to-donate' ? 'text-main-red' : ''
@@ -97,6 +105,40 @@ export function OrganisationProfile() {
             >
               Your adopted pets
             </button>
+            <div className="absolute right-0 flex items-center gap-3">
+              <IconSort title="Sort Pets" />
+              <div className="w-[20vw] ">
+                <SortPetsSelect
+                  filterPetType={filterPetType}
+                  orgId={currentOrganisation.id}
+                  setIsAdopted={setIsAdopted}
+                />
+              </div>
+              <div>
+                <IconCat
+                  title="Show all cats"
+                  className={`cursor-pointer ${
+                    filterPetType === PetType.CAT ? 'stroke-main-red ' : ''
+                  }`}
+                  onClick={() =>
+                    setFilterPetType(
+                      filterPetType !== PetType.CAT ? PetType.CAT : undefined,
+                    )
+                  }
+                />
+                <IconDog
+                  title="Show all dogs"
+                  className={`cursor-pointer ${
+                    filterPetType === PetType.DOG ? 'stroke-main-red' : ''
+                  }`}
+                  onClick={() =>
+                    setFilterPetType(
+                      filterPetType !== PetType.DOG ? PetType.DOG : undefined,
+                    )
+                  }
+                />
+              </div>
+            </div>
           </div>
           <div className="flex flex-col items-center lg:grid lg:grid-cols-auto gap-9 w-full">
             {donationPets.map((pet) => (
@@ -116,7 +158,7 @@ export function OrganisationProfile() {
             <div
               className="fixed top-0 left-0 bg-opaque-white w-screen h-full"
               onClick={() => setIsSideMenuOpen(false)}
-            ></div>
+            />
             <RegisterPet
               orgId={currentOrganisation.id}
               setIsSideMenuOpen={setIsSideMenuOpen}
