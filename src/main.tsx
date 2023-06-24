@@ -4,7 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 
 import './index.css'
-import { Navbar } from './components/navbar/Navbar'
+import { Navbar } from './components/Navbar/Navbar'
 import { PetsContextProvider } from './context/petsContext'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

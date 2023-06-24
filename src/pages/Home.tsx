@@ -1,11 +1,11 @@
-import { SearchPetForm } from '../components/searchPet/SearchPetForm'
+import { SearchPetForm } from '../components/SearchPet/SearchPetForm'
 import Pets from '../assets/pets.png'
-import { PetCard } from '../components/pets/PetCard'
+import { PetCard } from '../components/Pets/PetCard'
 import usePetsContext from '../hooks/usePetsContext'
-import { Pagination } from '../components/pagination/Pagination'
+import { Pagination } from '../components/Pagination/Pagination'
 import { useState } from 'react'
-import { Loader } from '@/components/loader/Loader'
-import { AlertModal } from '@/components/alertMessage/AlertModal'
+import { Loader } from '@/components/Loader/Loader'
+import { AlertModal } from '@/components/AlertMessage/AlertModal'
 
 const EMPTY_RESULTS_MESSAGE = {
   title: 'Sorry',

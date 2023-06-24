@@ -5,11 +5,11 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { api } from '@/lib/axios'
 import { AlertMessage } from '@/@types/models'
-import { AlertModal } from '@/components/alertMessage/AlertModal'
+import { AlertModal } from '@/components/AlertMessage/AlertModal'
 import {
   EditOrgData,
   registerOrgBodySchema,
-} from '@/components/organisations/zodTypes'
+} from '@/components/Organisations/zodTypes'
 import usePetsContext from '@/hooks/usePetsContext'
 import { NavigateBack } from '@/components/NavigateBack'
 
