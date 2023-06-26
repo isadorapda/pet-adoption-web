@@ -14,7 +14,7 @@ export function PetCard({ pet, isOrg, orgId, tagPetAsAdopted }: Props) {
   const navigate = useNavigate()
 
   return (
-    <div className="h-[45vh] bg-light-bg rounded-xl p-1 w-[300px] shadow-card flex flex-col gap-2 relative pb-8">
+    <div className="h-[50vh] lg:h-[45vh] bg-light-bg rounded-xl pt-1 px-1 w-[300px] shadow-card flex flex-col gap-3 relative pb-10">
       <img
         src={DogExample}
         alt=""
@@ -37,16 +37,14 @@ export function PetCard({ pet, isOrg, orgId, tagPetAsAdopted }: Props) {
         </p>
       </div>
       {isOrg && tagPetAsAdopted && (
-        <div className="w-full flex items-center py-4 absolute bottom-0">
-          <button
-            onClick={() => tagPetAsAdopted(pet.id)}
-            className="w-full flex justify-center cursor-pointer "
-          >
-            {pet.adopted_at
-              ? `Adopted at ${dayjs(pet.adopted_at).format('DD/MM/YY')}`
-              : 'Mark as adopted'}
-          </button>
-        </div>
+        <button
+          onClick={() => tagPetAsAdopted(pet.id)}
+          className="w-full flex justify-center cursor-pointer "
+        >
+          {pet.adopted_at
+            ? `Adopted at ${dayjs(pet.adopted_at).format('DD/MM/YY')}`
+            : 'Mark as adopted'}
+        </button>
       )}
     </div>
   )

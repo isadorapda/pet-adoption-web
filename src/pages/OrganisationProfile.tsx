@@ -8,6 +8,7 @@ import { RegisterPet } from '../components/Pets/RegisterPet'
 import { Organisation, Pet } from '@/@types/models'
 import { SortPetsSelect } from '@/components/SortPets/SortPetsOrgProfile'
 import { PetType } from '@/utils/petFilters'
+import { NoPetsRegistered } from '@/components/Organisations/NoPetsRegistered'
 
 export interface AdoptionPets {
   toDonate: Array<Pet>
@@ -30,8 +31,10 @@ export function OrganisationProfile() {
   const [filterPetType, setFilterPetType] = useState<PetType | undefined>(
     undefined,
   )
+  const [data, setData] = useState<{ data: Pet }>()
 
   useEffect(() => {
+    console.log('OIIII')
     async function fetchProfile() {
       try {
         const req: Response = await api.get('/me', {
@@ -48,14 +51,14 @@ export function OrganisationProfile() {
     }
 
     fetchProfile()
-  }, [orgToken, pets])
+  }, [orgToken, pets, data])
 
   async function tagPetAsAdopted(petId: string) {
     try {
       const adoptionResponse: { data: Pet } = await api.patch(
         `/me/pets/${petId}`,
       )
-
+      setData(adoptionResponse)
       setIsAdopted({
         donated: [...isAdopted.donated, adoptionResponse.data],
         toDonate: [...isAdopted.toDonate],
@@ -66,7 +69,6 @@ export function OrganisationProfile() {
   if (!currentOrganisation) {
     return null
   }
-  // TODO: Re-render page on setIsAdopted
 
   const donationPets =
     (showPets === 'to-donate' ? isAdopted.toDonate : isAdopted.donated) || []
@@ -74,12 +76,12 @@ export function OrganisationProfile() {
   return (
     <div className="h-full w-screen mt-20">
       <div className="flex flex-col justify-center p-10 lg:p-16">
-        <div className="relative flex flex-col gap-7 lg:flex-row">
+        <div className="relative flex flex-col gap-7 md:flex-row md:items-center md:mb-6">
           <h1 className="text-3xl lg:text-5xl font-bold">
             {currentOrganisation?.name}
           </h1>
           <button
-            className="button-primary lg:absolute lg:right-0 w-full lg:w-[15vw]"
+            className="button-primary md:absolute md:right-0 w-full md:w-max lg:w-[15vw]"
             onClick={() => setIsSideMenuOpen(true)}
           >
             Register a new pet!
@@ -107,10 +109,9 @@ export function OrganisationProfile() {
                 Your adopted pets
               </button>
             </div>
-
             <div className="w-full md:w-max md:absolute right-0 flex items-center gap-3">
               <IconSort title="Sort Pets" />
-              <div className="w-full md:w-[20vw] ">
+              <div className="w-full md:w-max lg:w-[20vw] ">
                 <SortPetsSelect
                   filterPetType={filterPetType}
                   orgId={currentOrganisation.id}
@@ -143,7 +144,14 @@ export function OrganisationProfile() {
               </div>
             </div>
           </div>
-          <div className="flex flex-col items-center lg:grid lg:grid-cols-auto gap-9 w-full">
+          {!isAdopted.toDonate.length && showPets === 'to-donate' && (
+            <NoPetsRegistered message="You have no pets for donation" />
+          )}
+          {!isAdopted.donated.length && showPets === 'donated' && (
+            <NoPetsRegistered message="You have no adopted pets" />
+          )}
+
+          <div className="flex flex-col items-center md:grid md:grid-cols-auto gap-9 w-full">
             {donationPets.map((pet) => (
               <PetCard
                 key={pet.id}

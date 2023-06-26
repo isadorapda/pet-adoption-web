@@ -11,6 +11,7 @@ export interface Pet {
   ideal_home: string | null
   organisation_id: string
   adopted_at?: Date | null
+  created_at: Date
 }
 
 export interface Organisation {

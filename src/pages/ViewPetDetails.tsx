@@ -32,7 +32,7 @@ export function ViewPetDetails() {
       const findPet = pets.find((pet) => pet.id === `${params.petId}`)
 
       return api.get(
-        `/organisations/${
+        `/organisation/${
           params.orgId ? params.orgId : findPet?.organisation_id
         }`,
       )
