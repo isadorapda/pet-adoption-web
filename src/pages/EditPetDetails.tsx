@@ -21,6 +21,7 @@ import {
 import { registerPet, UpdatePetFormData } from '@/components/Pets/zodTypes'
 import { AlertModal } from '@/components/AlertMessage/AlertModal'
 import { NavigateBack } from '@/components/NavigateBack'
+import dayjs from 'dayjs'
 
 interface PetResponse {
   pet: Pet
@@ -64,7 +65,7 @@ export function EditPetDetails() {
 
       const orgId = params.orgId || findPet?.organisation_id
 
-      return api.get(`/organisations/${orgId}`)
+      return api.get(`/organisation/${orgId}`)
     }
     Promise.all([fetchPet(), fecthOrg()]).then(async ([petRes, orgRes]) => {
       setPet(petRes.data.pet)
@@ -195,6 +196,11 @@ export function EditPetDetails() {
               <div className="flex gap-3 items-center">
                 <IconLocation />
                 <h4>{org.city}</h4>
+              </div>
+              <div>
+                <h4>
+                  Registered on: {dayjs(pet.created_at).format('DD/MM/YY')}
+                </h4>
               </div>
             </div>
             <div className="flex flex-col lg:grid lg:grid-cols-[2fr,1fr] gap-8 lg:gap-20 py-16">

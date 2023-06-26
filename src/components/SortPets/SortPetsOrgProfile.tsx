@@ -22,7 +22,7 @@ export function SortPetsSelect({
   useEffect(() => {
     async function getSortedPets() {
       try {
-        const resp: Response = await api.get(`/organisations/${orgId}`, {
+        const resp: Response = await api.get(`/organisations/pets/${orgId}`, {
           params: {
             field: sortPets?.field,
             order: sortPets?.order,
