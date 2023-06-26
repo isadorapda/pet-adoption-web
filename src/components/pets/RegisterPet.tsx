@@ -16,9 +16,8 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod'
 import usePetsContext from '@/hooks/usePetsContext'
 import { customStyles } from '@/styles/selectStyles'
-import { AlertModal } from '../alertMessage/AlertModal'
 import { RegisterPetFormData, registerPet } from './zodTypes'
-import { RegisteredAlertModal } from '../alertMessage/RegisteredAlert'
+import { RegisteredAlertModal } from '../AlertMessage/RegisteredAlert'
 
 interface Props {
   orgId: string

@@ -1,5 +1,5 @@
 import { ReactNode, createContext, useState } from 'react'
-import { Organisation, Pet } from '../@types/models'
+import { Organisation, Pet, SortPets } from '../@types/models'
 
 interface ContextProps {
   children: ReactNode
@@ -24,6 +24,8 @@ export interface Response {
 interface PetsDataContext {
   pets: Pet[]
   setPets: (pets: Pet[]) => void
+  sortPets: SortPets | undefined
+  setSortPets: (obg: SortPets) => void
   currentOrganisation: Organisation
   setCurrentOrganisation: (organisation: Organisation) => void
   setOrgToken: (token: string) => void
@@ -48,6 +50,8 @@ function getLimit(internalLimit: Limit, count: number): number {
 
 export function PetsContextProvider({ children }: ContextProps) {
   const [pets, setPets] = useState<Pet[]>([])
+  const [sortPets, setSortPets] = useState<SortPets>()
+
   const [currentOrganisation, setCurrentOrganisation] = useState<Organisation>({
     city: '',
     email: '',
@@ -76,6 +80,8 @@ export function PetsContextProvider({ children }: ContextProps) {
       value={{
         pets,
         setPets,
+        sortPets,
+        setSortPets,
         orgToken,
         setOrgToken,
         currentOrganisation,

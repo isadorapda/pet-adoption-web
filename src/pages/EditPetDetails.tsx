@@ -18,8 +18,8 @@ import {
   getPetGenderLabel,
   getPetSizeLabel,
 } from '@/utils/petFilters'
-import { registerPet, UpdatePetFormData } from '@/components/pets/zodTypes'
-import { AlertModal } from '@/components/alertMessage/AlertModal'
+import { registerPet, UpdatePetFormData } from '@/components/Pets/zodTypes'
+import { AlertModal } from '@/components/AlertMessage/AlertModal'
 import { NavigateBack } from '@/components/NavigateBack'
 
 interface PetResponse {

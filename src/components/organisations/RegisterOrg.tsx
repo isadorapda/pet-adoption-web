@@ -3,7 +3,7 @@ import { api } from '@/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { useState } from 'react'
-import { AlertModal } from '../alertMessage/AlertModal'
+import { AlertModal } from '../AlertMessage/AlertModal'
 import { RegisterOrgData, registerOrgBodySchema } from './zodTypes'
 
 const SUCCESS_MESSAGE = {
