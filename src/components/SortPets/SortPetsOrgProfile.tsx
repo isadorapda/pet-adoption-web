@@ -4,16 +4,12 @@ import { AdoptionPets, Response } from '@/pages/OrganisationProfile'
 import Select from 'react-select'
 import { options } from './optionsSelect'
 import { PetType } from '@/utils/petFilters'
+import { SortPets } from '@/@types/models'
 
 interface SortPetsProps {
   orgId: string
   setIsAdopted: (values: AdoptionPets) => void
   filterPetType: PetType | undefined
-}
-
-export type SortPets = {
-  field?: string
-  order: 'asc' | 'desc'
 }
 
 export function SortPetsSelect({
@@ -26,23 +22,21 @@ export function SortPetsSelect({
   useEffect(() => {
     async function getSortedPets() {
       try {
-        if (sortPets) {
-          const resp: Response = await api.get(`/organisations/${orgId}`, {
-            params: {
-              field: sortPets.field,
-              order: sortPets.order,
-              petType: filterPetType || null,
-            },
-          })
-          setIsAdopted({
-            donated: resp.data.user.pets.filter((pet) => pet.adopted_at),
-            toDonate: resp.data.user.pets.filter((pet) => !pet.adopted_at),
-          })
-        }
+        const resp: Response = await api.get(`/organisations/${orgId}`, {
+          params: {
+            field: sortPets?.field,
+            order: sortPets?.order,
+            petType: filterPetType || null,
+          },
+        })
+        setIsAdopted({
+          donated: resp.data.user.pets.filter((pet) => pet.adopted_at),
+          toDonate: resp.data.user.pets.filter((pet) => !pet.adopted_at),
+        })
       } catch {}
     }
     getSortedPets()
-  }, [sortPets, setSortPets, filterPetType])
+  }, [sortPets, filterPetType])
 
   return (
     <Select

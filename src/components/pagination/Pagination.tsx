@@ -43,8 +43,8 @@ export function Pagination() {
     })
 
   return (
-    <div className="flex flex-col gap-5 md:flex-row justify-center items-center relative w-full">
-      <div className="px-4 lg:px-0 md:pt-5 lg:pt-0 md:absolute md:right-3 lg:right-10 flex md:flex-col lg:flex-row items-center gap-3">
+    <div className="flex gap-1 md:gap-5 justify-center items-center relative w-full">
+      <div className=" md:pt-5 lg:pt-0 md:absolute md:right-3 lg:right-10 flex md:flex-col lg:flex-row items-center gap-1 md:gap-3 w-1/2 md:w-max">
         <h3 className="text-sm lg:text-[1vw]">Pets per page:</h3>
         <Select
           defaultValue={optionsSelect[0]}
@@ -53,7 +53,7 @@ export function Pagination() {
           options={optionsSelect}
           isMulti={false}
           onChange={(selected) => {
-            if (selected?.value === Limit.ALL) {
+            if (selected && selected.value === Limit.ALL) {
               setInternalLimit(Limit.ALL)
               return
             }

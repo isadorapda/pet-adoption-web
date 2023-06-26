@@ -28,3 +28,8 @@ export interface AlertMessage {
   title: string
   content: string
 }
+
+export type SortPets = {
+  field?: string
+  order: 'asc' | 'desc'
+}

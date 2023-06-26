@@ -18,6 +18,9 @@ export const searchPetSchema = z.object({
     .optional(),
   page: z.coerce.number().default(1),
   limit: z.coerce.number().default(20),
+  field: z.string().default('created_at'),
+  order: z.union([z.literal('asc'), z.literal('desc')]).default('desc'),
+  petType: z.enum(['DOG', 'CAT']).optional(),
 })
 
 export type SearchPetFormData = z.infer<typeof searchPetSchema>

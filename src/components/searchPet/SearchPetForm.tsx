@@ -27,7 +27,7 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
     control,
     formState: { errors },
   } = useForm<SearchPetFormData>({ resolver: zodResolver(searchPetSchema) })
-  const { setPets, limit, setPageData, page } = usePetsContext()
+  const { setPets, limit, setPageData, page, sortPets } = usePetsContext()
   const [petSizes, setPetSizes] = useState<Array<string>>([])
   const [mayLiveWith, setMayLiveWith] = useState<Array<string>>([])
   const [petAgeRange, setPetAgeRange] = useState<{ min: number; max: number }>()
@@ -39,7 +39,7 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
     if (data) {
       handleSearchPet(data)
     }
-  }, [page, limit])
+  }, [page, limit, sortPets])
 
   async function handleSearchPet(data: SearchPetFormData) {
     setData(data)
@@ -56,6 +56,8 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
           breed: breeds,
           page,
           limit,
+          field: sortPets?.field,
+          order: sortPets?.order,
         },
 
         paramsSerializer: {

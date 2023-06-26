@@ -6,7 +6,7 @@ import usePetsContext from '@/hooks/usePetsContext'
 import { PetCard } from '../components/Pets/PetCard'
 import { RegisterPet } from '../components/Pets/RegisterPet'
 import { Organisation, Pet } from '@/@types/models'
-import { SortPetsSelect } from '@/components/SortPets/SortPets'
+import { SortPetsSelect } from '@/components/SortPets/SortPetsOrgProfile'
 import { PetType } from '@/utils/petFilters'
 
 export interface AdoptionPets {
@@ -87,27 +87,30 @@ export function OrganisationProfile() {
         </div>
 
         <div>
-          <div className="flex items-center  gap-10 pt-10 lg:pt-20 pb-10 relative">
-            <button
-              className={`${
-                showPets === 'to-donate' ? 'text-main-red' : ''
-              } cursor-pointer transition-colors duration-200`}
-              onClick={() => setShowPets('to-donate')}
-            >
-              Your pets for donation
-            </button>
-            <span className="bg-black h-6 w-[2px]" />
-            <button
-              className={`${
-                showPets === 'donated' ? 'text-main-red' : ''
-              } cursor-pointer transition-colors duration-200`}
-              onClick={() => setShowPets('donated')}
-            >
-              Your adopted pets
-            </button>
-            <div className="absolute right-0 flex items-center gap-3">
+          <div className="flex flex-col md:flex-row items-center gap-10 pt-10 lg:pt-20 pb-10 relative">
+            <div className="flex items-center gap-5">
+              <button
+                className={`${
+                  showPets === 'to-donate' ? 'text-main-red' : ''
+                } cursor-pointer transition-colors duration-200`}
+                onClick={() => setShowPets('to-donate')}
+              >
+                Your pets for donation
+              </button>
+              <span className="bg-black h-6 w-[2px]" />
+              <button
+                className={`${
+                  showPets === 'donated' ? 'text-main-red' : ''
+                } cursor-pointer transition-colors duration-200`}
+                onClick={() => setShowPets('donated')}
+              >
+                Your adopted pets
+              </button>
+            </div>
+
+            <div className="w-full md:w-max md:absolute right-0 flex items-center gap-3">
               <IconSort title="Sort Pets" />
-              <div className="w-[20vw] ">
+              <div className="w-full md:w-[20vw] ">
                 <SortPetsSelect
                   filterPetType={filterPetType}
                   orgId={currentOrganisation.id}

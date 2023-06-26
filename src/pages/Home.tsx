@@ -1,11 +1,13 @@
+import { useState } from 'react'
+import { BiSortAlt2 as IconSort } from 'react-icons/bi'
 import { SearchPetForm } from '../components/SearchPet/SearchPetForm'
 import Pets from '../assets/pets.png'
 import { PetCard } from '../components/Pets/PetCard'
 import usePetsContext from '../hooks/usePetsContext'
 import { Pagination } from '../components/Pagination/Pagination'
-import { useState } from 'react'
 import { Loader } from '@/components/Loader/Loader'
 import { AlertModal } from '@/components/AlertMessage/AlertModal'
+import { SortPetsHomepageSelect } from '@/components/SortPets/SortPetsHomepage'
 
 const EMPTY_RESULTS_MESSAGE = {
   title: 'Sorry',
@@ -40,14 +42,22 @@ export function Home() {
       {isLoading ? (
         <Loader />
       ) : pets.length ? (
-        <div className="w-screen h-full px-28 py-10 bg-white flex flex-col items-center">
-          <div className="py-10 flex flex-col w-full px-20 items-center gap-5">
+        <div className="w-screen h-full px-10 lg:px-28 py-10 bg-white flex flex-col items-center">
+          <div className="pb-8 md:py-10 flex flex-col w-full  items-center gap-5">
             <div>
-              <h3 className="header-3 text-2xl">
+              <h3 className="header-3 lg:text-2xl">
                 We found {pageData.count} furry friends!
               </h3>
             </div>
-            <Pagination />
+            <div className="flex flex-col items-center gap-5 lg:flex-row w-screen md:w-full px-5 relative">
+              <Pagination />
+              <div className="w-full md:w-max px-5 md:px-0 lg:absolute left-0 flex items-center gap-3">
+                <IconSort title="Sort Pets" />
+                <div className="w-max md:w-[20vw] ">
+                  <SortPetsHomepageSelect />
+                </div>
+              </div>
+            </div>
           </div>
           <div className="grid grid-cols-auto gap-y-10 gap-x-6 w-full justify-items-center">
             {pets.map((pet) => (
