@@ -56,7 +56,7 @@ export function ViewPetDetails() {
       <section className="h-screen bg-yellow w-full">
         <div className="">{}</div>
       </section>
-      <section className="min-h-screen bg-light-bg w-full px-28 py-14">
+      <section className="min-h-screen bg-light-bg w-full px-5 md:px-10 lg:px-28 py-14">
         <div className="flex flex-col gap-5">
           <h1 className="text-5xl font-bold capitalize">{pet.name}</h1>
           <div className="flex gap-5 items-center">
@@ -70,8 +70,8 @@ export function ViewPetDetails() {
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-[2fr,1fr] gap-20 py-16">
-          <div className="grid grid-cols-2 gap-8">
+        <div className="flex flex-col md:grid md:grid-cols-[2fr,1fr] gap-10 lg:gap-20 py-9 md:py-16">
+          <div className="grid grid-cols-2 gap-4 lg:gap-8">
             <div className="flex flex-col gap-3 p-5 bg-lighter-red rounded-lg ">
               <h3 className="capitalize header-3">Gender</h3>
               <p className="lowercase first-letter:uppercase">{pet.sex}</p>
@@ -98,12 +98,12 @@ export function ViewPetDetails() {
               <h3 className="capitalize header-3 ">ideal home</h3>
               <p>{pet.ideal_home}</p>
             </div>
+            <div className="col-span-full">
+              <h2 className="capitalize header-3 ">About {pet.name}</h2>
+              <p>{pet.description}</p>
+            </div>
           </div>
           <EnquireAboutPet pet={pet} org={org} />
-        </div>
-        <div>
-          <h2 className="capitalize header-3 ">About {pet.name}</h2>
-          <p>{pet.description}</p>
         </div>
       </section>
     </div>

@@ -8,10 +8,10 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const location = useLocation()
   return (
-    <div className="w-screen absolute top-0 bg-light-bg py-4 px-14 flex justify-end items-center h-16">
-      <div className=" absolute left-14 top-0 h-full flex items-center">
+    <div className="w-screen absolute top-0 bg-light-bg py-4 px-8 md:px-14 flex justify-end items-center h-16">
+      <div className=" absolute left-8 md:left-14 top-0 h-full flex items-center">
         <Link to="/">
-          <img src={Logo} alt="Logo" className="w-[9vw] lg:w-[4vw]" />
+          <img src={Logo} alt="Logo" className="w-[8vw] md:w-[4vw]" />
         </Link>
       </div>
       <NavLink
@@ -22,7 +22,9 @@ export function Navbar() {
       >
         <button
           className={`${
-            location.pathname === '/' ? 'button-primary ' : 'hidden'
+            location.pathname === '/'
+              ? 'button-primary px-3 md:px-4 py-1 md:py-3 text-sm md:text-base'
+              : 'hidden'
           }  mt-0`}
         >
           {location.pathname === '/' && 'Organisations'}

@@ -34,7 +34,6 @@ export function OrganisationProfile() {
   const [data, setData] = useState<{ data: Pet }>()
 
   useEffect(() => {
-    console.log('OIIII')
     async function fetchProfile() {
       try {
         const req: Response = await api.get('/me', {

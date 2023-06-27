@@ -14,7 +14,9 @@ interface Props {
 export function EnquireAboutPet({ pet, org }: Props) {
   return (
     <div className="rounded-lg bg-white p-6 flex flex-col shadow-card h-max gap-6">
-      <h1 className="font-bold ">Could you be {pet.name} perfect match?</h1>
+      <h1 className="font-bold ">
+        Could you be {pet.name}&apos;s perfect match?
+      </h1>
       <p>
         {pet.name} is registered at {org.name}
       </p>
@@ -25,7 +27,7 @@ export function EnquireAboutPet({ pet, org }: Props) {
           )}`}
           target="_blank"
           rel="noreferrer"
-          className="flex items-center justify-center gap-5"
+          className="flex items-center justify-center gap-2 lg:gap-5 text-sm lg:text-base"
         >
           <IconWhatsApp /> Enquire about {pet.name}
         </a>

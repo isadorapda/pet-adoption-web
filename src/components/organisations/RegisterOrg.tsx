@@ -46,8 +46,10 @@ export function RegisterOrganisation() {
   }
 
   return (
-    <div className=" bg-light-bg rounded-lg p-10 w-[90%]">
-      <h1 className="text-2xl font-bold mb-6">Register your organisation</h1>
+    <div className=" bg-light-bg rounded-lg p-10 md:w-[90%]">
+      <h1 className="text-xl md:text-2xl font-bold mb-6">
+        Register your organisation
+      </h1>
 
       <form
         action=""

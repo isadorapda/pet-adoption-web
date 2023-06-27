@@ -79,7 +79,7 @@ export function Filters({
 
   return (
     <div className="bg-[rgba(0,_0,_0,_0.3)] fixed z-10 h-full w-screen top-0 left-0">
-      <div className="w-1/2 bg-white flex flex-col absolute top-0 right-0 z-50 h-full overflow-auto ">
+      <div className="w-screen md:w-2/3 lg:w-1/2 bg-white flex flex-col absolute top-0 right-0 z-50 h-full overflow-auto ">
         <div className="w-full p-8 flex items-center">
           <button onClick={() => setIsMenuOpen(false)}>
             <IconClose />
@@ -87,7 +87,7 @@ export function Filters({
         </div>
         <form
           action=""
-          className="flex flex-col gap-10 px-24 pb-10"
+          className="flex flex-col gap-10 px-10 lg:px-24 pb-10"
           onSubmit={handleSubmit(handleSearchForm)}
         >
           <div className="flex flex-col ">
