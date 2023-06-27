@@ -67,7 +67,7 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
       setLoading(true)
       setPets(response.data.pets)
       setPageData(response.data)
-      if (response.data.pets.length === 0) {
+      if (!response.data.pets.length) {
         setIsModalOpen(true)
       }
     } catch (error) {
@@ -78,7 +78,7 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
   }
 
   return (
-    <div className="flex flex-col bg-light-bg rounded-md p-6 lg:w-[25vw] mx-auto h-max">
+    <div className="flex flex-col bg-light-bg rounded-md px-6 py-10 w-full lg:w-[30vw]  mx-auto h-max">
       <h3 className="text-black text-xl font-bold pb-5">Find a Pet</h3>
       <form
         action=""

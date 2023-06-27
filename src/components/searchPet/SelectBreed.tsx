@@ -55,11 +55,13 @@ export function SelectBreed({ breeds, setBreeds }: BreedProps) {
     <AsyncSelect
       cacheOptions
       loadOptions={fetchBreeds}
+      placeholder="Type to search breeds"
       isMulti
       onChange={(selectedOptions) => {
         handleSelectChange(selectedOptions.map((option) => option.value))
       }}
       value={breedOptions.filter((option) => breeds.includes(option.value))}
+      defaultOptions
     />
   )
 }

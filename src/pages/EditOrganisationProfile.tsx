@@ -67,17 +67,17 @@ export function EditOrganisationProfile() {
   }
 
   return (
-    <div className="w-screen mt-32">
+    <div className="w-full mt-32">
       <NavigateBack path="profile" />
-      <div className="flex flex-col md:grid md:grid-cols-[30%,70%] p-10 gap-10 md:gap-3">
+      <div className="w-full flex flex-col md:grid md:grid-cols-[30%,70%] p-6 md:p-10 gap-10 md:gap-3">
         <div className="flex md:flex-col gap-10">
           <div>
-            <button type="button" className="">
+            <button type="button" className="text-sm md:text-base">
               General Info
             </button>
           </div>
           <div>
-            <button type="button" className="">
+            <button type="button" className="text-sm md:text-base">
               Password
             </button>
           </div>
@@ -88,7 +88,7 @@ export function EditOrganisationProfile() {
                 setIsModalOpen(true)
                 setIsDelete(true)
               }}
-              className=""
+              className="text-sm md:text-base"
             >
               Delete Account
             </button>
@@ -97,7 +97,7 @@ export function EditOrganisationProfile() {
         <form
           action=""
           onSubmit={handleSubmit(handleUpdateOrg)}
-          className="gap-6 md:gap-8 flex flex-col  md:pr-44"
+          className="gap-6 md:gap-8 flex flex-col md:pr-10"
         >
           <div className="flex flex-col ">
             <label htmlFor="" className="header-3">
@@ -137,7 +137,7 @@ export function EditOrganisationProfile() {
               <p>{errors.mobile?.message}</p>
             </div>
           </div>
-          <div className="flex flex-col md:flex-row justify-between w-full gap-6 md:gap-5">
+          <div className="flex flex-col lg:flex-row justify-between w-full gap-6 md:gap-5">
             <div className="flex flex-col w-full">
               <label htmlFor="" className="header-3">
                 Post Code

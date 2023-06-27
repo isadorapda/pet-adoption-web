@@ -71,7 +71,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
   }
 
   return (
-    <div className="bg-main-red px-12 py-16 lg:p-20 h-screen w-screen lg:w-[40vw] absolute overflow-auto right-0 top-0 shadow-card animate-fadeInRight">
+    <div className="bg-main-red px-12 py-16 lg:p-20 h-screen w-screen md:w-2/3 lg:w-[40vw] absolute overflow-auto right-0 top-0 shadow-card animate-fadeInRight">
       <button
         className="absolute cursor-pointer left-6 lg:left-10 top-6 lg:top-10"
         onClick={() => setIsSideMenuOpen(false)}

@@ -39,8 +39,10 @@ export function LoginOrganisation() {
   }
 
   return (
-    <div className=" bg-light-bg rounded-lg p-10 h-max w-[70%] mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Login as an organisation</h1>
+    <div className=" bg-light-bg rounded-lg p-10 h-max md:w-[70%] mx-auto">
+      <h1 className="text-xl md:text-2xl font-bold mb-6">
+        Login as an organisation
+      </h1>
       <form
         action=""
         onSubmit={handleSubmit(handleAuthOrg)}

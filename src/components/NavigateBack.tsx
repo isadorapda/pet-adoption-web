@@ -15,7 +15,7 @@ export function NavigateBack({ path }: Props) {
     <button
       type="button"
       onClick={handleGoBack}
-      className="absolute left-10 top-20 flex items-center gap-2 text-sm"
+      className="absolute left-5 md:left-10 top-20 flex items-center gap-2 text-sm"
     >
       <IconBack />
       Go back to {path}
