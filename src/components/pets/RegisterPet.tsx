@@ -44,6 +44,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
   })
 
   async function handleRegisterPet(data: RegisterPetFormData) {
+    console.log('DATA', data)
     try {
       const resp = await api.post(
         `/organisations/${orgId}/pets`,
@@ -67,6 +68,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
       setPets([...pets, resp.data.pet])
       reset()
       setIsModalOpen(true)
+      console.log('PET', data.pet_type)
     } catch (error) {}
   }
 
@@ -106,12 +108,12 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
             <Controller
               name="pet_type"
               control={control}
-              render={({ field }) => (
+              render={({ field: { value, onChange } }) => (
                 <Select
                   isClearable
                   isMulti={false}
                   styles={customStyles}
-                  {...field}
+                  //   {...field}
                   options={Object.keys(PetType).map((enumKey) => {
                     const parsedEnumKey = enumKey as PetType
                     return {
@@ -119,6 +121,8 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                       value: parsedEnumKey,
                     }
                   })}
+                  //   inputValue={value.value}
+                  onChange={onChange}
                 />
               )}
             />
@@ -130,12 +134,12 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
             <Controller
               name="sex"
               control={control}
-              render={({ field }) => (
+              render={({ field: { value, onChange } }) => (
                 <Select
                   isClearable
                   isMulti={false}
                   styles={customStyles}
-                  {...field}
+                  //   {...field}
                   options={Object.keys(PetGender).map((enumKey) => {
                     const parsedEnumKey = enumKey as PetGender
                     return {
@@ -143,6 +147,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                       value: parsedEnumKey,
                     }
                   })}
+                  onChange={onChange}
                 />
               )}
             />
@@ -189,9 +194,9 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
             <Controller
               name="size"
               control={control}
-              render={({ field }) => (
+              render={({ field: { value, onChange } }) => (
                 <Select
-                  {...field}
+                  //   {...field}
                   isClearable
                   isMulti={false}
                   styles={customStyles}
@@ -202,6 +207,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                       value: parsedEnumKey,
                     }
                   })}
+                  onChange={onChange}
                 />
               )}
             />
@@ -214,9 +220,9 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
           <Controller
             name="may_live_with"
             control={control}
-            render={({ field }) => (
+            render={({ field: { value, onChange } }) => (
               <Select
-                {...field}
+                // {...field}
                 isClearable
                 isMulti={false}
                 styles={customStyles}
@@ -227,6 +233,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                     value: parsedEnumKey,
                   }
                 })}
+                onChange={onChange}
               />
             )}
           />
