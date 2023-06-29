@@ -11,6 +11,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^3.1.0",
     "axios": "^1.4.0",
     "dayjs": "^1.11.7",
@@ -47,6 +48,8 @@
     "vite-tsconfig-paths": "^4.2.0"
   },
   "ts-node": {
-    "require": ["tsconfig-paths/register"]
-}
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  }
 }

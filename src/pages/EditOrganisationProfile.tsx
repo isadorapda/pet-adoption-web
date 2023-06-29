@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
@@ -109,7 +110,12 @@ export function EditOrganisationProfile() {
               defaultValue={currentOrganisation.name}
               {...register('name')}
             />
-            <p>{errors.name?.message}</p>
+            <ErrorMessage
+              errors={errors}
+              name="name"
+              render={(e) => <p>{e.message}</p>}
+            />
+            {/* <p>{errors.name?.message?.toString()}</p> */}
           </div>
           <div className="flex flex-col md:flex-row justify-between w-full gap-6 md:gap-5">
             <div className="flex flex-col w-full">
@@ -121,6 +127,11 @@ export function EditOrganisationProfile() {
                 defaultValue={currentOrganisation.email}
                 className="rounded-md p-2 border border-gray-400"
                 {...register('email')}
+              />
+              <ErrorMessage
+                errors={errors}
+                name="email"
+                render={(e) => <p>{e.message}</p>}
               />
               <p>{errors.email?.message}</p>
             </div>
@@ -134,7 +145,13 @@ export function EditOrganisationProfile() {
                 className="rounded-md p-2 border border-gray-400"
                 {...register('mobile')}
               />
-              <p>{errors.mobile?.message}</p>
+              <ErrorMessage
+                as="p"
+                errors={errors}
+                name="mobile"
+                render={(e) => <p>{e.message}</p>}
+              />
+              {/* <p>{errors.mobile?.message}</p> */}
             </div>
           </div>
           <div className="flex flex-col lg:flex-row justify-between w-full gap-6 md:gap-5">
