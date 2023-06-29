@@ -1,4 +1,5 @@
 import { useForm } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import { api } from '@/lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
@@ -66,7 +67,12 @@ export function RegisterOrganisation() {
             placeholder="e.g. Rehoming"
             {...register('name')}
           />
-          <p>{errors.name?.message}</p>
+          <ErrorMessage
+            as="p"
+            errors={errors}
+            name="name"
+            render={(e) => <p>{e.message}</p>}
+          />
         </div>
         <div className="flex flex-col ">
           <label htmlFor="" className="header-3">
@@ -78,7 +84,12 @@ export function RegisterOrganisation() {
             className="rounded-md p-2"
             {...register('email')}
           />
-          <p>{errors.email?.message}</p>
+          <ErrorMessage
+            as="p"
+            errors={errors}
+            name="email"
+            render={(e) => <p>{e.message}</p>}
+          />
         </div>
         <div className="flex flex-col ">
           <label htmlFor="" className="header-3">
