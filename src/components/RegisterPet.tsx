@@ -121,8 +121,8 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                       value: parsedEnumKey,
                     }
                   })}
-                  //   inputValue={value.value}
-                  onChange={onChange}
+                  //   value={}
+                  onChange={(val) => onChange(val?.value)}
                 />
               )}
             />
@@ -147,7 +147,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                       value: parsedEnumKey,
                     }
                   })}
-                  onChange={onChange}
+                  onChange={(val) => onChange(val?.value)}
                 />
               )}
             />
@@ -207,7 +207,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                       value: parsedEnumKey,
                     }
                   })}
-                  onChange={onChange}
+                  onChange={(val) => onChange(val?.value)}
                 />
               )}
             />
@@ -233,7 +233,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                     value: parsedEnumKey,
                   }
                 })}
-                onChange={onChange}
+                onChange={(val) => onChange(val?.value)}
               />
             )}
           />

@@ -20,6 +20,26 @@ interface Props {
   setIsModalOpen: (value: boolean) => void
 }
 
+const petTypeOptions = () => {
+  return Object.keys(PetType).map((enumKey) => {
+    const parsedEnumKey = enumKey as PetType
+    return {
+      label: getPetTypeLabel(parsedEnumKey),
+      value: parsedEnumKey,
+    }
+  })
+}
+
+const petGenderOptions = () => {
+  return Object.keys(PetGender).map((enumKey) => {
+    const parsedEnumKey = enumKey as PetGender
+    return {
+      label: getPetGenderLabel(parsedEnumKey),
+      value: parsedEnumKey,
+    }
+  })
+}
+
 export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
   const {
     handleSubmit,
@@ -104,19 +124,16 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
             <Controller
               name="pet_type"
               control={control}
-              render={({ field }) => (
+              render={({ field: { value, onChange } }) => (
                 <Select
                   isClearable
                   isMulti={false}
                   styles={customStyles}
-                  {...field}
-                  options={Object.keys(PetType).map((enumKey) => {
-                    const parsedEnumKey = enumKey as PetType
-                    return {
-                      label: getPetTypeLabel(parsedEnumKey),
-                      value: parsedEnumKey,
-                    }
-                  })}
+                  options={petTypeOptions()}
+                  value={petTypeOptions().find(
+                    (op) => op.value === value?.value,
+                  )}
+                  onChange={(val) => onChange(val?.value)}
                 />
               )}
             />
@@ -127,19 +144,16 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
             <Controller
               name="sex"
               control={control}
-              render={({ field }) => (
+              render={({ field: { value, onChange } }) => (
                 <Select
                   isClearable
                   isMulti={false}
                   styles={customStyles}
-                  {...field}
-                  options={Object.keys(PetGender).map((enumKey) => {
-                    const parsedEnumKey = enumKey as PetGender
-                    return {
-                      label: getPetGenderLabel(parsedEnumKey),
-                      value: parsedEnumKey,
-                    }
-                  })}
+                  value={petGenderOptions().find(
+                    (op) => op.value === value?.value,
+                  )}
+                  onChange={(val) => onChange(val?.value)}
+                  options={petGenderOptions()}
                 />
               )}
             />
