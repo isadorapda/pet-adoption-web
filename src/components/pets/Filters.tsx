@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { UseFormHandleSubmit } from 'react-hook-form'
 import { GrClose as IconClose } from 'react-icons/gr'
 import { AGE_RANGES } from '../../constants/filters'
-import { SearchPetFormData } from './zodTypesSearchPet'
+import { SearchPetFormData } from '../../@types/zodTypesSearchPet'
 import {
   MayLiveWith,
   PetSize,

@@ -6,7 +6,7 @@ import usePetsContext from '../hooks/usePetsContext'
 import { PetCard } from '../components/Pets/PetCard'
 import { RegisterPet } from '../components/Pets/RegisterPet'
 import { Organisation, Pet } from '../@types/models'
-import { SortPetsSelect } from '../components/SortPets/SortPetsOrgProfile'
+import { SortPetsSelect } from '../components/Pets/SortPetsOrgProfile'
 import { PetType } from '../utils/petFilters'
 import { NoPetsRegistered } from '../components/Organisations/NoPetsRegistered'
 

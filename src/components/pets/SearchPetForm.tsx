@@ -13,7 +13,10 @@ import {
 } from '../../utils/petFilters'
 import { customStyles } from '../../styles/selectStyles'
 import { Response } from '../../context/petsContext'
-import { SearchPetFormData, searchPetSchema } from './zodTypesSearchPet'
+import {
+  SearchPetFormData,
+  searchPetSchema,
+} from '../../@types/zodTypesSearchPet'
 
 interface Props {
   setLoading: (value: boolean) => void

@@ -19,8 +19,8 @@ import {
   getPetGenderLabel,
   getPetSizeLabel,
 } from '../utils/petFilters'
-import { registerPet, UpdatePetFormData } from '../components/Pets/zodTypes'
-import { AlertModal } from '../components/AlertMessage/AlertModal'
+import { registerPet, UpdatePetFormData } from '../@types/zodTypesRegisterPet'
+import { AlertModal } from '../components/AlertModal'
 import { NavigateBack } from '../components/NavigateBack'
 import dayjs from 'dayjs'
 

@@ -4,8 +4,11 @@ import axios from 'axios'
 import { api } from '../../lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ErrorMessage } from '@hookform/error-message'
-import { AlertModal } from '../AlertMessage/AlertModal'
-import { RegisterOrgData, registerOrgBodySchema } from './zodTypes'
+import { AlertModal } from '../AlertModal'
+import {
+  RegisterOrgData,
+  registerOrgBodySchema,
+} from '../../@types/zodTypesRegisterOrganisation'
 
 const SUCCESS_MESSAGE = {
   title: 'Success!',

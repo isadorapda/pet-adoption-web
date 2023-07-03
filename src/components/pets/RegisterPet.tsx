@@ -16,8 +16,11 @@ import {
 import { api } from '../../lib/axios'
 import usePetsContext from '../../hooks/usePetsContext'
 import { customStyles } from '../../styles/selectStyles'
-import { RegisterPetFormData, registerPet } from './zodTypes'
-import { RegisteredAlertModal } from '../../components/AlertMessage/RegisteredAlert'
+import {
+  RegisterPetFormData,
+  registerPet,
+} from '../../@types/zodTypesRegisterPet'
+import { RegisteredAlertModal } from '../RegisteredAlert'
 
 interface Props {
   orgId: string

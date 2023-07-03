@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { api } from '../../lib/axios'
 import { AdoptionPets, Response } from '../../pages/OrganisationProfile'
 import Select from 'react-select'
-import { options } from './optionsSelect'
+import { options } from '../../constants/optionsSelect'
 import { PetType } from '../../utils/petFilters'
 import { SortPets } from '../../@types/models'
 
