@@ -12,15 +12,12 @@ import {
   getPetGenderLabel,
   getPetSizeLabel,
   getPetTypeLabel,
-} from '../../utils/petFilters'
-import { api } from '../../lib/axios'
-import usePetsContext from '../../hooks/usePetsContext'
-import { customStyles } from '../../styles/selectStyles'
-import {
-  RegisterPetFormData,
-  registerPet,
-} from '../../@types/zodTypesRegisterPet'
-import { RegisteredAlertModal } from '../RegisteredAlert'
+} from '../utils/petFilters'
+import { api } from '../lib/axios'
+import usePetsContext from '../hooks/usePetsContext'
+import { customStyles } from '../styles/selectStyles'
+import { RegisterPetFormData, registerPet } from '../@types/zodTypesRegisterPet'
+import { RegisteredAlertModal } from './RegisteredAlert'
 
 interface Props {
   orgId: string

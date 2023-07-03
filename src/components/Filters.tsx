@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react'
 import { UseFormHandleSubmit } from 'react-hook-form'
 import { GrClose as IconClose } from 'react-icons/gr'
-import { AGE_RANGES } from '../../constants/filters'
-import { SearchPetFormData } from '../../@types/zodTypesSearchPet'
+import { SearchPetFormData } from '../@types/zodTypesSearchPet'
 import {
   MayLiveWith,
   PetSize,
   getMayLiveWithLabel,
   getPetSizeLabel,
-} from '../../utils/petFilters'
+} from '../utils/petFilters'
 import { SelectBreed } from './SelectBreed'
+import { AGE_RANGES } from '../constants/filters'
 
 interface Props {
   setIsMenuOpen: (isOpen: boolean) => void

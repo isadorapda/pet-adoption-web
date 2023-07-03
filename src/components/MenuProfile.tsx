@@ -3,7 +3,7 @@ import {
   MdOutlineModeEdit as IconEdit,
 } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
-import usePetsContext from '../../hooks/usePetsContext'
+import usePetsContext from '../hooks/usePetsContext'
 
 interface Props {
   setIsMenuOpen: (value: boolean) => void

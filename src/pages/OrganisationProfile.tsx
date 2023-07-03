@@ -3,12 +3,12 @@ import { BiSortAlt2 as IconSort } from 'react-icons/bi'
 import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
 import { api } from '../lib/axios'
 import usePetsContext from '../hooks/usePetsContext'
-import { PetCard } from '../components/Pets/PetCard'
-import { RegisterPet } from '../components/Pets/RegisterPet'
+import { PetCard } from '../components/PetCard'
+import { RegisterPet } from '../components/RegisterPet'
 import { Organisation, Pet } from '../@types/models'
-import { SortPetsSelect } from '../components/Pets/SortPetsOrgProfile'
+import { SortPetsSelect } from '../components/SortPetsOrgProfile'
 import { PetType } from '../utils/petFilters'
-import { NoPetsRegistered } from '../components/Organisations/NoPetsRegistered'
+import { NoPetsRegistered } from '../components/NoPetsRegistered'
 
 export interface AdoptionPets {
   toDonate: Array<Pet>

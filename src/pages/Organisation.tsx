@@ -1,5 +1,5 @@
-import { LoginOrganisation } from '../components/Organisations/LoginOrg'
-import { RegisterOrganisation } from '../components/Organisations/RegisterOrg'
+import { LoginOrganisation } from '../components/LoginOrg'
+import { RegisterOrganisation } from '../components/RegisterOrg'
 
 export function Organisation() {
   return (

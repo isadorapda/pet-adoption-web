@@ -1,14 +1,14 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import axios from 'axios'
-import { api } from '../../lib/axios'
+import { api } from '../lib/axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { ErrorMessage } from '@hookform/error-message'
-import { AlertModal } from '../AlertModal'
+import { AlertModal } from './AlertModal'
 import {
   RegisterOrgData,
   registerOrgBodySchema,
-} from '../../@types/zodTypesRegisterOrganisation'
+} from '../@types/zodTypesRegisterOrganisation'
 
 const SUCCESS_MESSAGE = {
   title: 'Success!',

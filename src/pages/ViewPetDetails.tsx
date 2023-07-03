@@ -5,7 +5,7 @@ import { GrLocation as IconLocation } from 'react-icons/gr'
 import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
 import { Organisation, Pet } from '../@types/models'
 import usePetsContext from '../hooks/usePetsContext'
-import { EnquireAboutPet } from '../components/Pets/EnquireAboutPet'
+import { EnquireAboutPet } from '../components/EnquireAboutPet'
 import { NavigateBack } from '../components/NavigateBack'
 
 interface PetResponse {
