@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { BiSortAlt2 as IconSort } from 'react-icons/bi'
 import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
-import { api } from '@/lib/axios'
-import usePetsContext from '@/hooks/usePetsContext'
+import { api } from '../lib/axios'
+import usePetsContext from '../hooks/usePetsContext'
 import { PetCard } from '../components/Pets/PetCard'
 import { RegisterPet } from '../components/Pets/RegisterPet'
-import { Organisation, Pet } from '@/@types/models'
-import { SortPetsSelect } from '@/components/SortPets/SortPetsOrgProfile'
-import { PetType } from '@/utils/petFilters'
-import { NoPetsRegistered } from '@/components/Organisations/NoPetsRegistered'
+import { Organisation, Pet } from '../@types/models'
+import { SortPetsSelect } from '../components/SortPets/SortPetsOrgProfile'
+import { PetType } from '../utils/petFilters'
+import { NoPetsRegistered } from '../components/Organisations/NoPetsRegistered'
 
 export interface AdoptionPets {
   toDonate: Array<Pet>

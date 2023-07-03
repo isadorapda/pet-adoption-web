@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { api } from '@/lib/axios'
-import { AdoptionPets, Response } from '@/pages/OrganisationProfile'
+import { api } from '../../lib/axios'
+import { AdoptionPets, Response } from '../../pages/OrganisationProfile'
 import Select from 'react-select'
 import { options } from './optionsSelect'
-import { PetType } from '@/utils/petFilters'
-import { SortPets } from '@/@types/models'
+import { PetType } from '../../utils/petFilters'
+import { SortPets } from '../../@types/models'
 
 interface SortPetsProps {
   orgId: string

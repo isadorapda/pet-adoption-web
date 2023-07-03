@@ -4,15 +4,15 @@ import { ErrorMessage } from '@hookform/error-message'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
-import { api } from '@/lib/axios'
-import { AlertMessage } from '@/@types/models'
-import { AlertModal } from '@/components/AlertMessage/AlertModal'
+import { api } from '../lib/axios'
+import { AlertMessage } from '../@types/models'
+import { AlertModal } from '../components/AlertMessage/AlertModal'
 import {
   EditOrgData,
   registerOrgBodySchema,
-} from '@/components/Organisations/zodTypes'
-import usePetsContext from '@/hooks/usePetsContext'
-import { NavigateBack } from '@/components/NavigateBack'
+} from '../components/Organisations/zodTypes'
+import usePetsContext from '../hooks/usePetsContext'
+import { NavigateBack } from '../components/NavigateBack'
 
 const SUCCESS_MESSAGE: AlertMessage = {
   title: '',

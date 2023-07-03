@@ -1,6 +1,6 @@
-import { api } from '@/lib/axios'
 import { useState } from 'react'
 import AsyncSelect from 'react-select/async'
+import { api } from '../../lib/axios'
 
 interface BreedProps {
   breeds: Array<string>

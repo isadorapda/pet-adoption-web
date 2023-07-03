@@ -1,10 +1,9 @@
-import { Organisation, Pet } from '@/@types/models'
 import { MdWhatsapp as IconWhatsApp } from 'react-icons/md'
-
+import { Organisation, Pet } from '../../@types/models'
 import {
   WHATSAPP_BASE_URL,
   getPreFilledMessage,
-} from '@/constants/contactWhatsApp'
+} from '../../constants/contactWhatsApp'
 
 interface Props {
   pet: Pet

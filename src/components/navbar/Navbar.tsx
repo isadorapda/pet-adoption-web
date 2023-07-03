@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, NavLink, useLocation } from 'react-router-dom'
 import { CgProfile as IconProfile } from 'react-icons/cg'
-import Logo from '@/assets/rehome.png'
+import Logo from '../../assets/rehome.png'
 import { MenuProfileOptions } from './MenuProfile'
 
 export function Navbar() {

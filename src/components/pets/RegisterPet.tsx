@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Select from 'react-select'
-import { api } from '@/lib/axios'
 import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { GrClose as IconClose } from 'react-icons/gr'
 import {
   MayLiveWith,
@@ -12,12 +12,12 @@ import {
   getPetGenderLabel,
   getPetSizeLabel,
   getPetTypeLabel,
-} from '@/utils/petFilters'
-import { zodResolver } from '@hookform/resolvers/zod'
-import usePetsContext from '@/hooks/usePetsContext'
-import { customStyles } from '@/styles/selectStyles'
+} from '../../utils/petFilters'
+import { api } from '../../lib/axios'
+import usePetsContext from '../../hooks/usePetsContext'
+import { customStyles } from '../../styles/selectStyles'
 import { RegisterPetFormData, registerPet } from './zodTypes'
-import { RegisteredAlertModal } from '@/components/AlertMessage/RegisteredAlert'
+import { RegisteredAlertModal } from '../../components/AlertMessage/RegisteredAlert'
 
 interface Props {
   orgId: string

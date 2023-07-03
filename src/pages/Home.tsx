@@ -5,9 +5,9 @@ import Pets from '../assets/pets.png'
 import { PetCard } from '../components/Pets/PetCard'
 import usePetsContext from '../hooks/usePetsContext'
 import { Pagination } from '../components/Pagination/Pagination'
-import { Loader } from '@/components/Loader/Loader'
-import { AlertModal } from '@/components/AlertMessage/AlertModal'
-import { SortPetsHomepageSelect } from '@/components/SortPets/SortPetsHomepage'
+import { Loader } from '../components/Loader/Loader'
+import { AlertModal } from '../components/AlertMessage/AlertModal'
+import { SortPetsHomepageSelect } from '../components/SortPets/SortPetsHomepage'
 
 const EMPTY_RESULTS_MESSAGE = {
   title: 'Sorry',

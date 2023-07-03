@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react'
-import { api } from '@/lib/axios'
+import { api } from '../lib/axios'
 import { useParams } from 'react-router-dom'
 import { GrLocation as IconLocation } from 'react-icons/gr'
 import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
-import { Organisation, Pet } from '@/@types/models'
-import usePetsContext from '@/hooks/usePetsContext'
-import { EnquireAboutPet } from '@/components/PetDetails/EnquireAboutPet'
-import { NavigateBack } from '@/components/NavigateBack'
+import { Organisation, Pet } from '../@types/models'
+import usePetsContext from '../hooks/usePetsContext'
+import { EnquireAboutPet } from '../components/PetDetails/EnquireAboutPet'
+import { NavigateBack } from '../components/NavigateBack'
 
 interface PetResponse {
   pet: Pet

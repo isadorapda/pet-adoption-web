@@ -2,10 +2,10 @@ import {
   IoMdArrowDropright as IconNext,
   IoMdArrowDropleft as IconPrevious,
 } from 'react-icons/io'
-import { Limit } from '@/context/petsContext'
+import { Limit } from '../../context/petsContext'
 import Select from 'react-select'
-import usePetsContext from '@/hooks/usePetsContext'
-import { customStyles, Option } from '@/styles/selectStyles'
+import usePetsContext from '../../hooks/usePetsContext'
+import { customStyles, Option } from '../../styles/selectStyles'
 
 export function Pagination() {
   const { pageData, setPage, totalPages, setInternalLimit } = usePetsContext()

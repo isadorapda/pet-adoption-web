@@ -1,18 +1,18 @@
-import { useForm, Controller } from 'react-hook-form'
-import Select from 'react-select'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { api } from '@/lib/axios'
-import { Filters } from './Filters'
-import usePetsContext from '@/hooks/usePetsContext'
 import { useEffect, useState } from 'react'
+import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import Select from 'react-select'
+import { api } from '../../lib/axios'
+import { Filters } from './Filters'
+import usePetsContext from '../../hooks/usePetsContext'
 import {
   PetGender,
   PetType,
   getPetGenderLabel,
   getPetTypeLabel,
-} from '@/utils/petFilters'
-import { customStyles } from '@/styles/selectStyles'
-import { Response } from '@/context/petsContext'
+} from '../../utils/petFilters'
+import { customStyles } from '../../styles/selectStyles'
+import { Response } from '../../context/petsContext'
 import { SearchPetFormData, searchPetSchema } from './zodTypesSearchPet'
 
 interface Props {
