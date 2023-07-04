@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
-import { api } from '@/lib/axios'
+import { api } from '../lib/axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Select from 'react-select'
 import { MdOutlineModeEdit as IconEdit } from 'react-icons/md'
 import { AiFillDelete as IconDelete } from 'react-icons/ai'
 import { GrLocation as IconLocation } from 'react-icons/gr'
-import { AlertMessage, Organisation, Pet } from '@/@types/models'
-import usePetsContext from '@/hooks/usePetsContext'
-import { customStyles } from '@/styles/selectStyles'
+import { AlertMessage, Organisation, Pet } from '../@types/models'
+import usePetsContext from '../hooks/usePetsContext'
+import { customStyles } from '../styles/selectStyles'
 import {
   MayLiveWith,
   PetGender,
@@ -17,10 +18,10 @@ import {
   getMayLiveWithLabel,
   getPetGenderLabel,
   getPetSizeLabel,
-} from '@/utils/petFilters'
-import { registerPet, UpdatePetFormData } from '@/components/Pets/zodTypes'
-import { AlertModal } from '@/components/AlertMessage/AlertModal'
-import { NavigateBack } from '@/components/NavigateBack'
+} from '../utils/petFilters'
+import { registerPet, UpdatePetFormData } from '../@types/zodTypesRegisterPet'
+import { AlertModal } from '../components/AlertModal'
+import { NavigateBack } from '../components/NavigateBack'
 import dayjs from 'dayjs'
 
 interface PetResponse {
@@ -188,7 +189,12 @@ export function EditPetDetails() {
                     defaultValue={pet.name}
                     {...register('name')}
                   />
-                  <p>{errors.name?.message}</p>
+                  <ErrorMessage
+                    as="p"
+                    errors={errors}
+                    name="name"
+                    render={(e) => <p>{e.message}</p>}
+                  />
                 </>
               ) : (
                 <h1 className="text-5xl font-bold capitalize">{pet.name}</h1>
@@ -245,7 +251,12 @@ export function EditPetDetails() {
                         defaultValue={pet.age ?? ''}
                         {...register('age')}
                       />
-                      <p>{errors.age?.message}</p>
+                      <ErrorMessage
+                        as="p"
+                        errors={errors}
+                        name="age"
+                        render={(e) => <p>{e.message}</p>}
+                      />
                     </>
                   ) : (
                     <p>{pet.age}</p>

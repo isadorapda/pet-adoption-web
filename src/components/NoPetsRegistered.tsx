@@ -1,4 +1,4 @@
-import Paw from '../../assets/paw.webp'
+import Paw from '../assets/paw.webp'
 
 interface Props {
   message: string

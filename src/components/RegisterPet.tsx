@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Select from 'react-select'
-import { api } from '@/lib/axios'
 import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { GrClose as IconClose } from 'react-icons/gr'
 import {
   MayLiveWith,
@@ -12,12 +12,12 @@ import {
   getPetGenderLabel,
   getPetSizeLabel,
   getPetTypeLabel,
-} from '@/utils/petFilters'
-import { zodResolver } from '@hookform/resolvers/zod'
-import usePetsContext from '@/hooks/usePetsContext'
-import { customStyles } from '@/styles/selectStyles'
-import { RegisterPetFormData, registerPet } from './zodTypes'
-import { RegisteredAlertModal } from '../AlertMessage/RegisteredAlert'
+} from '../utils/petFilters'
+import { api } from '../lib/axios'
+import usePetsContext from '../hooks/usePetsContext'
+import { customStyles } from '../styles/selectStyles'
+import { RegisterPetFormData, registerPet } from '../@types/zodTypesRegisterPet'
+import { RegisteredAlertModal } from './RegisteredAlert'
 
 interface Props {
   orgId: string
@@ -44,6 +44,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
   })
 
   async function handleRegisterPet(data: RegisterPetFormData) {
+    console.log('DATA', data)
     try {
       const resp = await api.post(
         `/organisations/${orgId}/pets`,
@@ -67,6 +68,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
       setPets([...pets, resp.data.pet])
       reset()
       setIsModalOpen(true)
+      console.log('PET', data.pet_type)
     } catch (error) {}
   }
 

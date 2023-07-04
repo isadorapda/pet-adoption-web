@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
-import { api } from '@/lib/axios'
-import { AlertMessage } from '@/@types/models'
-import { AlertModal } from '@/components/AlertMessage/AlertModal'
+import { api } from '../lib/axios'
+import { AlertMessage } from '../@types/models'
+import { AlertModal } from '../components/AlertModal'
 import {
   EditOrgData,
   registerOrgBodySchema,
-} from '@/components/Organisations/zodTypes'
-import usePetsContext from '@/hooks/usePetsContext'
-import { NavigateBack } from '@/components/NavigateBack'
+} from '../@types/zodTypesRegisterOrganisation'
+import usePetsContext from '../hooks/usePetsContext'
+import { NavigateBack } from '../components/NavigateBack'
 
 const SUCCESS_MESSAGE: AlertMessage = {
   title: '',
@@ -109,7 +110,12 @@ export function EditOrganisationProfile() {
               defaultValue={currentOrganisation.name}
               {...register('name')}
             />
-            <p>{errors.name?.message}</p>
+            <ErrorMessage
+              as="p"
+              errors={errors}
+              name="name"
+              render={(e) => <p>{e.message}</p>}
+            />
           </div>
           <div className="flex flex-col md:flex-row justify-between w-full gap-6 md:gap-5">
             <div className="flex flex-col w-full">
@@ -122,7 +128,12 @@ export function EditOrganisationProfile() {
                 className="rounded-md p-2 border border-gray-400"
                 {...register('email')}
               />
-              <p>{errors.email?.message}</p>
+              <ErrorMessage
+                as="p"
+                errors={errors}
+                name="email"
+                render={(e) => <p>{e.message}</p>}
+              />
             </div>
             <div className="flex flex-col w-full">
               <label htmlFor="" className="header-3 ">
@@ -134,7 +145,12 @@ export function EditOrganisationProfile() {
                 className="rounded-md p-2 border border-gray-400"
                 {...register('mobile')}
               />
-              <p>{errors.mobile?.message}</p>
+              <ErrorMessage
+                as="p"
+                errors={errors}
+                name="mobile"
+                render={(e) => <p>{e.message}</p>}
+              />
             </div>
           </div>
           <div className="flex flex-col lg:flex-row justify-between w-full gap-6 md:gap-5">
@@ -159,7 +175,12 @@ export function EditOrganisationProfile() {
                 className="rounded-md p-2 border border-gray-400"
                 {...register('city')}
               />
-              <p>{errors.city?.message}</p>
+              <ErrorMessage
+                as="p"
+                errors={errors}
+                name="city"
+                render={(e) => <p>{e.message}</p>}
+              />
             </div>
             <div className="flex flex-col w-full">
               <label htmlFor="" className="header-3">

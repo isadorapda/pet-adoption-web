@@ -1,4 +1,4 @@
-import Logo from '@/assets/paw.webp'
+import Logo from '../assets/paw.webp'
 
 export function Loader() {
   return (

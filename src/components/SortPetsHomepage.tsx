@@ -1,6 +1,6 @@
 import Select from 'react-select'
-import { options } from './optionsSelect'
-import usePetsContext from '@/hooks/usePetsContext'
+import { options } from '../constants/optionsSelect'
+import usePetsContext from '../hooks/usePetsContext'
 
 export function SortPetsHomepageSelect() {
   const { setSortPets } = usePetsContext()

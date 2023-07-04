@@ -1,9 +1,13 @@
 import { z } from 'zod'
 
 export const registerOrgBodySchema = z.object({
-  name: z.string({
-    required_error: "Please, inform your organisation's name.",
-  }),
+  name: z
+    .string({
+      required_error: "Please, inform your organisation's name.",
+    })
+    .min(1, {
+      message: 'Name is required',
+    }),
   email: z.string().email({
     message: 'Email is required.',
   }),
