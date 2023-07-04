@@ -124,16 +124,13 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
             <Controller
               name="pet_type"
               control={control}
-              render={({ field: { value, onChange } }) => (
+              render={({ field }) => (
                 <Select
+                  {...field}
                   isClearable
                   isMulti={false}
                   styles={customStyles}
                   options={petTypeOptions()}
-                  value={petTypeOptions().find(
-                    (op) => op.value === value?.value,
-                  )}
-                  onChange={(val) => onChange(val?.value)}
                 />
               )}
             />
@@ -144,15 +141,12 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
             <Controller
               name="sex"
               control={control}
-              render={({ field: { value, onChange } }) => (
+              render={({ field }) => (
                 <Select
+                  {...field}
                   isClearable
                   isMulti={false}
                   styles={customStyles}
-                  value={petGenderOptions().find(
-                    (op) => op.value === value?.value,
-                  )}
-                  onChange={(val) => onChange(val?.value)}
                   options={petGenderOptions()}
                 />
               )}

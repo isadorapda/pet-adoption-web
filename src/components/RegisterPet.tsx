@@ -108,12 +108,12 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
             <Controller
               name="pet_type"
               control={control}
-              render={({ field: { value, onChange } }) => (
+              render={({ field }) => (
                 <Select
                   isClearable
                   isMulti={false}
                   styles={customStyles}
-                  //   {...field}
+                  {...field}
                   options={Object.keys(PetType).map((enumKey) => {
                     const parsedEnumKey = enumKey as PetType
                     return {
@@ -121,8 +121,6 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                       value: parsedEnumKey,
                     }
                   })}
-                  //   value={}
-                  onChange={(val) => onChange(val?.value)}
                 />
               )}
             />
@@ -134,12 +132,12 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
             <Controller
               name="sex"
               control={control}
-              render={({ field: { value, onChange } }) => (
+              render={({ field }) => (
                 <Select
                   isClearable
                   isMulti={false}
                   styles={customStyles}
-                  //   {...field}
+                  {...field}
                   options={Object.keys(PetGender).map((enumKey) => {
                     const parsedEnumKey = enumKey as PetGender
                     return {
@@ -147,7 +145,6 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                       value: parsedEnumKey,
                     }
                   })}
-                  onChange={(val) => onChange(val?.value)}
                 />
               )}
             />
@@ -194,9 +191,9 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
             <Controller
               name="size"
               control={control}
-              render={({ field: { value, onChange } }) => (
+              render={({ field }) => (
                 <Select
-                  //   {...field}
+                  {...field}
                   isClearable
                   isMulti={false}
                   styles={customStyles}
@@ -207,7 +204,6 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                       value: parsedEnumKey,
                     }
                   })}
-                  onChange={(val) => onChange(val?.value)}
                 />
               )}
             />
@@ -220,9 +216,9 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
           <Controller
             name="may_live_with"
             control={control}
-            render={({ field: { value, onChange } }) => (
+            render={({ field }) => (
               <Select
-                // {...field}
+                {...field}
                 isClearable
                 isMulti={false}
                 styles={customStyles}
@@ -233,7 +229,6 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                     value: parsedEnumKey,
                   }
                 })}
-                onChange={(val) => onChange(val?.value)}
               />
             )}
           />
