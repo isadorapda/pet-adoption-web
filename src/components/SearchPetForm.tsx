@@ -7,8 +7,8 @@ import usePetsContext from '../hooks/usePetsContext'
 import {
   PetGender,
   PetType,
-  getPetGenderLabel,
-  getPetTypeLabel,
+  //   getPetGenderLabel,
+  //   getPetTypeLabel,
 } from '../utils/petFilters'
 import { customStyles } from '../styles/selectStyles'
 import { Response } from '../context/petsContext'
@@ -20,25 +20,25 @@ interface Props {
   setIsModalOpen: (value: boolean) => void
 }
 
-const petTypeOptions = () => {
-  return Object.keys(PetType).map((enumKey) => {
-    const parsedEnumKey = enumKey as PetType
-    return {
-      label: getPetTypeLabel(parsedEnumKey),
-      value: parsedEnumKey,
-    }
-  })
-}
+// const petTypeOptions = () => {
+//   return Object.keys(PetType).map((enumKey) => {
+//     const parsedEnumKey = enumKey as PetType
+//     return {
+//       label: getPetTypeLabel(parsedEnumKey),
+//       value: parsedEnumKey,
+//     }
+//   })
+// }
 
-const petGenderOptions = () => {
-  return Object.keys(PetGender).map((enumKey) => {
-    const parsedEnumKey = enumKey as PetGender
-    return {
-      label: getPetGenderLabel(parsedEnumKey),
-      value: parsedEnumKey,
-    }
-  })
-}
+// const petGenderOptions = () => {
+//   return Object.keys(PetGender).map((enumKey) => {
+//     const parsedEnumKey = enumKey as PetGender
+//     return {
+//       label: getPetGenderLabel(parsedEnumKey),
+//       value: parsedEnumKey,
+//     }
+//   })
+// }
 
 export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
   const {
@@ -130,7 +130,7 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
                   isClearable
                   isMulti={false}
                   styles={customStyles}
-                  options={petTypeOptions()}
+                  options={PetType}
                 />
               )}
             />
@@ -147,7 +147,7 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
                   isClearable
                   isMulti={false}
                   styles={customStyles}
-                  options={petGenderOptions()}
+                  options={PetGender}
                 />
               )}
             />

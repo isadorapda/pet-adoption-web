@@ -28,7 +28,7 @@ export function OrganisationProfile() {
     toDonate: [],
   })
   const [showPets, setShowPets] = useState<'donated' | 'to-donate'>('to-donate')
-  const [filterPetType, setFilterPetType] = useState<PetType | undefined>(
+  const [filterPetType, setFilterPetType] = useState<string | undefined>(
     undefined,
   )
   const [data, setData] = useState<{ data: Pet }>()
@@ -121,22 +121,22 @@ export function OrganisationProfile() {
                 <IconCat
                   title="Show all cats"
                   className={`cursor-pointer ${
-                    filterPetType === PetType.CAT ? 'stroke-main-red ' : ''
+                    filterPetType === 'CAT' ? 'stroke-main-red ' : ''
                   }`}
                   onClick={() =>
                     setFilterPetType(
-                      filterPetType !== PetType.CAT ? PetType.CAT : undefined,
+                      filterPetType !== 'CAT' ? 'CAT' : undefined,
                     )
                   }
                 />
                 <IconDog
                   title="Show all dogs"
                   className={`cursor-pointer ${
-                    filterPetType === PetType.DOG ? 'stroke-main-red' : ''
+                    filterPetType === 'DOG' ? 'stroke-main-red' : ''
                   }`}
                   onClick={() =>
                     setFilterPetType(
-                      filterPetType !== PetType.DOG ? PetType.DOG : undefined,
+                      filterPetType !== 'DOG' ? 'DOG' : undefined,
                     )
                   }
                 />

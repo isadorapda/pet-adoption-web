@@ -9,7 +9,7 @@ import { SortPets } from '../@types/models'
 interface SortPetsProps {
   orgId: string
   setIsAdopted: (values: AdoptionPets) => void
-  filterPetType: PetType | undefined
+  filterPetType: string | undefined
 }
 
 export function SortPetsSelect({

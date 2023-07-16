@@ -14,10 +14,10 @@ import { customStyles } from '../styles/selectStyles'
 import {
   MayLiveWith,
   PetGender,
+  //   PetSize,
   PetSize,
-  getMayLiveWithLabel,
-  getPetGenderLabel,
-  getPetSizeLabel,
+  //   getPetGenderLabel,
+  //   getPetSizeLabel,
 } from '../utils/petFilters'
 import { registerPet, UpdatePetFormData } from '../@types/zodTypesRegisterPet'
 import { AlertModal } from '../components/AlertModal'
@@ -75,6 +75,7 @@ export function EditPetDetails() {
   }, [params.orgId, params.petId, pets])
 
   async function handleEditPet(data: UpdatePetFormData) {
+    console.log('DATA', data)
     setIsDelete(false)
     try {
       const resp = await api.patch<any>(
@@ -96,6 +97,7 @@ export function EditPetDetails() {
       SUCCESS_MESAGE.content = 'Your changes were saved.'
       setIsModalOpen(true)
       setPet(resp.data.pet)
+      console.log('PET', resp.data.pet)
     } catch (error) {
     } finally {
       setEdit(false)
@@ -223,13 +225,7 @@ export function EditPetDetails() {
                           isMulti={false}
                           styles={customStyles}
                           {...field}
-                          options={Object.keys(PetGender).map((enumKey) => {
-                            const parsedEnumKey = enumKey as PetGender
-                            return {
-                              label: getPetGenderLabel(parsedEnumKey),
-                              value: parsedEnumKey,
-                            }
-                          })}
+                          options={PetGender}
                         />
                       )}
                     />
@@ -274,13 +270,7 @@ export function EditPetDetails() {
                           isClearable
                           isMulti={false}
                           styles={customStyles}
-                          options={Object.keys(PetSize).map((enumKey) => {
-                            const parsedEnumKey = enumKey as PetSize
-                            return {
-                              label: getPetSizeLabel(parsedEnumKey),
-                              value: parsedEnumKey,
-                            }
-                          })}
+                          options={PetSize}
                         />
                       )}
                     />
@@ -315,13 +305,7 @@ export function EditPetDetails() {
                           isClearable
                           isMulti={false}
                           styles={customStyles}
-                          options={Object.keys(MayLiveWith).map((enumKey) => {
-                            const parsedEnumKey = enumKey as MayLiveWith
-                            return {
-                              label: getMayLiveWithLabel(parsedEnumKey),
-                              value: parsedEnumKey,
-                            }
-                          })}
+                          options={MayLiveWith}
                         />
                       )}
                     />
