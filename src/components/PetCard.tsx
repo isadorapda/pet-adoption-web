@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
-import { Pet } from '@/@types/models'
-import DogExample from '@/assets/Dog.png'
 import dayjs from 'dayjs'
+import { Pet } from '../@types/models'
+import DogExample from '../assets/Dog.png'
 
 interface Props {
   pet: Pet

@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { BiSortAlt2 as IconSort } from 'react-icons/bi'
 import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
-import { api } from '@/lib/axios'
-import usePetsContext from '@/hooks/usePetsContext'
-import { PetCard } from '../components/Pets/PetCard'
-import { RegisterPet } from '../components/Pets/RegisterPet'
-import { Organisation, Pet } from '@/@types/models'
-import { SortPetsSelect } from '@/components/SortPets/SortPetsOrgProfile'
-import { PetType } from '@/utils/petFilters'
-import { NoPetsRegistered } from '@/components/Organisations/NoPetsRegistered'
+import { api } from '../lib/axios'
+import usePetsContext from '../hooks/usePetsContext'
+import { PetCard } from '../components/PetCard'
+import { RegisterPet } from '../components/RegisterPet'
+import { Organisation, Pet } from '../@types/models'
+import { SortPetsSelect } from '../components/SortPetsOrgProfile'
+import { PetType } from '../utils/petFilters'
+import { NoPetsRegistered } from '../components/NoPetsRegistered'
 
 export interface AdoptionPets {
   toDonate: Array<Pet>
@@ -28,7 +28,7 @@ export function OrganisationProfile() {
     toDonate: [],
   })
   const [showPets, setShowPets] = useState<'donated' | 'to-donate'>('to-donate')
-  const [filterPetType, setFilterPetType] = useState<PetType | undefined>(
+  const [filterPetType, setFilterPetType] = useState<string | undefined>(
     undefined,
   )
   const [data, setData] = useState<{ data: Pet }>()
@@ -121,22 +121,22 @@ export function OrganisationProfile() {
                 <IconCat
                   title="Show all cats"
                   className={`cursor-pointer ${
-                    filterPetType === PetType.CAT ? 'stroke-main-red ' : ''
+                    filterPetType === 'CAT' ? 'stroke-main-red ' : ''
                   }`}
                   onClick={() =>
                     setFilterPetType(
-                      filterPetType !== PetType.CAT ? PetType.CAT : undefined,
+                      filterPetType !== 'CAT' ? 'CAT' : undefined,
                     )
                   }
                 />
                 <IconDog
                   title="Show all dogs"
                   className={`cursor-pointer ${
-                    filterPetType === PetType.DOG ? 'stroke-main-red' : ''
+                    filterPetType === 'DOG' ? 'stroke-main-red' : ''
                   }`}
                   onClick={() =>
                     setFilterPetType(
-                      filterPetType !== PetType.DOG ? PetType.DOG : undefined,
+                      filterPetType !== 'DOG' ? 'DOG' : undefined,
                     )
                   }
                 />

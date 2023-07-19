@@ -1,23 +1,24 @@
 import { useState } from 'react'
 import Select from 'react-select'
-import { api } from '@/lib/axios'
 import { useForm, Controller } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { GrClose as IconClose } from 'react-icons/gr'
 import {
   MayLiveWith,
   PetGender,
+  //   PetSize,
   PetSize,
   PetType,
-  getMayLiveWithLabel,
-  getPetGenderLabel,
-  getPetSizeLabel,
-  getPetTypeLabel,
-} from '@/utils/petFilters'
-import { zodResolver } from '@hookform/resolvers/zod'
-import usePetsContext from '@/hooks/usePetsContext'
-import { customStyles } from '@/styles/selectStyles'
-import { RegisterPetFormData, registerPet } from './zodTypes'
-import { RegisteredAlertModal } from '../AlertMessage/RegisteredAlert'
+  //   getMayLiveWithLabel,
+  //   getPetGenderLabel,
+  //   getPetSizeLabel,
+  //   getPetTypeLabel,
+} from '../utils/petFilters'
+import { api } from '../lib/axios'
+import usePetsContext from '../hooks/usePetsContext'
+import { customStyles } from '../styles/selectStyles'
+import { RegisterPetFormData, registerPet } from '../@types/zodTypesRegisterPet'
+import { RegisteredAlertModal } from './RegisteredAlert'
 
 interface Props {
   orgId: string
@@ -44,6 +45,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
   })
 
   async function handleRegisterPet(data: RegisterPetFormData) {
+    console.log('DATA', data)
     try {
       const resp = await api.post(
         `/organisations/${orgId}/pets`,
@@ -67,6 +69,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
       setPets([...pets, resp.data.pet])
       reset()
       setIsModalOpen(true)
+      console.log('PET', data.pet_type)
     } catch (error) {}
   }
 
@@ -112,13 +115,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                   isMulti={false}
                   styles={customStyles}
                   {...field}
-                  options={Object.keys(PetType).map((enumKey) => {
-                    const parsedEnumKey = enumKey as PetType
-                    return {
-                      label: getPetTypeLabel(parsedEnumKey),
-                      value: parsedEnumKey,
-                    }
-                  })}
+                  options={PetType}
                 />
               )}
             />
@@ -136,13 +133,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                   isMulti={false}
                   styles={customStyles}
                   {...field}
-                  options={Object.keys(PetGender).map((enumKey) => {
-                    const parsedEnumKey = enumKey as PetGender
-                    return {
-                      label: getPetGenderLabel(parsedEnumKey),
-                      value: parsedEnumKey,
-                    }
-                  })}
+                  options={PetGender}
                 />
               )}
             />
@@ -195,13 +186,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                   isClearable
                   isMulti={false}
                   styles={customStyles}
-                  options={Object.keys(PetSize).map((enumKey) => {
-                    const parsedEnumKey = enumKey as PetSize
-                    return {
-                      label: getPetSizeLabel(parsedEnumKey),
-                      value: parsedEnumKey,
-                    }
-                  })}
+                  options={PetSize}
                 />
               )}
             />
@@ -220,13 +205,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
                 isClearable
                 isMulti={false}
                 styles={customStyles}
-                options={Object.keys(MayLiveWith).map((enumKey) => {
-                  const parsedEnumKey = enumKey as MayLiveWith
-                  return {
-                    label: getMayLiveWithLabel(parsedEnumKey),
-                    value: parsedEnumKey,
-                  }
-                })}
+                options={MayLiveWith}
               />
             )}
           />

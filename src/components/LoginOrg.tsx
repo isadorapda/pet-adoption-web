@@ -1,11 +1,11 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useNavigate } from 'react-router-dom'
+import { IoIosAlert as IconError } from 'react-icons/io'
 import { z } from 'zod'
 import axios from 'axios'
-import { api } from '@/lib/axios'
-import { IoIosAlert as IconError } from 'react-icons/io'
-import usePetsContext from '@/hooks/usePetsContext'
+import { api } from '../lib/axios'
+import usePetsContext from '../hooks/usePetsContext'
 
 const authOrgBodySchema = z.object({
   email: z.string().email(),

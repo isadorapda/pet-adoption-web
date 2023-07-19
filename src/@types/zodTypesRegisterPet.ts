@@ -1,4 +1,4 @@
-import { PetType, PetGender, PetSize, MayLiveWith } from '@/utils/petFilters'
+import { PetType, PetGender, PetSize, MayLiveWith } from '../utils/petFilters'
 import { z } from 'zod'
 
 export const registerPet = z.object({
@@ -11,17 +11,17 @@ export const registerPet = z.object({
     }),
   description: z.string().max(1000).optional(),
   pet_type: z.object({
-    value: z.nativeEnum(PetType),
+    value: z.string(),
     label: z.string(),
   }),
-  sex: z.object({ value: z.nativeEnum(PetGender), label: z.string() }),
+  sex: z.object({ value: z.string(), label: z.string() }),
   age: z.coerce.number().gt(0, {
     message: 'Please, informe age.',
   }),
-  size: z.object({ value: z.nativeEnum(PetSize), label: z.string() }),
+  size: z.object({ value: z.string(), label: z.string() }),
   breed: z.string().optional(),
   may_live_with: z.object({
-    value: z.nativeEnum(MayLiveWith),
+    value: z.string(),
     label: z.string(),
   }),
   ideal_home: z.string().max(500).optional(),

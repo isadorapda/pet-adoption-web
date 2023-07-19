@@ -1,26 +1,27 @@
 import { useEffect, useState } from 'react'
-import { api } from '@/lib/axios'
+import { api } from '../lib/axios'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
+import { ErrorMessage } from '@hookform/error-message'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Select from 'react-select'
 import { MdOutlineModeEdit as IconEdit } from 'react-icons/md'
 import { AiFillDelete as IconDelete } from 'react-icons/ai'
 import { GrLocation as IconLocation } from 'react-icons/gr'
-import { AlertMessage, Organisation, Pet } from '@/@types/models'
-import usePetsContext from '@/hooks/usePetsContext'
-import { customStyles } from '@/styles/selectStyles'
+import { AlertMessage, Organisation, Pet } from '../@types/models'
+import usePetsContext from '../hooks/usePetsContext'
+import { customStyles } from '../styles/selectStyles'
 import {
   MayLiveWith,
   PetGender,
+  //   PetSize,
   PetSize,
-  getMayLiveWithLabel,
-  getPetGenderLabel,
-  getPetSizeLabel,
-} from '@/utils/petFilters'
-import { registerPet, UpdatePetFormData } from '@/components/Pets/zodTypes'
-import { AlertModal } from '@/components/AlertMessage/AlertModal'
-import { NavigateBack } from '@/components/NavigateBack'
+  //   getPetGenderLabel,
+  //   getPetSizeLabel,
+} from '../utils/petFilters'
+import { registerPet, UpdatePetFormData } from '../@types/zodTypesRegisterPet'
+import { AlertModal } from '../components/AlertModal'
+import { NavigateBack } from '../components/NavigateBack'
 import dayjs from 'dayjs'
 
 interface PetResponse {
@@ -74,6 +75,7 @@ export function EditPetDetails() {
   }, [params.orgId, params.petId, pets])
 
   async function handleEditPet(data: UpdatePetFormData) {
+    console.log('DATA', data)
     setIsDelete(false)
     try {
       const resp = await api.patch<any>(
@@ -95,6 +97,7 @@ export function EditPetDetails() {
       SUCCESS_MESAGE.content = 'Your changes were saved.'
       setIsModalOpen(true)
       setPet(resp.data.pet)
+      console.log('PET', resp.data.pet)
     } catch (error) {
     } finally {
       setEdit(false)
@@ -188,7 +191,12 @@ export function EditPetDetails() {
                     defaultValue={pet.name}
                     {...register('name')}
                   />
-                  <p>{errors.name?.message}</p>
+                  <ErrorMessage
+                    as="p"
+                    errors={errors}
+                    name="name"
+                    render={(e) => <p>{e.message}</p>}
+                  />
                 </>
               ) : (
                 <h1 className="text-5xl font-bold capitalize">{pet.name}</h1>
@@ -217,13 +225,7 @@ export function EditPetDetails() {
                           isMulti={false}
                           styles={customStyles}
                           {...field}
-                          options={Object.keys(PetGender).map((enumKey) => {
-                            const parsedEnumKey = enumKey as PetGender
-                            return {
-                              label: getPetGenderLabel(parsedEnumKey),
-                              value: parsedEnumKey,
-                            }
-                          })}
+                          options={PetGender}
                         />
                       )}
                     />
@@ -245,7 +247,12 @@ export function EditPetDetails() {
                         defaultValue={pet.age ?? ''}
                         {...register('age')}
                       />
-                      <p>{errors.age?.message}</p>
+                      <ErrorMessage
+                        as="p"
+                        errors={errors}
+                        name="age"
+                        render={(e) => <p>{e.message}</p>}
+                      />
                     </>
                   ) : (
                     <p>{pet.age}</p>
@@ -263,13 +270,7 @@ export function EditPetDetails() {
                           isClearable
                           isMulti={false}
                           styles={customStyles}
-                          options={Object.keys(PetSize).map((enumKey) => {
-                            const parsedEnumKey = enumKey as PetSize
-                            return {
-                              label: getPetSizeLabel(parsedEnumKey),
-                              value: parsedEnumKey,
-                            }
-                          })}
+                          options={PetSize}
                         />
                       )}
                     />
@@ -304,13 +305,7 @@ export function EditPetDetails() {
                           isClearable
                           isMulti={false}
                           styles={customStyles}
-                          options={Object.keys(MayLiveWith).map((enumKey) => {
-                            const parsedEnumKey = enumKey as MayLiveWith
-                            return {
-                              label: getMayLiveWithLabel(parsedEnumKey),
-                              value: parsedEnumKey,
-                            }
-                          })}
+                          options={MayLiveWith}
                         />
                       )}
                     />

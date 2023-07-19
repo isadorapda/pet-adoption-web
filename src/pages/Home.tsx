@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react'
 import { BiSortAlt2 as IconSort } from 'react-icons/bi'
-import { SearchPetForm } from '../components/SearchPet/SearchPetForm'
+import { SearchPetForm } from '../components/SearchPetForm'
 import Pets from '../assets/pets.png'
-import { PetCard } from '../components/Pets/PetCard'
+import { PetCard } from '../components/PetCard'
 import usePetsContext from '../hooks/usePetsContext'
-import { Pagination } from '../components/Pagination/Pagination'
-import { Loader } from '@/components/Loader/Loader'
-import { AlertModal } from '@/components/AlertMessage/AlertModal'
-import { SortPetsHomepageSelect } from '@/components/SortPets/SortPetsHomepage'
+import { Pagination } from '../components/Pagination'
+import { Loader } from '../components/Loader'
+import { AlertModal } from '../components/AlertModal'
+import { SortPetsHomepageSelect } from '../components/SortPetsHomepage'
 
 const EMPTY_RESULTS_MESSAGE = {
   title: 'Sorry',

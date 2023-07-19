@@ -14,11 +14,13 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "baseUrl": "./",
-    "paths": {
-      "@/*": ["./src/*"]
-    } 
+    "jsx": "react-jsx"
+    // "sourceMap": true,
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@/*": ["src/*"],
+    //   "@/components/*": ["./src/components/*"]
+    // }
   },
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]

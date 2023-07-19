@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react'
 import { UseFormHandleSubmit } from 'react-hook-form'
 import { GrClose as IconClose } from 'react-icons/gr'
-import { AGE_RANGES } from '@/constants/filters'
-import { SearchPetFormData } from './zodTypesSearchPet'
+import { SearchPetFormData } from '../@types/zodTypesSearchPet'
 import {
   MayLiveWith,
+  //   PetSize,
   PetSize,
-  getMayLiveWithLabel,
-  getPetSizeLabel,
-} from '@/utils/petFilters'
+  //   getMayLiveWithLabel,
+  //   getPetSizeLabel,
+} from '../utils/petFilters'
 import { SelectBreed } from './SelectBreed'
+import { AGE_RANGES } from '../constants/filters'
 
 interface Props {
   setIsMenuOpen: (isOpen: boolean) => void
@@ -95,21 +96,20 @@ export function Filters({
               Size
             </label>
             <div id="pet-size-filter" className="grid-filters-search">
-              {Object.keys(PetSize).map((enumKey) => {
-                const parsedEnumKey = enumKey as PetSize
+              {PetSize.map((option) => {
                 return (
                   <button
-                    key={enumKey}
+                    key={option.value}
                     type="button"
-                    value={parsedEnumKey}
+                    value={option.value}
                     className={`${
-                      petSizes.includes(parsedEnumKey)
+                      petSizes.includes(option.value)
                         ? 'button-filter bg-lighter-red font-semibold'
                         : 'button-filter '
                     } `}
                     onClick={(e) => setPetSizeFilters(e.currentTarget.value)}
                   >
-                    {getPetSizeLabel(parsedEnumKey)}
+                    {option.label}
                   </button>
                 )
               })}
@@ -145,23 +145,22 @@ export function Filters({
               May live with
             </label>
             <div id="live-with-filter" className="grid-filters-search">
-              {Object.keys(MayLiveWith).map((enumKey) => {
-                const parsedEnumKey = enumKey as MayLiveWith
+              {MayLiveWith.map((option) => {
                 return (
                   <button
-                    key={enumKey}
-                    value={parsedEnumKey}
+                    key={option.value}
+                    value={option.value}
                     type="button"
                     onClick={(e) =>
                       setMayLiveWithFilters(e.currentTarget.value)
                     }
                     className={`${
-                      mayLiveWith.includes(parsedEnumKey)
+                      mayLiveWith.includes(option.value)
                         ? 'button-filter bg-lighter-red font-semibold'
                         : 'button-filter'
                     }  `}
                   >
-                    {getMayLiveWithLabel(parsedEnumKey)}
+                    {option.label}
                   </button>
                 )
               })}
