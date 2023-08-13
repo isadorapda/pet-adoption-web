@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import Select from 'react-select'
 import { useForm, Controller } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { GrClose as IconClose } from 'react-icons/gr'
 import {
   MayLiveWith,
@@ -19,6 +18,8 @@ import usePetsContext from '../hooks/usePetsContext'
 import { customStyles } from '../styles/selectStyles'
 import { RegisterPetFormData, registerPet } from '../@types/zodTypesRegisterPet'
 import { RegisteredAlertModal } from './RegisteredAlert'
+import { zodResolver } from '@hookform/resolvers/zod'
+import axios from 'axios'
 
 interface Props {
   orgId: string
@@ -33,6 +34,7 @@ const SUCCESS_MESAGE = {
 export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
   const { orgToken, setPets, pets } = usePetsContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [uploadedImages, setUploadedImages] = useState<Array<string>>([])
 
   const {
     handleSubmit,
@@ -47,6 +49,20 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
   async function handleRegisterPet(data: RegisterPetFormData) {
     console.log('DATA', data)
     try {
+      const imageData = new FormData()
+      data.pet_photos?.forEach((photo) => {
+        imageData.append('image', photo)
+      })
+
+      const uploadResponse = await axios.post(
+        'https://api.imgbb.com/1/upload',
+        {
+          key: 'e1c0fddfeccb9b0061322c7b73a0ab78',
+          image: imageData,
+        },
+      )
+
+      const imageUrl = uploadResponse.data.image.url
       const resp = await api.post(
         `/organisations/${orgId}/pets`,
         {
@@ -59,6 +75,7 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
           breed: data.breed,
           may_live_with: data.may_live_with.value,
           ideal_home: data.ideal_home,
+          pet_photos: imageUrl,
         },
         {
           headers: {
@@ -230,6 +247,22 @@ export function RegisterPet({ orgId, setIsSideMenuOpen }: Props) {
             accept="image/*"
             multiple
             {...register('pet_photos')}
+          />
+          <input
+            type="file"
+            accept="image/*"
+            multiple
+            onChange={(e) => {
+              const files = e.target.files
+              if (files) {
+                const fileList = Array.from(files)
+                const selectedImages = fileList.map((file) =>
+                  URL.createObjectURL(file),
+                )
+                setUploadedImages(selectedImages)
+                register('pet_photos').onChange(e)
+              }
+            }}
           />
         </div>
         <button type="submit" className="button-primary">
