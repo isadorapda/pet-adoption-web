@@ -25,7 +25,7 @@ export const registerPet = z.object({
     label: z.string(),
   }),
   ideal_home: z.string().max(500).optional(),
-  pet_photos: z.instanceof(FileList).optional(),
+  pet_photos: z.array(z.instanceof(File)).optional(),
 })
 
 export type RegisterPetFormData = z.infer<typeof registerPet>
