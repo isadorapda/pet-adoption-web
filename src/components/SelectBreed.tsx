@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import AsyncSelect from 'react-select/async'
 import { api } from '../lib/axios'
+import { PetDataForm } from './SearchPetForm'
 
 interface BreedProps {
-  breeds: Array<string>
-  setBreeds: (breeds: Array<string>) => void
+  petData: PetDataForm
+  setPetData: (breeds: PetDataForm) => void
 }
 
 interface FetchBreedsResponse {
   data: { breeds: Array<string> }
 }
 
-export function SelectBreed({ breeds, setBreeds }: BreedProps) {
+export function SelectBreed({ petData, setPetData }: BreedProps) {
   const [breedOptions, setBreedOptions] = useState<
     Array<{ value: string; label: string }>
   >([])
@@ -48,19 +49,21 @@ export function SelectBreed({ breeds, setBreeds }: BreedProps) {
   }
 
   const handleSelectChange = (selectedOptions: Array<string>) => {
-    setBreeds(selectedOptions)
+    setPetData({ ...petData, petBreeds: selectedOptions })
   }
 
   return (
     <AsyncSelect
       cacheOptions
       loadOptions={fetchBreeds}
-      placeholder="Type to search breeds"
+      placeholder="Type or select breeds"
       isMulti
       onChange={(selectedOptions) => {
         handleSelectChange(selectedOptions.map((option) => option.value))
       }}
-      value={breedOptions.filter((option) => breeds.includes(option.value))}
+      value={breedOptions.filter((option) =>
+        petData.petBreeds.includes(option.value),
+      )}
       defaultOptions
     />
   )

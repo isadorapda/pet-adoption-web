@@ -30,7 +30,7 @@ export function Home() {
 
   return (
     <div className="flex min-h-screen flex-col items-center py-10 px-1 lg:p-24 bg-main-red mt-10">
-      <div className="flex flex-col lg:gap-6 md:grid md:grid-cols-2 p-10 lg:p-20">
+      <div className="flex flex-col lg:gap-6 md:grid md:grid-cols-2 p-7 lg:p-20">
         <div className="flex flex-col gap-7">
           <h1 className="text-white font-primary text-3xl lg:text-5xl">
             Rehoming
@@ -39,8 +39,8 @@ export function Home() {
             Could you give a pet a forever home? Browse our furry friends
             looking for a new start.
           </h2>
-          <div className="w-[40vw] md:w-[30vw] lg:w-[25vw] md:pt-20 lg:pt-10  mb-10 md:mb-0 mx-auto md:mx-0">
-            <img src={Pets} alt="" />
+          <div className="w-[50vw] md:w-[30vw] lg:w-[25vw] md:pt-20 lg:pt-10  mb-10 md:mb-0 mx-auto md:mx-0">
+            <img src={Pets} alt="Six happy dogs" />
           </div>
         </div>
         <SearchPetForm
