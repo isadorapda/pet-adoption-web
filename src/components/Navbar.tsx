@@ -15,7 +15,7 @@ export function Navbar() {
         </Link>
       </div>
       <NavLink
-        to="/organisations"
+        to="/login"
         style={({ isActive }) =>
           isActive ? { visibility: 'hidden' } : { visibility: 'visible' }
         }
