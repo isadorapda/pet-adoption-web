@@ -1,92 +1,31 @@
-// export enum PetType {
-//   CAT = 'CAT',
-//   DOG = 'DOG',
-// }
-// export enum PetGender {
-//   MALE = 'MALE',
-//   FEMALE = 'FEMALE',
-// }
+import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
+import { MdFemale as IconFemale, MdMale as IconMale } from 'react-icons/md'
 
-// export enum PetSize {
-//   TINY = 'TINY',
-//   SMALL = 'SMALL',
-//   MEDIUM = 'MEDIUM',
-//   LARGE = 'LARGE',
-//   GIANT = 'GIANT',
-// }
-// export enum MayLiveWith {
-//   CATS = 'CATS',
-//   DOGS = 'DOGS',
-//   CHILDREN = 'CHILDREN',
-//   ELDER = 'ELDER',
-//   ANY = 'ANY',
-// }
-
-// export const getPetTypeLabel = (petType: PetType) => {
-//   switch (petType) {
-//     case PetType.CAT:
-//       return 'Cat'
-//     case PetType.DOG:
-//       return 'Dog'
-//   }
-// }
 export const PetType = [
   {
     label: 'Dog',
     value: 'DOG',
+    icon: IconDog,
   },
   {
     label: 'Cat',
     value: 'CAT',
+    icon: IconCat,
   },
 ]
 
-// export const getPetGenderLabel = (petGender: PetGender) => {
-//   switch (petGender) {
-//     case PetGender.FEMALE:
-//       return 'Female'
-//     case PetGender.MALE:
-//       return 'Male'
-//   }
-// }
 export const PetGender = [
   {
     label: 'Female',
     value: 'FEMALE',
+    icon: IconFemale,
   },
   {
     label: 'Male',
     value: 'MALE',
+    icon: IconMale,
   },
 ]
-// export const getMayLiveWithLabel = (mayLive: MayLiveWith) => {
-//   switch (mayLive) {
-//     case MayLiveWith.CATS:
-//       return 'Cats'
-//     case MayLiveWith.CHILDREN:
-//       return 'Children'
-//     case MayLiveWith.DOGS:
-//       return 'Dogs'
-//     case MayLiveWith.ELDER:
-//       return 'Elder'
-//     case MayLiveWith.ANY:
-//       return 'Any'
-//   }
-// }
-// export const getPetSizeLabel = (petSize: PetSize) => {
-//   switch (petSize) {
-//     case PetSize.TINY:
-//       return 'Tiny'
-//     case PetSize.SMALL:
-//       return 'Small'
-//     case PetSize.MEDIUM:
-//       return 'Medium'
-//     case PetSize.LARGE:
-//       return 'Large'
-//     case PetSize.GIANT:
-//       return 'Giant'
-//   }
-// }
 
 export const PetSize = [
   {
