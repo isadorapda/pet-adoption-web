@@ -15,8 +15,8 @@ import { MayLiveWith, PetGender, PetSize } from '../utils/petFilters'
 import { AlertModal } from '../components/AlertModal'
 import { NavigateBack } from '../components/NavigateBack'
 import { PetDetailItem } from '../components/PetDetailItem'
-import { ImagesGrid } from '../components/ImagesGrid'
-import { FAKE_IMGS } from './ViewPetDetails'
+// import { ImagesGrid } from '../components/ImagesGrid'
+// import { FAKE_IMGS } from './ViewPetDetails'
 import { EditPetButtonsContainer } from '../components/EditPetButtonsContainer'
 
 interface PetResponse {
@@ -128,7 +128,7 @@ export function EditPetDetails() {
     <div className="h-full w-screen flex flex-col">
       <NavigateBack path={'profile'} />
       <div className="section-wrapper min-h-screen bg-yellow w-full">
-        <ImagesGrid images={FAKE_IMGS} />
+        {/* <ImagesGrid images={FAKE_IMGS} /> */}
       </div>
       <div className="min-h-screen bg-light-bg w-full px-10 lg:px-28 py-14 relative">
         <form
