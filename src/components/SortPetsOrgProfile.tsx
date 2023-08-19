@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react'
 import { api } from '../lib/axios'
 import { AdoptionPets, Response } from '../pages/OrganisationProfile'
 import Select from 'react-select'
-import { options } from '../constants/optionsSelect'
-import { PetType } from '../utils/petFilters'
+import { sortPetsOptions } from '../constants/optionsSelect'
+
 import { SortPets } from '../@types/models'
 
 interface SortPetsProps {
@@ -40,7 +40,7 @@ export function SortPetsSelect({
 
   return (
     <Select
-      options={options}
+      options={sortPetsOptions}
       placeholder="Sort pets by..."
       styles={{
         control: (baseStyles) => ({
