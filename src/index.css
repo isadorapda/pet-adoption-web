@@ -4,7 +4,13 @@
 
 @layer components {
   .header-3 {
-    @apply font-semibold mb-2;
+    @apply font-semibold mb-2 capitalize;
+  }
+  .pet-detail-box {
+    @apply flex flex-col gap-3 p-5 bg-lighter-red rounded-lg;
+  }
+  .pet-detail-text {
+    @apply lowercase first-letter:uppercase;
   }
   .button-filter {
     @apply rounded-md p-2 md:p-3 bg-light-gray flex items-center justify-center transition-[filter] duration-150 hover:brightness-90;
@@ -26,7 +32,10 @@
     @apply bg-light-bg rounded-lg p-6 md:p-10 h-max w-full mx-auto mt-10 lg:max-w-[50vw];
   }
   .sign-in-container {
-    @apply h-full py-20 px-8 md:px-28 bg-main-red w-screen flex flex-col  items-center justify-center;
+    @apply h-full py-20 px-8 md:px-28 bg-main-red w-screen flex flex-col items-center justify-center;
+  }
+  .section-wrapper {
+    @apply py-20 flex;
   }
 }
 

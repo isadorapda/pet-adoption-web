@@ -1,4 +1,4 @@
-import { FormEvent, useCallback, useReducer, useState } from 'react'
+import { FormEvent, useReducer, useState } from 'react'
 import { api } from '../lib/axios'
 import usePetsContext from '../hooks/usePetsContext'
 import { PetType, PetGender, PetSize, MayLiveWith } from '../utils/petFilters'
@@ -87,7 +87,7 @@ export function RegisterPetForm({ orgId, setIsModalOpen }: FormProps) {
   const { orgToken, setPets, pets } = usePetsContext()
   const [state, dispatch] = useReducer(reducer, petDataInitialValue)
   const [showError, setShowError] = useState(false)
-  const [uploadedImages, setUploadedImages] = useState<Array<string>>([])
+  //   const [uploadedImages, setUploadedImages] = useState<Array<string>>([])
 
   const handleFormData = (
     field: keyof AddPetData,
@@ -181,8 +181,8 @@ export function RegisterPetForm({ orgId, setIsModalOpen }: FormProps) {
           <p className="error-message">{state.errors.name}</p>
         )}
       </div>
-      <div className="flex gap-5 w-full">
-        <div className="flex flex-col w-1/2">
+      <div className="flex flex-col md:flex-row gap-5 w-full">
+        <div className="flex flex-col md:w-1/2">
           <label className="header-3">
             Pet Type <span className="text-white">*</span>
           </label>
@@ -211,7 +211,7 @@ export function RegisterPetForm({ orgId, setIsModalOpen }: FormProps) {
             <p className="error-message">{state.errors.type}</p>
           )}
         </div>
-        <div className="flex flex-col w-1/2">
+        <div className="flex flex-col md:w-1/2">
           <label className="header-3">
             Gender <span className="text-white">*</span>
           </label>
@@ -295,7 +295,7 @@ export function RegisterPetForm({ orgId, setIsModalOpen }: FormProps) {
         <label htmlFor="et-size-filter" className="header-3">
           Size <span className="text-white">*</span>
         </label>
-        <div id="pet-size-filter" className="flex gap-2">
+        <div id="pet-size-filter" className="grid grid-cols-3 md:flex gap-2">
           {PetSize.map((option) => {
             return (
               <button
@@ -324,10 +324,10 @@ export function RegisterPetForm({ orgId, setIsModalOpen }: FormProps) {
       </div>
 
       <div className="flex flex-col">
-        <label htmlFor="" className="header-3">
+        <label htmlFor="live-with-filter" className="header-3">
           May Live With <span className="text-white">*</span>
         </label>
-        <div id="live-with-filter" className="flex gap-2">
+        <div id="live-with-filter" className="grid grid-cols-3 md:flex gap-2">
           {MayLiveWith.map((option) => {
             return (
               <button
