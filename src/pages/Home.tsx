@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react'
-import { BiSortAlt2 as IconSort } from 'react-icons/bi'
 import { SearchPetForm } from '../components/SearchPetForm'
 import Pets from '../assets/pets.png'
 import { PetCard } from '../components/PetCard'
 import usePetsContext from '../hooks/usePetsContext'
-import { Pagination } from '../components/Pagination'
 import { Loader } from '../components/Loader'
 import { AlertModal } from '../components/AlertModal'
-import { SortPetsHomepageSelect } from '../components/SortPetsHomepage'
+import { PageOptionsContainer } from '../components/PageOptionsContainer'
+import { Pagination } from '../components/Pagination'
 
 const EMPTY_RESULTS_MESSAGE = {
   title: 'Sorry',
@@ -50,26 +49,18 @@ export function Home() {
         <Loader />
       ) : pets.length ? (
         <div className="w-screen min-h-screen px-6 lg:px-28 py-10 bg-white flex flex-col items-center">
-          <header className="pb-10 flex flex-col w-full items-center gap-5">
+          <header className="pb-10 flex flex-col w-full items-center md:justify-center gap-5">
             <h3 className="header-3 lg:text-2xl">
               We found {pageData.count} furry friends!
             </h3>
-
-            <div className="flex flex-col items-center gap-5 md:flex-row w-screen md:w-full px-5 relative">
-              <Pagination />
-              <div className="w-screen md:w-max px-5 md:px-0 md:absolute left-0 flex items-center gap-3">
-                <IconSort title="Sort Pets" />
-                <div className="w-full lg:w-[20vw] ">
-                  <SortPetsHomepageSelect />
-                </div>
-              </div>
-            </div>
+            <PageOptionsContainer />
           </header>
           <main className="flex flex-col md:grid md:grid-cols-auto gap-y-10 gap-x-6 w-full items-center md:justify-items-center">
             {pets.map((pet) => (
               <PetCard key={pet.id} pet={pet} />
             ))}
           </main>
+          <Pagination />
         </div>
       ) : null}
       {isModalOpen && (

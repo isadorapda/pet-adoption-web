@@ -2,69 +2,44 @@ import {
   IoMdArrowDropright as IconNext,
   IoMdArrowDropleft as IconPrevious,
 } from 'react-icons/io'
-import { Limit } from '../context/petsContext'
-import Select from 'react-select'
 import usePetsContext from '../hooks/usePetsContext'
-import { customStyles, Option } from '../styles/selectStyles'
+import { Pages } from './Pages'
+
+function generatePagesArray(from: number, to: number) {
+  return [...new Array(to - from)]
+    .map((_, index) => {
+      return from + index + 1
+    })
+    .filter((page) => page > 0)
+}
 
 export function Pagination() {
-  const { pageData, setPage, totalPages, setInternalLimit } = usePetsContext()
+  const { pageData, setPage, totalPages, limit } = usePetsContext()
+  const currentPage = pageData.page
+  const offset = (currentPage - 1) * limit
+  const siblingsCount = 1
 
-  const getPagesToDisplay = (): Array<number> => {
-    const pageNumbers: Array<number> = []
+  const previousPages =
+    currentPage > 1
+      ? generatePagesArray(currentPage - 1 - siblingsCount, currentPage - 1)
+      : []
 
-    let start = pageData.page - 2
-    let end = pageData.page + 2
-
-    if (start < 1) {
-      start = 1
-      end = 5
-    }
-
-    if (end > totalPages) {
-      end = totalPages
-      start = totalPages - 4
-    }
-
-    for (let i = start; i <= end; i++) {
-      pageNumbers.push(i)
-    }
-
-    return pageNumbers.filter((page) => page > 0)
-  }
-
-  const optionsSelect: Array<Option> = Object.values(Limit)
-    .filter((value) => typeof value === 'number' || value === 'All')
-    .map((limitValue) => {
-      return {
-        label: `${limitValue}`,
-        value: `${limitValue}`,
-      }
-    })
+  const nextPages =
+    currentPage < totalPages
+      ? generatePagesArray(
+          currentPage,
+          Math.min(currentPage + siblingsCount, totalPages),
+        )
+      : []
 
   return (
-    <div className="flex gap-1 md:gap-5 justify-center items-center relative w-full">
-      <div className=" md:pt-5 lg:pt-0 md:absolute md:right-3 lg:right-10 flex md:flex-col lg:flex-row items-center gap-1 lg:gap-3 w-1/2 md:w-max">
-        <h3 className="text-sm lg:text-[1vw]">Pets per page:</h3>
-        <Select
-          defaultValue={optionsSelect[0]}
-          isSearchable={false}
-          styles={customStyles}
-          options={optionsSelect}
-          isMulti={false}
-          onChange={(selected) => {
-            if (selected && selected.value === Limit.ALL) {
-              setInternalLimit(Limit.ALL)
-              return
-            }
-            setInternalLimit(Number(selected?.value) as Limit)
-          }}
-        />
-      </div>
-
+    <div className="flex flex-col gap-4 md:gap-5 justify-center items-center relative w-full py-10">
+      <p className="text-sm">
+        {offset} - {offset + limit} of {pageData.count}
+      </p>
       <div
         className={
-          'flex items-center justify-center w-1/2 mx-auto gap-3 md:gap-5 lg:gap-10 '
+          'flex items-center justify-center  mx-auto gap-3 md:gap-5 lg:gap-10 '
         }
       >
         <button
@@ -75,20 +50,26 @@ export function Pagination() {
         >
           <IconPrevious size="20px" />
         </button>
+        {currentPage > 1 + siblingsCount && (
+          <>
+            <Pages pageNumber={1} />
+            {currentPage > 2 + siblingsCount && <span>...</span>}
+          </>
+        )}
+        {previousPages.length > 0 &&
+          previousPages.map((page) => <Pages key={page} pageNumber={page} />)}
 
-        {getPagesToDisplay().map((pg) => (
-          <button
-            key={`pagination-page-${pg}`}
-            onClick={() => setPage(pg)}
-            className={`${
-              pg === pageData.page
-                ? 'bg-yellow shadow-buttonsShadow rounded-full '
-                : ''
-            }flex items-center justify-center w-7 h-7 `}
-          >
-            {pg}
-          </button>
-        ))}
+        <Pages pageNumber={currentPage} />
+
+        {nextPages.length > 0 &&
+          nextPages.map((page) => <Pages key={page} pageNumber={page} />)}
+
+        {currentPage + siblingsCount < totalPages && (
+          <>
+            {currentPage + 1 + siblingsCount < totalPages && <span>...</span>}
+            <Pages pageNumber={totalPages} />
+          </>
+        )}
 
         <button
           disabled={pageData.page === totalPages}

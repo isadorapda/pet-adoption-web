@@ -5,7 +5,7 @@ export interface Options {
   order: 'asc' | 'desc'
 }
 
-export const options: Options[] = [
+export const sortPetsOptions: Options[] = [
   {
     label: 'Age (youngest - oldest)',
     value: 'ageAsc',

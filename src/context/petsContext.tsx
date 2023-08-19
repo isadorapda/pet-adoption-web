@@ -36,6 +36,7 @@ interface PetsDataContext {
   page: number
   setPage: (page: number) => void
   setInternalLimit: (limit: Limit) => void
+  internalLimit: Limit
   limit: number
 }
 
@@ -87,6 +88,7 @@ export function PetsContextProvider({ children }: ContextProps) {
         currentOrganisation,
         setCurrentOrganisation,
         setInternalLimit,
+        internalLimit,
         pageData,
         totalPages,
         limit,
