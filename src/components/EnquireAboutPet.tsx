@@ -12,14 +12,17 @@ interface Props {
 
 export function EnquireAboutPet({ pet, org }: Props) {
   return (
-    <div className="rounded-lg bg-white p-6 flex flex-col shadow-card h-max gap-6">
+    <section className="rounded-lg bg-white p-6 md:p-5 flex flex-col shadow-card h-max gap-6">
       <h1 className="font-bold ">
         Could you be {pet.name}&apos;s perfect match?
       </h1>
       <p>
         {pet.name} is registered at {org.name}
       </p>
-      <button className="button-primary bg-green transition-all duration-200 hover:brightness-90">
+      <button
+        type="button"
+        className="button-primary bg-green transition-all duration-200 hover:brightness-90"
+      >
         <a
           href={`${WHATSAPP_BASE_URL}${org.mobile}${getPreFilledMessage(
             pet.name,
@@ -31,6 +34,6 @@ export function EnquireAboutPet({ pet, org }: Props) {
           <IconWhatsApp /> Enquire about {pet.name}
         </a>
       </button>
-    </div>
+    </section>
   )
 }
