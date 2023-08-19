@@ -18,6 +18,10 @@
   .button-primary {
     @apply bg-yellow rounded-xl w-full px-4 py-3 mx-auto mt-3 shadow-buttonsShadow;
   }
+  .button-secondary {
+    @apply bg-yellow rounded-xl px-3 py-2 text-sm w-full h-max lg:px-4 lg:py-3 mx-auto mt-3 shadow-buttonsShadow;
+  }
+
   .grid-filters-search {
     @apply grid grid-cols-2 md:grid-cols-3 grid-flow-row gap-3 text-sm md:text-base;
   }
@@ -36,6 +40,15 @@
   }
   .section-wrapper {
     @apply py-20 flex;
+  }
+}
+
+@layer components {
+  .pet-datails-name {
+    @apply text-3xl lg:text-5xl font-bold capitalize;
+  }
+  .input-edit {
+    @apply bg-white/30 rounded-md px-2 py-1 placeholder:text-gray-500 placeholder:text-sm placeholder:italic;
   }
 }
 
