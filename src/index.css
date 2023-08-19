@@ -19,7 +19,7 @@
     @apply bg-yellow rounded-xl w-full px-4 py-3 mx-auto mt-3 shadow-buttonsShadow;
   }
   .button-secondary {
-    @apply bg-yellow flex items-center justify-center rounded-xl px-3 py-2 text-sm w-full h-max lg:px-4 lg:py-3 mx-auto mt-3 shadow-buttonsShadow;
+    @apply bg-yellow flex items-center justify-center rounded-xl px-3 py-2 text-sm w-full h-max lg:px-4 lg:py-3 mt-3 shadow-buttonsShadow;
   }
 
   .grid-filters-search {

@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { BiSortAlt2 as IconSort } from 'react-icons/bi'
 import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
 import { api } from '../lib/axios'
 import usePetsContext from '../hooks/usePetsContext'
@@ -7,7 +6,6 @@ import { PetCard } from '../components/PetCard'
 import { RegisterPet } from '../components/RegisterPet'
 import { Organisation, Pet } from '../@types/models'
 import { SortPetsSelect } from '../components/SortPetsOrgProfile'
-import { PetType } from '../utils/petFilters'
 import { NoPetsRegistered } from '../components/NoPetsRegistered'
 
 export interface AdoptionPets {
@@ -89,7 +87,7 @@ export function OrganisationProfile() {
 
         <div>
           <div className="flex flex-col md:flex-row items-center gap-10 pt-10 lg:pt-20 pb-10 relative">
-            <div className="flex items-center gap-5">
+            <div className="flex items-center gap-5 text-sm">
               <button
                 className={`${
                   showPets === 'to-donate' ? 'text-main-red' : ''
@@ -108,15 +106,15 @@ export function OrganisationProfile() {
                 Your adopted pets
               </button>
             </div>
-            <div className="w-full md:w-max md:absolute right-0 flex items-center gap-3">
-              <IconSort title="Sort Pets" />
-              <div className="w-full md:w-max lg:w-[20vw] ">
+            <div className="w-full md:w-max md:absolute right-0 flex items-center justify-center gap-3">
+              <div className="w-full flex justify-end">
                 <SortPetsSelect
                   filterPetType={filterPetType}
                   orgId={currentOrganisation.id}
                   setIsAdopted={setIsAdopted}
                 />
               </div>
+
               <div>
                 <IconCat
                   title="Show all cats"
