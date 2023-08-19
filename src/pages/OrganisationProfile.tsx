@@ -148,7 +148,7 @@ export function OrganisationProfile() {
             <NoPetsRegistered message="You have no adopted pets" />
           )}
 
-          <div className="flex flex-col items-center md:grid md:grid-cols-auto gap-9 w-full">
+          <div className="grid-pet-cards">
             {donationPets.map((pet) => (
               <PetCard
                 key={pet.id}

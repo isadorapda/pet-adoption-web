@@ -55,7 +55,7 @@ export function Home() {
             </h3>
             <PageOptionsContainer />
           </header>
-          <main className="flex flex-col md:grid md:grid-cols-auto gap-y-10 gap-x-6 w-full items-center md:justify-items-center">
+          <main className="grid-pet-cards">
             {pets.map((pet) => (
               <PetCard key={pet.id} pet={pet} />
             ))}

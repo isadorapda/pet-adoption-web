@@ -52,6 +52,18 @@
   }
 }
 
+@layer components {
+  .grid-pet-cards {
+    @apply flex flex-col items-center justify-items-center md:grid md:grid-cols-auto gap-9 w-full;
+  }
+  .pet-card-infos {
+    @apply text-dark-blue flex items-center gap-2 first-letter:uppercase lowercase font-semibold;
+  }
+  .pet-card-button {
+    @apply w-max py-1 mt-0 absolute bottom-2 left-1/2 -translate-x-1/2 text-sm hover:brightness-95 transition-all;
+  }
+}
+
 body {
   font-family: 'Titillium Web', sans-serif;
   --webkit-font-smoothing: antialiased;
