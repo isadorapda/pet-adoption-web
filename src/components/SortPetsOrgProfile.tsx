@@ -47,10 +47,12 @@ export function SortPetsSelect({
       {isMobile ? (
         <>
           <button
+            aria-label="Click to open sorting options"
+            type="button"
             onClick={() => setIsModalOpen(true)}
             className="gap-1 button-secondary mt-0 w-1/2 "
           >
-            <IconSort /> Sort
+            <IconSort aria-hidden="true" /> Sort
           </button>
           {isModalOpen && <SortPetsModal setIsModalOpen={setIsModalOpen} />}
         </>
