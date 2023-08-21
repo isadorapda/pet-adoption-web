@@ -1,4 +1,3 @@
-import { PetType, PetGender, PetSize, MayLiveWith } from '../utils/petFilters'
 import { z } from 'zod'
 
 export const registerPet = z.object({
