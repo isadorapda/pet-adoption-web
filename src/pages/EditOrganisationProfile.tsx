@@ -1,7 +1,5 @@
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { ErrorMessage } from '@hookform/error-message'
-import { useNavigate } from 'react-router-dom'
 import { zodResolver } from '@hookform/resolvers/zod'
 import axios from 'axios'
 import { api } from '../lib/axios'
@@ -13,19 +11,20 @@ import {
 } from '../@types/zodTypesRegisterOrganisation'
 import usePetsContext from '../hooks/usePetsContext'
 import { NavigateBack } from '../components/NavigateBack'
+import { Input } from '../components/OrgFormInput'
 
 const SUCCESS_MESSAGE: AlertMessage = {
   title: '',
   content: '',
 }
 
-const partialRegisterOrg = registerOrgBodySchema.partial()
+const partialRegisterOrg = registerOrgBodySchema.deepPartial()
 
 export function EditOrganisationProfile() {
   const { currentOrganisation, orgToken } = usePetsContext()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
-  const navigate = useNavigate()
+
   const {
     handleSubmit,
     register,
@@ -43,7 +42,12 @@ export function EditOrganisationProfile() {
       SUCCESS_MESSAGE.content = `Your changes have been saved.`
       setIsModalOpen(true)
     } catch (error) {
-      if (axios.isAxiosError(error)) {
+      console.error(error)
+
+      if (
+        axios.isAxiosError(error) &&
+        error.response?.data.message === 'Email already registered.'
+      ) {
         setError(
           'email',
           { type: 'focus', message: 'Email already registered' },
@@ -64,7 +68,9 @@ export function EditOrganisationProfile() {
       SUCCESS_MESSAGE.content = 'Account Deleted'
       setIsDelete(false)
       setIsModalOpen(true)
-    } catch (error) {}
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
@@ -78,140 +84,77 @@ export function EditOrganisationProfile() {
             </button>
           </div>
           <div>
-            <button type="button" className="text-sm md:text-base">
-              Password
-            </button>
-          </div>
-          <div>
             <button
               type="button"
               onClick={() => {
                 setIsModalOpen(true)
                 setIsDelete(true)
               }}
-              className="text-sm md:text-base"
+              className="text-sm md:text-base text-main-red"
             >
               Delete Account
             </button>
           </div>
         </div>
+
         <form
           action=""
           onSubmit={handleSubmit(handleUpdateOrg)}
           className="gap-6 md:gap-8 flex flex-col md:pr-10"
         >
-          <div className="flex flex-col ">
-            <label htmlFor="" className="header-3">
-              Organisation Name
-            </label>
-            <input
-              className="rounded-md p-2 border border-gray-400"
-              type="text"
-              defaultValue={currentOrganisation.name}
-              {...register('name')}
-            />
-            <ErrorMessage
-              as="p"
-              errors={errors}
-              name="name"
-              render={(e) => <p>{e.message}</p>}
-            />
-          </div>
-          <div className="flex flex-col md:flex-row justify-between w-full gap-6 md:gap-5">
-            <div className="flex flex-col w-full">
-              <label htmlFor="" className="header-3">
-                Email Address
-              </label>
-              <input
-                type="mail"
-                defaultValue={currentOrganisation.email}
-                className="rounded-md p-2 border border-gray-400"
-                {...register('email')}
-              />
-              <ErrorMessage
-                as="p"
-                errors={errors}
-                name="email"
-                render={(e) => <p>{e.message}</p>}
-              />
-            </div>
-            <div className="flex flex-col w-full">
-              <label htmlFor="" className="header-3 ">
-                WhatsApp number
-              </label>
-              <input
-                type="tel"
-                defaultValue={currentOrganisation.mobile}
-                className="rounded-md p-2 border border-gray-400"
-                {...register('mobile')}
-              />
-              <ErrorMessage
-                as="p"
-                errors={errors}
-                name="mobile"
-                render={(e) => <p>{e.message}</p>}
-              />
-            </div>
-          </div>
-          <div className="flex flex-col lg:flex-row justify-between w-full gap-6 md:gap-5">
-            <div className="flex flex-col w-full">
-              <label htmlFor="" className="header-3">
-                Post Code
-              </label>
-              <input
-                type="text"
-                defaultValue={currentOrganisation.postcode}
-                className="rounded-md p-2 border border-gray-400"
-                {...register('postcode')}
-              />
-            </div>
-            <div className="flex flex-col w-full">
-              <label htmlFor="" className="header-3">
-                City
-              </label>
-              <input
-                type="text"
-                defaultValue={currentOrganisation.city}
-                className="rounded-md p-2 border border-gray-400"
-                {...register('city')}
-              />
-              <ErrorMessage
-                as="p"
-                errors={errors}
-                name="city"
-                render={(e) => <p>{e.message}</p>}
-              />
-            </div>
-            <div className="flex flex-col w-full">
-              <label htmlFor="" className="header-3">
-                Address Line
-              </label>
-              <input
-                type="text"
-                defaultValue={currentOrganisation.address}
-                className="rounded-md p-2 border border-gray-400"
-                {...register('address')}
-              />
-            </div>
-          </div>
+          <Input
+            label="Organisation Name"
+            type="text"
+            {...register('name')}
+            defaultValue={currentOrganisation.name}
+            styles={true}
+            errors={errors}
+          />
 
-          {/* <div className="flex flex-col ">
-            <label htmlFor="" className="header-3">
-              Password
-            </label>
-            <input
-              type="password"
-              className="rounded-md p-2 border border-gray-400"
-              {...register('password')}
+          <div className="input-org-container">
+            <Input
+              label="Email Address"
+              type="email"
+              {...register('email')}
+              defaultValue={currentOrganisation.email}
+              styles={true}
+              errors={errors}
             />
-            <p>{errors.password?.message}</p>
+            <Input
+              label="WhatsApp number"
+              type="text"
+              {...register('mobile')}
+              defaultValue={currentOrganisation.mobile}
+              styles={true}
+              errors={errors}
+            />
           </div>
-          <div>
-            <label htmlFor="" className="header-3">
-              Confirm Password
-            </label>
-            <input type="password" />
-          </div> */}
+          <div className="input-org-container md:flex-col lg:flex-row">
+            <Input
+              label="Post Code"
+              type="text"
+              {...register('postcode')}
+              defaultValue={currentOrganisation.postcode}
+              styles={true}
+              errors={errors}
+            />
+            <Input
+              label="City"
+              type="text"
+              {...register('city')}
+              defaultValue={currentOrganisation.city}
+              styles={true}
+              errors={errors}
+            />
+            <Input
+              label="Address Line"
+              type="text"
+              {...register('address')}
+              defaultValue={currentOrganisation.address}
+              styles={true}
+              errors={errors}
+            />
+          </div>
 
           <button type="submit" className="button-primary">
             Save changes
