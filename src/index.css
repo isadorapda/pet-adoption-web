@@ -3,15 +3,28 @@
 @tailwind utilities;
 
 @layer components {
+  .side-menu-form {
+    @apply absolute right-0 top-0 flex flex-col px-12 py-16 xl:p-20 min-h-screen h-full w-screen md:w-2/3 lg:w-1/2 overflow-auto shadow-card animate-fadeInRight;
+  }
   .header-3 {
-    @apply font-semibold mb-2;
+    @apply font-semibold mb-2 capitalize;
+  }
+  .pet-detail-box {
+    @apply flex flex-col gap-3 p-5 bg-lighter-red rounded-lg;
+  }
+  .pet-detail-text {
+    @apply lowercase first-letter:uppercase;
   }
   .button-filter {
-    @apply rounded-md p-3 bg-light-gray flex items-center justify-center transition-[filter] duration-150 hover:brightness-90;
+    @apply rounded-md p-2 md:p-3 bg-light-gray flex items-center justify-center transition-[filter] duration-150 hover:brightness-90;
   }
   .button-primary {
     @apply bg-yellow rounded-xl w-full px-4 py-3 mx-auto mt-3 shadow-buttonsShadow;
   }
+  .button-secondary {
+    @apply bg-yellow flex items-center justify-center rounded-xl px-3 py-2 text-sm w-full h-max lg:px-4 lg:py-3 mt-3 shadow-buttonsShadow hover:brightness-90;
+  }
+
   .grid-filters-search {
     @apply grid grid-cols-2 md:grid-cols-3 grid-flow-row gap-3 text-sm md:text-base;
   }
@@ -21,6 +34,57 @@
   }
   .error-message {
     @apply text-white mt-1;
+  }
+  .sign-in-wrapper {
+    @apply bg-light-bg rounded-lg p-6 md:p-10 h-max w-full mx-auto mt-10 lg:max-w-[50vw];
+  }
+  .sign-in-container {
+    @apply h-full py-20 px-8 md:px-28 bg-main-red w-screen flex flex-col items-center justify-center;
+  }
+  .input-org-container {
+    @apply flex flex-col md:flex-row justify-between w-full gap-6 md:gap-5;
+  }
+  .section-wrapper {
+    @apply py-20 flex;
+  }
+}
+
+@layer components {
+  .header-name {
+    @apply text-3xl lg:text-5xl font-bold capitalize;
+  }
+  .input-edit {
+    @apply bg-white/30 rounded-md px-2 py-1 placeholder:text-gray-500 placeholder:text-sm placeholder:italic;
+  }
+}
+
+@layer components {
+  .grid-pet-cards {
+    @apply flex flex-col items-center justify-items-center md:grid md:grid-cols-auto gap-9 w-full;
+  }
+  .pet-card-infos {
+    @apply text-dark-blue flex items-center gap-2 first-letter:uppercase lowercase font-semibold;
+  }
+  .pet-card-button {
+    @apply w-max py-1 mt-0 absolute bottom-2 left-1/2 -translate-x-1/2 text-sm hover:brightness-95 transition-all;
+  }
+}
+
+@layer components {
+  .modal-alert-container {
+    @apply rounded-lg bg-white p-5 md:p-12 flex flex-col gap-5 lg:gap-8 items-center justify-center shadow-card relative;
+  }
+  .modal-opaque-background {
+    @apply h-screen w-screen z-[1000] fixed top-0 left-0 bg-opaque-black flex items-center justify-center p-8;
+  }
+  .modal-header {
+    @apply font-bold text-lg text-center;
+  }
+  .modal-select-container {
+    @apply w-full bg-white p-5 flex items-center rounded-md flex-col gap-2;
+  }
+  .modal-select-content-item {
+    @apply flex justify-between items-center border-b border-gray-300 pb-2 w-full;
   }
 }
 

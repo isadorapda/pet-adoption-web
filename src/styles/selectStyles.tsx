@@ -54,7 +54,31 @@ export const customStyles: StylesConfig<Option> = {
     borderRadius: '6px',
     border: 'none',
     fontSize: '0.8rem',
-    padding: '5px',
+    padding: '0 5px',
+    width: '100%',
+  }),
+}
+
+export const editSelectStyles: StylesConfig<Option> = {
+  option: (provided, state) => ({
+    ...provided,
+    background: state.isFocused
+      ? 'rgba(246, 128, 132, 0.2)'
+      : state.isSelected
+      ? '#F4D35E'
+      : 'white',
+    color: 'black',
+    borderRadius: '2px',
+    width: '100%',
+  }),
+
+  control: (provided) => ({
+    ...provided,
+    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    borderRadius: '6px',
+    border: 'none',
+    fontSize: '0.8rem',
+    padding: '0 5px',
     width: '100%',
   }),
 }

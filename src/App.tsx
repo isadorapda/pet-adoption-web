@@ -1,15 +1,18 @@
 import { Route, Routes } from 'react-router-dom'
 import { Home } from './pages/Home'
-import { Organisation } from './pages/Organisation'
 import { OrganisationProfile } from './pages/OrganisationProfile'
 import { ViewPetDetails } from './pages/ViewPetDetails'
 import { EditPetDetails } from './pages/EditPetDetails'
 import { EditOrganisationProfile } from './pages/EditOrganisationProfile'
+import { RegisterOrganisation } from './components/RegisterOrg'
+import { LoginOrganisation } from './pages/LoginOrg'
+
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/organisations" element={<Organisation />} />
+      <Route path="/login" element={<LoginOrganisation />} />
+      <Route path="/register" element={<RegisterOrganisation />} />
       <Route path="/profile" element={<OrganisationProfile />} />
       <Route path="/pet-details/:petId" element={<ViewPetDetails />} />
       <Route

@@ -1,28 +1,23 @@
 import { useEffect, useState } from 'react'
-import { api } from '../lib/axios'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Controller, useForm } from 'react-hook-form'
 import { ErrorMessage } from '@hookform/error-message'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Select from 'react-select'
-import { MdOutlineModeEdit as IconEdit } from 'react-icons/md'
-import { AiFillDelete as IconDelete } from 'react-icons/ai'
+import dayjs from 'dayjs'
 import { GrLocation as IconLocation } from 'react-icons/gr'
+import { api } from '../lib/axios'
+import { registerPet, UpdatePetFormData } from '../@types/zodTypesRegisterPet'
 import { AlertMessage, Organisation, Pet } from '../@types/models'
 import usePetsContext from '../hooks/usePetsContext'
-import { customStyles } from '../styles/selectStyles'
-import {
-  MayLiveWith,
-  PetGender,
-  //   PetSize,
-  PetSize,
-  //   getPetGenderLabel,
-  //   getPetSizeLabel,
-} from '../utils/petFilters'
-import { registerPet, UpdatePetFormData } from '../@types/zodTypesRegisterPet'
+import { editSelectStyles } from '../styles/selectStyles'
+import { MayLiveWith, PetGender, PetSize } from '../constants/petFilters'
 import { AlertModal } from '../components/AlertModal'
 import { NavigateBack } from '../components/NavigateBack'
-import dayjs from 'dayjs'
+import { PetDetailItem } from '../components/PetDetailItem'
+// import { ImagesGrid } from '../components/ImagesGrid'
+// import { FAKE_IMGS } from './ViewPetDetails'
+import { EditPetButtonsContainer } from '../components/EditPetButtonsContainer'
 
 interface PetResponse {
   pet: Pet
@@ -46,7 +41,6 @@ export function EditPetDetails() {
   const [edit, setEdit] = useState<boolean>(false)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isDelete, setIsDelete] = useState(false)
-  const navigate = useNavigate()
   const params = useParams()
   const {
     handleSubmit,
@@ -69,16 +63,16 @@ export function EditPetDetails() {
       return api.get(`/organisation/${orgId}`)
     }
     Promise.all([fetchPet(), fecthOrg()]).then(async ([petRes, orgRes]) => {
-      setPet(petRes.data.pet)
+      const parsedBreed = petRes.data.pet.breed?.replaceAll('_', ' ')
+      setPet({ ...petRes.data.pet, breed: parsedBreed || '' })
       setOrg(orgRes.data.organisation)
     })
   }, [params.orgId, params.petId, pets])
 
   async function handleEditPet(data: UpdatePetFormData) {
-    console.log('DATA', data)
     setIsDelete(false)
     try {
-      const resp = await api.patch<any>(
+      const resp = await api.patch(
         `/me/pets/${params.petId}/edit`,
         {
           ...data,
@@ -94,11 +88,16 @@ export function EditPetDetails() {
         },
       )
       SUCCESS_MESAGE.title = 'Success!'
-      SUCCESS_MESAGE.content = 'Your changes were saved.'
+      SUCCESS_MESAGE.content = 'Your changes have been saved.'
       setIsModalOpen(true)
-      setPet(resp.data.pet)
-      console.log('PET', resp.data.pet)
+      //   const createdAt = dayjs(resp.data.pet.created_at).format('DD/MM/YY')
+      const parsedBreed = resp.data.pet.breed?.replaceAll('_', ' ')
+      setPet({ ...resp.data.pet, breed: parsedBreed || '' })
     } catch (error) {
+      console.error(error)
+      SUCCESS_MESAGE.title = 'Ooops!'
+      SUCCESS_MESAGE.content = 'Something went wrong. Please try again.'
+      setIsModalOpen(true)
     } finally {
       setEdit(false)
     }
@@ -117,7 +116,9 @@ export function EditPetDetails() {
       SUCCESS_MESAGE.content = 'Your pet has been deleted.'
       setIsDelete(false)
       setIsModalOpen(true)
-    } catch (error) {}
+    } catch (error) {
+      console.error('', error)
+    }
   }
 
   if (!pet) {
@@ -130,64 +131,28 @@ export function EditPetDetails() {
   return (
     <div className="h-full w-screen flex flex-col">
       <NavigateBack path={'profile'} />
-      <section className="h-screen bg-yellow w-full">
-        <div className="">{}</div>
-      </section>
-      <section className="min-h-screen bg-light-bg w-full px-10 lg:px-28 py-14 relative">
-        <div className="absolute right-10 md:right-36 top-14 flex items-center gap-3">
-          <button
-            type="button"
-            title="Edit Pet"
-            onClick={() => setEdit(true)}
-            className={`${edit ? 'hidden' : ''}   button-primary w-max`}
-          >
-            <IconEdit />
-          </button>
-          <button
-            type="button"
-            title="Remove Pet"
-            className={`${
-              edit ? 'hidden' : ''
-            } button-primary bg-main-red w-max`}
-            onClick={() => {
-              setIsDelete(true)
-              setIsModalOpen(true)
-            }}
-          >
-            <IconDelete />
-          </button>
-        </div>
-
+      <div className="section-wrapper min-h-screen bg-yellow w-full">
+        {/* <ImagesGrid images={FAKE_IMGS} /> */}
+      </div>
+      <div className="min-h-screen bg-light-bg w-full px-10 lg:px-28 py-14 relative">
         <form
           action=""
           onSubmit={handleSubmit(handleEditPet)}
-          className="w-full "
+          className="w-full"
         >
-          <div className=" flex gap-5 absolute bottom-10 right-1/2 translate-x-1/2 md:right-28 md:translate-x-0 md:top-14">
-            <button
-              type="submit"
-              className={`${edit ? '' : 'hidden'}  button-primary w-max h-max`}
-            >
-              Save Changes
-            </button>
-            <button
-              type="button"
-              onClick={() => setEdit(false)}
-              className={`${
-                edit ? '' : 'hidden'
-              } button-primary bg-main-red w-max h-max text-white`}
-            >
-              Cancel
-            </button>
-          </div>
-
+          <EditPetButtonsContainer
+            edit={edit}
+            setEdit={setEdit}
+            setIsDelete={setIsDelete}
+            setIsModalOpen={setIsModalOpen}
+          />
           <div>
             <div className="flex flex-col gap-5">
               {edit ? (
                 <>
                   <input
                     type="text"
-                    className="bg-transparent border border-b-[1px] border-b-black w-1/2 p-2 first-letter:capitalize"
+                    className="input-edit bg-white/50 md:w-1/2 first-letter:capitalize"
                     defaultValue={pet.name}
                     {...register('name')}
                   />
@@ -199,7 +164,7 @@ export function EditPetDetails() {
                   />
                 </>
               ) : (
-                <h1 className="text-5xl font-bold capitalize">{pet.name}</h1>
+                <h1 className="header-name">{pet.name}</h1>
               )}
               <div className="flex gap-3 items-center">
                 <IconLocation />
@@ -213,37 +178,33 @@ export function EditPetDetails() {
             </div>
             <div className="flex flex-col lg:grid lg:grid-cols-[2fr,1fr] gap-8 lg:gap-20 py-16">
               <div className="flex flex-col md:grid md:grid-cols-2 gap-8">
-                <div className="flex flex-col gap-3 p-5 bg-lighter-red rounded-lg ">
-                  <h3 className="capitalize header-3">Gender</h3>
-                  {edit ? (
+                <PetDetailItem title="Gender" info={pet.sex}>
+                  {edit && (
                     <Controller
                       name="sex"
                       control={control}
                       render={({ field }) => (
                         <Select
+                          defaultValue={PetGender.find(
+                            (gender) => gender.value === pet.sex,
+                          )}
                           isClearable
                           isMulti={false}
-                          styles={customStyles}
+                          styles={editSelectStyles}
                           {...field}
                           options={PetGender}
                         />
                       )}
                     />
-                  ) : (
-                    <p className="lowercase first-letter:uppercase">
-                      {pet.sex}
-                    </p>
                   )}
-                </div>
-                <div className="flex flex-col gap-3 p-5 bg-lighter-red rounded-lg ">
-                  <h3 className="capitalize header-3 ">Age</h3>
+                </PetDetailItem>
 
-                  {edit ? (
+                <PetDetailItem title="Age" info={pet.age}>
+                  {edit && (
                     <>
                       <input
-                        type="number"
                         placeholder="e.g. 0.7"
-                        className="bg-transparent border border-b-[1px] border-b-black p-2"
+                        className="input-edit"
                         defaultValue={pet.age ?? ''}
                         {...register('age')}
                       />
@@ -254,13 +215,11 @@ export function EditPetDetails() {
                         render={(e) => <p>{e.message}</p>}
                       />
                     </>
-                  ) : (
-                    <p>{pet.age}</p>
                   )}
-                </div>
-                <div className="flex flex-col gap-3 p-5 bg-lighter-red rounded-lg ">
-                  <h3 className="capitalize header-3 ">Size</h3>
-                  {edit ? (
+                </PetDetailItem>
+
+                <PetDetailItem title="Size" info={pet.size}>
+                  {edit && (
                     <Controller
                       name="size"
                       control={control}
@@ -268,34 +227,31 @@ export function EditPetDetails() {
                         <Select
                           {...field}
                           isClearable
+                          defaultValue={PetSize.find(
+                            (size) => size.value === pet.size,
+                          )}
                           isMulti={false}
-                          styles={customStyles}
+                          styles={editSelectStyles}
                           options={PetSize}
                         />
                       )}
                     />
-                  ) : (
-                    <p className="lowercase first-letter:uppercase">
-                      {pet.size}
-                    </p>
                   )}
-                </div>
-                <div className="flex flex-col gap-3 p-5 bg-lighter-red rounded-lg ">
-                  <h3 className="capitalize header-3">Breed</h3>
-                  {edit ? (
+                </PetDetailItem>
+
+                <PetDetailItem title="Breed" info={pet.breed}>
+                  {edit && (
                     <input
                       type="text"
                       defaultValue={pet.breed ?? ''}
-                      className="bg-transparent border border-b-[1px] border-b-black p-2"
+                      className="input-edit"
                       {...register('breed')}
                     />
-                  ) : (
-                    <p>{pet.breed}</p>
                   )}
-                </div>
-                <div className="flex flex-col gap-3 p-5 bg-lighter-red rounded-lg ">
-                  <h3 className="capitalize header-3 ">May live with</h3>
-                  {edit ? (
+                </PetDetailItem>
+
+                <PetDetailItem title="May live with" info={pet.may_live_with}>
+                  {edit && (
                     <Controller
                       name="may_live_with"
                       control={control}
@@ -303,40 +259,39 @@ export function EditPetDetails() {
                         <Select
                           {...field}
                           isClearable
+                          defaultValue={MayLiveWith.find(
+                            (option) => option.value === pet.may_live_with,
+                          )}
                           isMulti={false}
-                          styles={customStyles}
+                          styles={editSelectStyles}
                           options={MayLiveWith}
                         />
                       )}
                     />
-                  ) : (
-                    <p className="lowercase first-letter:uppercase">
-                      {pet.may_live_with}
-                    </p>
                   )}
-                </div>
-                <div className="flex flex-col gap-3 p-5 bg-lighter-red rounded-lg ">
-                  <h3 className="capitalize header-3">ideal home</h3>
-                  {edit ? (
+                </PetDetailItem>
+
+                <PetDetailItem title="ideal home" info={pet.ideal_home}>
+                  {edit && (
                     <textarea
-                      className="bg-transparent border border-b-[1px] border-b-black whitespace-pre-wrap p-2"
-                      maxLength={500}
+                      className="input-edit whitespace-pre-wrap"
+                      maxLength={150}
                       placeholder="Ample outside space, garden..."
                       defaultValue={pet.ideal_home ?? ''}
                       {...register('ideal_home')}
                     />
-                  ) : (
-                    <p>{pet.ideal_home}</p>
                   )}
-                </div>
+                </PetDetailItem>
               </div>
               <div>
                 <h2 className="capitalize header-3">About {pet.name}</h2>
                 {edit ? (
                   <textarea
                     maxLength={1000}
-                    className="rounded-lg p-2 whitespace-pre-wrap w-full h-1/2"
+                    placeholder={`${pet.name} enjoys playing with...`}
+                    className="input-edit bg-white/50 whitespace-pre-wrap w-full h-1/2"
                     defaultValue={pet.description ?? ''}
+                    {...register('description')}
                   />
                 ) : (
                   <p>{pet.description}</p>
@@ -345,7 +300,7 @@ export function EditPetDetails() {
             </div>
           </div>
         </form>
-      </section>
+      </div>
       {isModalOpen && (
         <AlertModal
           setIsModalOpen={setIsModalOpen}

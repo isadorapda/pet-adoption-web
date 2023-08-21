@@ -1,51 +1,42 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { UseFormHandleSubmit } from 'react-hook-form'
 import { GrClose as IconClose } from 'react-icons/gr'
 import { SearchPetFormData } from '../@types/zodTypesSearchPet'
-import {
-  MayLiveWith,
-  //   PetSize,
-  PetSize,
-  //   getMayLiveWithLabel,
-  //   getPetSizeLabel,
-} from '../utils/petFilters'
+import { MayLiveWith, PetSize } from '../constants/petFilters'
 import { SelectBreed } from './SelectBreed'
 import { AGE_RANGES } from '../constants/filters'
+import { PetDataForm } from './SearchPetForm'
+import useOnClickOutside from '../hooks/useClickOutside'
 
 interface Props {
   setIsMenuOpen: (isOpen: boolean) => void
-  setPetSizes: (sizes: Array<string>) => void
-  setMayLiveWith: (options: Array<string>) => void
-  mayLiveWith: Array<string>
   handleSubmit: UseFormHandleSubmit<SearchPetFormData>
   handleSearchForm: (data: SearchPetFormData) => Promise<void>
-  petSizes: Array<string>
-  setPetAgeRange: (ageRange: { min: number; max: number }) => void
-  breeds: Array<string>
-  setBreeds: (breeds: Array<string>) => void
+  petData: PetDataForm
+  setPetData: (data: PetDataForm) => void
 }
 
 export function Filters({
   setIsMenuOpen,
-  setPetSizes,
-  petSizes,
   handleSearchForm,
   handleSubmit,
-  setPetAgeRange,
-  setMayLiveWith,
-  mayLiveWith,
-  breeds,
-  setBreeds,
+  petData,
+  setPetData,
 }: Props) {
   const [ageRanges, setAgeRanges] = useState<
     Array<{ min: number; max: number }>
   >([])
+  const formRef = useRef<HTMLDivElement | null>(null)
+  useOnClickOutside(formRef, () => setIsMenuOpen(false))
 
   function setPetSizeFilters(value: string) {
-    if (petSizes.includes(value)) {
-      setPetSizes(petSizes.filter((size) => size !== value))
+    if (petData.sizes.includes(value)) {
+      setPetData({
+        ...petData,
+        sizes: petData.sizes.filter((size) => size !== value),
+      })
     } else {
-      setPetSizes([...petSizes, value])
+      setPetData({ ...petData, sizes: [...petData.sizes, value] })
     }
   }
 
@@ -58,10 +49,13 @@ export function Filters({
   }
 
   function setMayLiveWithFilters(value: string) {
-    if (mayLiveWith.includes(value)) {
-      setMayLiveWith(mayLiveWith.filter((val) => val !== value))
+    if (petData.mayLive.includes(value)) {
+      setPetData({
+        ...petData,
+        mayLive: petData.mayLive.filter((val) => val !== value),
+      })
     } else {
-      setMayLiveWith([...mayLiveWith, value])
+      setPetData({ ...petData, mayLive: [...petData.mayLive, value] })
     }
   }
 
@@ -72,26 +66,26 @@ export function Filters({
         const maxValue = Math.max(curr.max, acc.max)
         return { min: minValue, max: maxValue }
       })
-      setPetAgeRange(range)
+      setPetData({ ...petData, ageRange: range })
     } else {
-      setPetAgeRange(ageRanges[0])
+      setPetData({ ...petData, ageRange: ageRanges[0] })
     }
-  }, [ageRanges, setPetAgeRange])
+  }, [ageRanges, setAgeRanges])
 
   return (
-    <div className="bg-[rgba(0,_0,_0,_0.3)] fixed z-10 h-full w-screen top-0 left-0">
-      <div className="w-screen md:w-2/3 lg:w-1/2 bg-white flex flex-col absolute top-0 right-0 z-50 h-full overflow-auto ">
-        <div className="w-full p-8 flex items-center">
+    <div className="bg-opaque-black fixed z-10 h-full w-screen top-0 left-0">
+      <div ref={formRef} className=" bg-white side-menu-form py-10">
+        <div className="w-full mb-4 flex items-start">
           <button onClick={() => setIsMenuOpen(false)}>
             <IconClose />
           </button>
         </div>
         <form
           action=""
-          className="flex flex-col gap-10 px-10 lg:px-24 pb-10"
+          className="flex flex-col gap-5 md:gap-10"
           onSubmit={handleSubmit(handleSearchForm)}
         >
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <label htmlFor="pet-size-filter" className="header-3">
               Size
             </label>
@@ -102,10 +96,10 @@ export function Filters({
                     key={option.value}
                     type="button"
                     value={option.value}
-                    className={`${
-                      petSizes.includes(option.value)
-                        ? 'button-filter bg-lighter-red font-semibold'
-                        : 'button-filter '
+                    className={`button-filter ${
+                      petData.sizes.includes(option.value)
+                        ? 'bg-lighter-red font-semibold'
+                        : ''
                     } `}
                     onClick={(e) => setPetSizeFilters(e.currentTarget.value)}
                   >
@@ -115,7 +109,7 @@ export function Filters({
               })}
             </div>
           </div>
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <label htmlFor="pet-age-filter" className="header-3">
               Age
             </label>
@@ -125,10 +119,10 @@ export function Filters({
                   key={ageRange.label}
                   type="button"
                   onClick={() => setAgeRangeFilters(ageRange.values)}
-                  className={`${
+                  className={`button-filter ${
                     ageRanges.includes(ageRange.values)
-                      ? 'button-filter bg-lighter-red font-semibold'
-                      : 'button-filter'
+                      ? ' bg-lighter-red font-semibold'
+                      : ''
                   }`}
                 >
                   {ageRange.label}
@@ -136,11 +130,11 @@ export function Filters({
               ))}
             </div>
           </div>
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <label className="header-3">Breed</label>
-            <SelectBreed setBreeds={setBreeds} breeds={breeds} />
+            <SelectBreed setPetData={setPetData} petData={petData} />
           </div>
-          <div className="flex flex-col ">
+          <div className="flex flex-col">
             <label htmlFor="live-with-filter" className="header-3">
               May live with
             </label>
@@ -154,10 +148,10 @@ export function Filters({
                     onClick={(e) =>
                       setMayLiveWithFilters(e.currentTarget.value)
                     }
-                    className={`${
-                      mayLiveWith.includes(option.value)
-                        ? 'button-filter bg-lighter-red font-semibold'
-                        : 'button-filter'
+                    className={`button-filter ${
+                      petData.mayLive.includes(option.value)
+                        ? ' bg-lighter-red font-semibold'
+                        : ''
                     }  `}
                   >
                     {option.label}

@@ -1,5 +1,4 @@
 import { z } from 'zod'
-import { PetType, PetGender, PetSize, MayLiveWith } from '../utils/petFilters'
 
 export const searchPetSchema = z.object({
   location: z.string().min(3, { message: 'Please, inform a city.' }),

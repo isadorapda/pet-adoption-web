@@ -12,14 +12,24 @@ export const registerOrgBodySchema = z.object({
     message: 'Email is required.',
   }),
   password: z
-    .string({
-      required_error: 'Password is required.',
+    .object({
+      password: z
+        .string({
+          required_error: 'Password is required.',
+        })
+        .min(6, {
+          message: 'Your password should contain at least 6 characters.',
+        })
+        .max(12, {
+          message: 'Your password should contain between 6 - 12 characters',
+        }),
+      confirm: z.string({
+        required_error: 'Password is required.',
+      }),
     })
-    .min(6, {
-      message: 'Your password should contain at least 6 characters.',
-    })
-    .max(12, {
-      message: 'Your password should contain between 6 - 12 characters',
+    .refine((data) => data.password === data.confirm, {
+      message: "Passwords don't match",
+      path: ['confirm'],
     }),
   address: z.string(),
   city: z.string({

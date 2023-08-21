@@ -1,10 +1,14 @@
+import { useRef } from 'react'
 import { GrClose as IconClose } from 'react-icons/gr'
+import { useNavigate } from 'react-router-dom'
+import useOnClickOutside from '../hooks/useClickOutside'
 
 interface ModalProps {
   setIsModalOpen: (open: boolean) => void
   message: { title: string; content: string }
   isDelete?: boolean
   handleDelete?: () => void
+  showButton?: boolean
 }
 
 export function AlertModal({
@@ -12,38 +16,57 @@ export function AlertModal({
   message,
   isDelete,
   handleDelete,
+  showButton = false,
 }: ModalProps) {
+  const messageBoxRef = useRef<HTMLDivElement | null>(null)
+  useOnClickOutside(messageBoxRef, () => setIsModalOpen(false))
+  const navigate = useNavigate()
   return (
-    <div className="w-screen h-full p-10 fixed top-0 left-0 bg-[rgba(0,_0,_0,_0.5)] flex flex-col items-center justify-center">
+    <div aria-modal="true" className="modal-opaque-background">
       {isDelete ? (
-        <div className="rounded-lg bg-white p-10 flex flex-col gap-8 items-center justify-center shadow-card relative">
-          <p className="font-bold text-lg">Are you sure you want to delete?</p>
-          <div className="flex items-center gap-10">
+        <section ref={messageBoxRef} className="modal-alert-container">
+          <h4 className="modal-header">Are you sure you want to delete?</h4>
+          <div className="flex items-center gap-4 w-full">
             <button
+              type="button"
+              title="Cancel"
               onClick={() => setIsModalOpen(false)}
-              className="rounded-lg px-5 py-2 bg-light-gray shadow-buttonsShadow"
+              className="button-secondary bg-light-gray"
             >
               Cancel
             </button>
             <button
+              type="button"
+              title="Delete"
               onClick={handleDelete}
-              className="rounded-lg px-5 py-2 text-white bg-main-red shadow-buttonsShadow"
+              className="button-secondary text-white bg-main-red"
             >
               Delete
             </button>
           </div>
-        </div>
+        </section>
       ) : (
-        <div className="rounded-lg bg-white p-12 flex flex-col gap-3 items-center justify-center shadow-card relative">
+        <section ref={messageBoxRef} className="modal-alert-container">
           <IconClose
+            aria-label="Close menu"
             className="absolute top-4 right-4 cursor-pointer"
             onClick={() => setIsModalOpen(false)}
           />
-          <p className="font-bold text-lg">{message.title}</p>
+          <h4 className="modal-header">{message.title}</h4>
           <p className="first-letter:uppercase text-center">
             {message.content}
           </p>
-        </div>
+          {showButton && (
+            <button
+              type="button"
+              title="Go to login page"
+              onClick={() => navigate('/login')}
+              className="button-secondary"
+            >
+              Go to log in
+            </button>
+          )}
+        </section>
       )}
     </div>
   )

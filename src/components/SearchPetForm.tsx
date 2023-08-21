@@ -4,12 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import Select from 'react-select'
 import { api } from '../lib/axios'
 import usePetsContext from '../hooks/usePetsContext'
-import {
-  PetGender,
-  PetType,
-  //   getPetGenderLabel,
-  //   getPetTypeLabel,
-} from '../utils/petFilters'
+import { PetGender, PetType } from '../constants/petFilters'
 import { customStyles } from '../styles/selectStyles'
 import { Response } from '../context/petsContext'
 import { SearchPetFormData, searchPetSchema } from '../@types/zodTypesSearchPet'
@@ -20,25 +15,18 @@ interface Props {
   setIsModalOpen: (value: boolean) => void
 }
 
-// const petTypeOptions = () => {
-//   return Object.keys(PetType).map((enumKey) => {
-//     const parsedEnumKey = enumKey as PetType
-//     return {
-//       label: getPetTypeLabel(parsedEnumKey),
-//       value: parsedEnumKey,
-//     }
-//   })
-// }
-
-// const petGenderOptions = () => {
-//   return Object.keys(PetGender).map((enumKey) => {
-//     const parsedEnumKey = enumKey as PetGender
-//     return {
-//       label: getPetGenderLabel(parsedEnumKey),
-//       value: parsedEnumKey,
-//     }
-//   })
-// }
+export interface PetDataForm {
+  sizes: Array<string>
+  mayLive: Array<string>
+  ageRange: { min?: number; max?: number }
+  petBreeds: Array<string>
+}
+const initialPetData: PetDataForm = {
+  sizes: [],
+  mayLive: [],
+  ageRange: { min: undefined, max: undefined },
+  petBreeds: [],
+}
 
 export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
   const {
@@ -48,10 +36,7 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
     formState: { errors },
   } = useForm<SearchPetFormData>({ resolver: zodResolver(searchPetSchema) })
   const { setPets, limit, setPageData, page, sortPets } = usePetsContext()
-  const [petSizes, setPetSizes] = useState<Array<string>>([])
-  const [mayLiveWith, setMayLiveWith] = useState<Array<string>>([])
-  const [petAgeRange, setPetAgeRange] = useState<{ min: number; max: number }>()
-  const [breeds, setBreeds] = useState<Array<string>>([])
+  const [petData, setPetData] = useState<PetDataForm>(initialPetData)
   const [isMenuOpen, setIsMenuOpen] = useState(false)
   const [data, setData] = useState<SearchPetFormData>()
 
@@ -63,17 +48,18 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
 
   async function handleSearchPet(data: SearchPetFormData) {
     setData(data)
+    console.log('DATA', data)
     try {
       const response: Response = await api.get('/pets/search', {
         params: {
           location: data.location,
           pet_type: data.pet_type?.value,
           sex: data.sex?.value,
-          size: petSizes,
-          age_min: petAgeRange?.min,
-          age_max: petAgeRange?.max,
-          may_live_with: mayLiveWith,
-          breed: breeds,
+          size: petData.sizes,
+          age_min: petData.ageRange?.min,
+          age_max: petData.ageRange?.max,
+          may_live_with: petData.mayLive,
+          breed: petData.petBreeds,
           page,
           limit,
           field: sortPets?.field,
@@ -98,7 +84,7 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
   }
 
   return (
-    <div className="flex flex-col bg-light-bg rounded-md px-6 py-10 w-full lg:w-[30vw]  mx-auto h-max">
+    <div className="flex flex-col bg-light-bg rounded-md px-6 py-10 w-full lg:w-[30vw] mx-auto h-max">
       <h3 className="text-black text-xl font-bold pb-5">Find a Pet</h3>
       <form
         action=""
@@ -156,7 +142,11 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
         <button type="submit" className="button-primary">
           Show pets
         </button>
-        <button type="button" onClick={() => setIsMenuOpen(true)}>
+        <button
+          type="button"
+          onClick={() => setIsMenuOpen(true)}
+          className="border-b border-black w-max mx-auto"
+        >
           View more filters
         </button>
       </form>
@@ -165,13 +155,8 @@ export function SearchPetForm({ setLoading, setIsModalOpen }: Props) {
           handleSubmit={handleSubmit}
           handleSearchForm={handleSearchPet}
           setIsMenuOpen={setIsMenuOpen}
-          petSizes={petSizes}
-          setPetSizes={setPetSizes}
-          setPetAgeRange={setPetAgeRange}
-          setMayLiveWith={setMayLiveWith}
-          mayLiveWith={mayLiveWith}
-          breeds={breeds}
-          setBreeds={setBreeds}
+          petData={petData}
+          setPetData={setPetData}
         />
       )}
     </div>

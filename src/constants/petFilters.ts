@@ -1,7 +1,14 @@
 import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
 import { MdFemale as IconFemale, MdMale as IconMale } from 'react-icons/md'
+import { IconType } from 'react-icons'
 
-export const PetType = [
+export interface OptionsWithIcon {
+  label: string
+  value: string
+  icon: IconType
+}
+
+export const PetType: OptionsWithIcon[] = [
   {
     label: 'Dog',
     value: 'DOG',
@@ -14,7 +21,7 @@ export const PetType = [
   },
 ]
 
-export const PetGender = [
+export const PetGender: OptionsWithIcon[] = [
   {
     label: 'Female',
     value: 'FEMALE',
