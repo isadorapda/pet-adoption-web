@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { UseFormHandleSubmit } from 'react-hook-form'
 import { GrClose as IconClose } from 'react-icons/gr'
 import { SearchPetFormData } from '../@types/zodTypesSearchPet'
-import { MayLiveWith, PetSize } from '../utils/petFilters'
+import { MayLiveWith, PetSize } from '../constants/petFilters'
 import { SelectBreed } from './SelectBreed'
 import { AGE_RANGES } from '../constants/filters'
 import { PetDataForm } from './SearchPetForm'
@@ -74,18 +74,15 @@ export function Filters({
 
   return (
     <div className="bg-opaque-black fixed z-10 h-full w-screen top-0 left-0">
-      <div
-        ref={formRef}
-        className="w-screen md:w-2/3 lg:w-1/2 bg-white flex flex-col absolute top-0 right-0 z-50 h-full overflow-auto"
-      >
-        <div className="w-full p-8 flex items-center">
+      <div ref={formRef} className=" bg-white side-menu-form py-10">
+        <div className="w-full mb-4 flex items-start">
           <button onClick={() => setIsMenuOpen(false)}>
             <IconClose />
           </button>
         </div>
         <form
           action=""
-          className="flex flex-col gap-5 md:gap-10 px-10 lg:px-16 pb-10"
+          className="flex flex-col gap-5 md:gap-10"
           onSubmit={handleSubmit(handleSearchForm)}
         >
           <div className="flex flex-col">

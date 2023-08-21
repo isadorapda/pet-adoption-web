@@ -11,7 +11,7 @@ import { registerPet, UpdatePetFormData } from '../@types/zodTypesRegisterPet'
 import { AlertMessage, Organisation, Pet } from '../@types/models'
 import usePetsContext from '../hooks/usePetsContext'
 import { editSelectStyles } from '../styles/selectStyles'
-import { MayLiveWith, PetGender, PetSize } from '../utils/petFilters'
+import { MayLiveWith, PetGender, PetSize } from '../constants/petFilters'
 import { AlertModal } from '../components/AlertModal'
 import { NavigateBack } from '../components/NavigateBack'
 import { PetDetailItem } from '../components/PetDetailItem'
@@ -88,12 +88,16 @@ export function EditPetDetails() {
         },
       )
       SUCCESS_MESAGE.title = 'Success!'
-      SUCCESS_MESAGE.content = 'Your changes were saved.'
+      SUCCESS_MESAGE.content = 'Your changes have been saved.'
       setIsModalOpen(true)
       //   const createdAt = dayjs(resp.data.pet.created_at).format('DD/MM/YY')
       const parsedBreed = resp.data.pet.breed?.replaceAll('_', ' ')
       setPet({ ...resp.data.pet, breed: parsedBreed || '' })
     } catch (error) {
+      console.error(error)
+      SUCCESS_MESAGE.title = 'Ooops!'
+      SUCCESS_MESAGE.content = 'Something went wrong. Please try again.'
+      setIsModalOpen(true)
     } finally {
       setEdit(false)
     }
@@ -160,7 +164,7 @@ export function EditPetDetails() {
                   />
                 </>
               ) : (
-                <h1 className="pet-datails-name">{pet.name}</h1>
+                <h1 className="header-name">{pet.name}</h1>
               )}
               <div className="flex gap-3 items-center">
                 <IconLocation />

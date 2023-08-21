@@ -10,17 +10,20 @@ interface HeaderProps {
 export function PetDetailHeader({ pet, location }: HeaderProps) {
   return (
     <header className="flex flex-col gap-5">
-      <h1 className="pet-datails-name">{pet.name}</h1>
+      <h1 className="header-name">{pet.name}</h1>
       <div className="flex gap-5 items-center">
-        <section className="flex gap-3 items-center">
-          <IconLocation />
+        <section
+          aria-label="Location where this pet is registered"
+          className="flex gap-3 items-center"
+        >
+          <IconLocation aria-hidden="true" />
           <h4>{location}</h4>
         </section>
-        <section className="flex gap-3 items-center">
+        <section aria-label="Pet type" className="flex gap-3 items-center">
           {pet.pet_type === 'CAT' ? (
-            <IconCat aria-label="Icon Cat" />
+            <IconCat aria-hidden="true" />
           ) : (
-            <IconDog aria-label="Icon Dog" />
+            <IconDog aria-hidden="true" />
           )}
           <h4>{pet.pet_type}</h4>
         </section>
