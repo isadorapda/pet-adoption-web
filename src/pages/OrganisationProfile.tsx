@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { TbDog as IconDog, TbCat as IconCat } from 'react-icons/tb'
 import { api } from '../lib/axios'
 import usePetsContext from '../hooks/usePetsContext'
 import { PetCard } from '../components/PetCard'
@@ -7,6 +6,8 @@ import { RegisterPet } from '../components/RegisterPet'
 import { Organisation, Pet } from '../@types/models'
 import { SortPetsSelect } from '../components/SortPetsOrgProfile'
 import { NoPetsRegistered } from '../components/NoPetsRegistered'
+import { PetType } from '../constants/petFilters'
+import { ButtonSelectPetType } from '../components/ButtonSelectPetType'
 
 export interface AdoptionPets {
   toDonate: Array<Pet>
@@ -73,71 +74,55 @@ export function OrganisationProfile() {
   return (
     <div className="h-full w-screen mt-20">
       <div className="flex flex-col justify-center p-10 lg:p-16">
-        <div className="relative flex flex-col gap-7 md:flex-row md:items-center md:mb-6">
-          <h1 className="text-3xl lg:text-5xl font-bold">
-            {currentOrganisation?.name}
-          </h1>
+        <section className="relative flex flex-col gap-7 md:flex-row md:items-center md:mb-6">
+          <h1 className="header-name">{currentOrganisation?.name}</h1>
           <button
-            className="button-primary md:absolute md:right-0 w-full md:w-max lg:w-[15vw]"
+            type="button"
+            className="button-primary md:absolute md:right-0 w-full md:w-max"
             onClick={() => setIsSideMenuOpen(true)}
           >
             Register a new pet!
           </button>
-        </div>
+        </section>
 
         <div>
-          <div className="flex flex-col md:flex-row items-center gap-10 pt-10 lg:pt-20 pb-10 relative">
+          <div className="flex flex-col md:flex-row md:justify-between items-center gap-10 pt-10 lg:pt-20 pb-10">
             <div className="flex items-center gap-5 text-sm">
               <button
+                type="button"
                 className={`${
                   showPets === 'to-donate' ? 'text-main-red' : ''
-                } cursor-pointer transition-colors duration-200`}
+                } transition-colors duration-200`}
                 onClick={() => setShowPets('to-donate')}
               >
                 Your pets for donation
               </button>
               <span className="bg-black h-6 w-[2px]" />
               <button
+                type="button"
                 className={`${
                   showPets === 'donated' ? 'text-main-red' : ''
-                } cursor-pointer transition-colors duration-200`}
+                } transition-colors duration-200`}
                 onClick={() => setShowPets('donated')}
               >
                 Your adopted pets
               </button>
             </div>
-            <div className="w-full md:w-max md:absolute right-0 flex items-center justify-center gap-3">
-              <div className="w-full flex justify-end">
-                <SortPetsSelect
-                  filterPetType={filterPetType}
-                  orgId={currentOrganisation.id}
-                  setIsAdopted={setIsAdopted}
-                />
-              </div>
-
-              <div>
-                <IconCat
-                  title="Show all cats"
-                  className={`cursor-pointer ${
-                    filterPetType === 'CAT' ? 'stroke-main-red ' : ''
-                  }`}
-                  onClick={() =>
-                    setFilterPetType(
-                      filterPetType !== 'CAT' ? 'CAT' : undefined,
-                    )
-                  }
-                />
-                <IconDog
-                  title="Show all dogs"
-                  className={`cursor-pointer ${
-                    filterPetType === 'DOG' ? 'stroke-main-red' : ''
-                  }`}
-                  onClick={() =>
-                    setFilterPetType(
-                      filterPetType !== 'DOG' ? 'DOG' : undefined,
-                    )
-                  }
-                />
+            <div className="w-full md:w-max flex items-center justify-center gap-3">
+              <SortPetsSelect
+                filterPetType={filterPetType}
+                orgId={currentOrganisation.id}
+                setIsAdopted={setIsAdopted}
+              />
+              <div className="flex flex-col gap-1">
+                {PetType.map((type) => (
+                  <ButtonSelectPetType
+                    key={type.label}
+                    setFilterPetType={setFilterPetType}
+                    filterPetType={filterPetType}
+                    petType={type}
+                  />
+                ))}
               </div>
             </div>
           </div>
@@ -162,16 +147,10 @@ export function OrganisationProfile() {
         </div>
 
         {isSideMenuOpen && (
-          <>
-            <div
-              className="fixed top-0 left-0 bg-opaque-white w-screen h-full"
-              onClick={() => setIsSideMenuOpen(false)}
-            />
-            <RegisterPet
-              orgId={currentOrganisation.id}
-              setIsSideMenuOpen={setIsSideMenuOpen}
-            />
-          </>
+          <RegisterPet
+            orgId={currentOrganisation.id}
+            setIsSideMenuOpen={setIsSideMenuOpen}
+          />
         )}
       </div>
     </div>
