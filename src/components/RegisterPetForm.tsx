@@ -1,10 +1,16 @@
 import { FormEvent, useReducer, useState } from 'react'
 import { api } from '../lib/axios'
 import usePetsContext from '../hooks/usePetsContext'
-import { PetType, PetGender, PetSize, MayLiveWith } from '../utils/petFilters'
+
 // import axios from 'axios'
 // import { AddPhotosForm } from './AddPhotosForm'
 import { assertNever } from '../utils/assertNever'
+import {
+  MayLiveWith,
+  PetGender,
+  PetSize,
+  PetType,
+} from '../constants/petFilters'
 
 interface FormProps {
   orgId: string
